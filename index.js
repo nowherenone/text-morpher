@@ -1,36 +1,39 @@
 const dotenv = require("dotenv").config();
 const readline = require("readline");
-const package = require("./package.json");
+const utils = require("./src/utils.js");
 const args = require("args");
 const Az = require("az");
 const Morpher = require("./src/morpher.js");
-const Parser = require("./src/parser.js");
 
-const initAZ = () => {
-  return new Promise(resolve => {
-    Az.Morph.init(() => {
-      global.Az = Az;
-      resolve(this);
-    });
+const test = m => {
+  let input = utils.getFile("./input").split("\n");
+
+  input.forEach(line => {
+    let tpl = m.createTemplate(line, {});
+
+    console.log(
+      m.runTemplate(tpl, {
+        first: false,
+        last: false,
+        length: false,
+        vowels: false,
+        accent: true,
+        accentLetter: true,
+        tags: true
+      })
+    );
   });
 };
 
 const runMorpher = () => {
-  initAZ().then(() => {
+  Az.Morph.init(() => {
+    global.Az = Az;
+
     let m = new Morpher({
       dictFile: "data/words.json"
-      //  inputFile: "data/input.txt"
     });
 
-    let steps =
-      "{ADJF/^о.*/masc} {NOUN/^о.*/masc} {VERB/^о.*/masc,sing} {ADJF/^о.*/femn,accs} {NOUN/^о.*/femn,accs}";
-    //let steps = "{NOUN/^п.*/femn} {NOUN/^п.*/femn}";
-
-    for (let index = 0; index < 10; index++) {
-      console.log(m.parseTemplate(steps));
-    }
-
-    //console.log(m.dictionary.getWords("ADJF", "^п.*", ["жр"]));
+    test(m);
   });
 };
 
@@ -44,6 +47,7 @@ const flags = args.parse(process.argv)
 */
 
 /*
+
 if (args[0] == "cli") {
   bot.cliMode();
 } else {

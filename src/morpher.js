@@ -7,6 +7,7 @@ const Parser = require("./parser.js");
 class Morpher {
   constructor(config) {
     this.dictionary = new Dictionary(config.dictFile);
+    this.parser = new Parser({ withSpaces: true });
 
     if (config.inputFile) {
       this.dictionary.loadFile(config.inputFile);
@@ -14,28 +15,62 @@ class Morpher {
   }
 
   /**
+   *
+   *
+   * options - matchVowels, matchAccent, matchFirst, matchLast
+   * @param {*} inputStr
+   * @memberof Morpher
+   */
+  createTemplate(inputStr, options) {
+    let skipGrams = [
+      "tran",
+      "indc",
+      "anim",
+      "perf",
+      "inan",
+      "indc",
+      "Apro",
+      "impf"
+    ];
+
+    let tokens = (
+      this.parser.parseText(inputStr, { withSpaces: true }) || []
+    ).map(t => {
+      if (!t.tag || t.tag.isCapitalized() || t.word.length < 4) {
+        return t.word;
+      } else {
+        let POST = t.tag.POST;
+
+        let tags = t.tag.stat
+          .slice(1, 100)
+          .concat(t.tag.flex)
+          .filter(t => !~skipGrams.indexOf(t));
+
+        return `{{${POST}/.*/${tags.join(",")}/${t.word}}}`;
+      }
+    });
+
+    return tokens.join("");
+  }
+
+  /**
    *  Template syntax - {NOUN/^п./мр}
-   *  {[PART]/[Regexp]/[tags]}
+   *  {[PART]/[Regexp]/[tags]/[original]}
    *
    * @param {*} template
    * @memberof Morpher
    */
-  parseTemplate(template) {
+  runTemplate(template, matchOptions = {}) {
     let steps = template.split(" ");
     let output = [];
 
+    // console.log(template);
     steps.forEach(v => {
-      let tag = (v.match("^{.*}$") || []).shift();
+      let tag = (v.match("{{.*}}") || []).shift();
+
       if (tag) {
-        tag = tag.replace("{", "").replace("}", "");
-        let chunks = tag.split("/");
-
-        if (chunks[2]) chunks[2] = chunks[2].split(",");
-
-        //if ()
-        let word = this.dictionary.getWord(chunks[0], chunks[1], chunks[2]);
-
-        output.push(word);
+        let word = this.processTag(tag, matchOptions);
+        output.push(v.replace(/{{.*}}/, word));
       } else {
         output.push(v);
       }
@@ -47,13 +82,60 @@ class Morpher {
   /**
    *
    *
+   * @param {*} tag
+   * @param {*} [matchOptions={}]
+   * @returns
+   * @memberof Morpher
+   */
+  processTag(tag, matchOptions = {}) {
+    let chunks = tag
+      .replace("{{", "")
+      .replace("}}", "")
+      .split("/");
+
+    // Original word - third part of token
+    let origin = chunks[3] || "";
+
+    // Tags - third part of the token
+    let tags = chunks[2] ? (chunks[2] = chunks[2].split(",")) : [];
+
+    // Regexp - second part of token
+    let regExp = matchOptions.length ? `.{${origin.length - 1}}` : chunks[1];
+    let firstL = origin[0].toLowerCase();
+    let lastL = origin[origin.length - 1].toLowerCase();
+
+    if (matchOptions.first) regExp = `^${firstL}` + regExp;
+    if (matchOptions.last) regExp = regExp + `${lastL}$`;
+
+    // Options to search a word
+    let searchOptions = {};
+    if (
+      origin &&
+      (matchOptions.vowels || matchOptions.accent || matchOptions.accentLetter)
+    ) {
+      let word = this.parser.parseWord(origin);
+      searchOptions.vowels = word.vowels;
+      searchOptions.accmap = word.accmap;
+      searchOptions.accentLetter = searchOptions.accentLetter;
+    }
+
+    // Part of speech
+    let pos = chunks[0];
+    let word = this.dictionary.getWordVerbose(pos, regExp, tags, searchOptions);
+
+    return word ? word : chunks[3] || "";
+  }
+
+  /**
+   *
+   *
    * @param {*} nouns
    * @param {*} adj
    * @returns
    * @memberof Morpher
    */
   conformAdjective(noun, adjFilter) {
-    let nounToken = (new Parser(noun) || []).shift();
+    let nounToken = this.parser.parseWord(noun || []);
     let tag = nounToken.tag;
     let myAdj = this.dictionary.getAdjective(adjFilter);
     let newWord = "";
@@ -68,6 +150,7 @@ class Morpher {
     return newWord.word !== undefined ? newWord.word : "";
   }
 
+  /*
   addAdjectives(nouns, adjFilter) {
     let gender = "";
     let isFound = false;
@@ -94,7 +177,7 @@ class Morpher {
     });
 
     return result.join("");
-  }
+  }*/
 }
 
 module.exports = Morpher;

@@ -30,6 +30,7 @@ class Dictionary {
   constructor(inputText) {
     this.speechParts = {};
     this.lookup = {};
+    this.parser = new Parser();
 
     // Try to find file, if not - process as a text
     if (inputText && fs.existsSync(inputText)) {
@@ -37,6 +38,8 @@ class Dictionary {
     } else {
       this.loadString(inputText);
     }
+
+    this.generateRhythmLookup();
   }
 
   /**
@@ -49,8 +52,6 @@ class Dictionary {
   loadFile(dictFile) {
     let fileContent = "",
       words = [];
-
-    console.info(`Processing ${dictFile}`);
 
     // Try to open file
     try {
@@ -68,6 +69,19 @@ class Dictionary {
     this.loadString(words || "");
   }
 
+  generateRhythmLookup() {
+    let l = this.parser.accentLookup;
+    this.accentReverse = {};
+
+    Object.keys(l).forEach(key => {
+      let v = l[key];
+      if (!this.accentReverse[v]) this.accentReverse[v] = [key];
+      else this.accentReverse[v].push(key);
+    });
+
+    utils.dumpFile(this.accentReverse, "./rum.json");
+  }
+
   /**
    *
    *
@@ -75,8 +89,14 @@ class Dictionary {
    * @memberof Dictionary
    */
   loadString(str) {
-    let tokens = new Parser(str);
+    let tokens = this.parser.parseText(str);
     this.sortTokens(tokens);
+  }
+
+  getStat() {
+    Object.keys(this.speechParts).forEach(k => {
+      console.log(`${k} - ${this.speechParts[k].length}`);
+    });
   }
 
   /**
@@ -98,6 +118,46 @@ class Dictionary {
     });
   }
 
+  getWordVerbose(part, regexp = ".*", tags, matchOptions = {}) {
+    let regExp = "";
+
+    let words = (this.speechParts[part] || []).map(v => {
+      if (part == "NOUN") {
+        tags = (tags || []).filter(v => !~["masc", "femn", "neut"].indexOf(v));
+      }
+
+      let inf = tags && v.parse && v.parse.inflect(tags);
+
+      return inf ? this.parser.parseWord(inf.word) : v;
+    });
+
+    /// Match regexp
+    words = words.filter(v => v.word.match(regexp));
+
+    // Match only accent letters
+    if (matchOptions.accentLetter) {
+      words = words.filter(v => {
+        let index = (matchOptions.accmap || []).findIndex(v => v);
+        return v.vowels[index] == matchOptions.vowels[index];
+      });
+    } else {
+      // Vowels filter
+      if (matchOptions.vowels) {
+        words = words.filter(v => {
+          return v.vowels == matchOptions.vowels;
+        });
+      }
+
+      // Accent filter
+      if (matchOptions.accmap) {
+        words = words.filter(v => v.accmap == matchOptions.accmap);
+      }
+    }
+
+    let word = utils.getRandomItem(words) || {};
+    return word.word || "";
+  }
+
   // Получить любую часть речи
   getWord(part, regexp = ".*", tags) {
     let words = [];
@@ -105,16 +165,18 @@ class Dictionary {
       words = this.getNouns(regexp, tags);
     } else {
       words = (this.speechParts[part] || []).filter(v => {
-        if (v.wordNormal.match(regexp)) {
+        if (v.word.match(regexp)) {
           return true;
         }
       });
     }
 
-    let word = utils.getRandomItem(words);
-    if (tags) word = word.parse.inflect(tags) || word;
+    //console.log(words);
 
-    return word.word;
+    let word = utils.getRandomItem(words) || {};
+    if (word.parse && tags) word = word.parse.inflect(tags) || word;
+
+    return word.word || "";
   }
 
   // Получить любую часть речи
@@ -166,11 +228,11 @@ class Dictionary {
       }
     });
 
-    return words; ///return this.getWord("NOUN", regexp, tags);
+    return words;
   }
 
   extractStatTags(tags = [], statTags = []) {
-    return tags.filter(v => ~statTags.indexOf(v));
+    return (tags || []).filter(v => ~statTags.indexOf(v));
   }
 }
 
