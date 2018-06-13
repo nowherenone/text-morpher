@@ -200,8 +200,8 @@ class Dictionary {
    */
   getInflectedTokens(tokens, tags) {
     return tokens.map(v => {
-      // If this is noun - remove sta
-      if (v.part == "NOUN") {
+      // If this is noun - remove static tokens 
+      if (v.part == "NOUN" || v.part == "PRTF") {
         tags = tags.filter(v => !~["masc", "femn", "neut"].indexOf(v));
       }
 

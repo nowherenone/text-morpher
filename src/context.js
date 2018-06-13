@@ -52,25 +52,3 @@ module.exports = class Context {
       .map(v => this.parser.parseWord(v.word));
   }
 };
-
-const getOriginalWordForms = (token, treshHold) => {
-  return token.newWords
-    .filter(v => {
-      return (
-        !v.word.match("::") &&
-        v.word.match(/[^a-z]/g) &&
-        v.part == token.part &&
-        v.rate > treshHold
-      );
-    })
-    .map(v => {
-      let parsed = Az.Morph(v.word).shift();
-      if (parsed) {
-        v.wordFinal = parsed.inflect(token.tag).word;
-      }
-      return v;
-    })
-    .filter(v => {
-      return v.wordFinal;
-    });
-};

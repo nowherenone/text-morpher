@@ -21,19 +21,6 @@ class Morpher {
    */
   createTemplate(inputStr, options) {
 
-    let skipGrams = [
-      /*
-      "tran",
-      "indc",
-      "anim",
-      "perf",
-      "inan",
-      "indc",
-      "Apro",
-      "impf"
-      */
-    ];
-
     let tokens = (
       this.parser.parseText(inputStr, { withSpaces: true }) || []
     ).map(t => {
@@ -45,8 +32,7 @@ class Morpher {
 
         let tags = t.tag.stat
           .slice(1, 100)
-          .concat(t.tag.flex)
-          .filter(t => !~skipGrams.indexOf(t));
+          .concat(t.tag.flex);
 
         return `{{${POST}/.*/${tags.join(",")}/${t.word}}}`;
       }
@@ -96,6 +82,9 @@ class Morpher {
       .replace("}}", "")
       .split("/");
 
+    // Part of speech
+    let pos = chunks[0];
+
     // Original word - third part of token
     let origin = chunks[3] || "";
 
@@ -117,17 +106,16 @@ class Morpher {
       origin &&
       (matchOptions.vowels || matchOptions.syllables || matchOptions.accent || matchOptions.accentLetter)
     ) {
-      let word = this.parser.parseWord(origin);
+      let o = this.parser.parseWord(origin);
       Object.assign(searchOptions, {
-        vowelmap: word.vowels,
-        accmap: word.accmap,
+        vowelmap: o.vowels,
+        accmap: o.accmap,
         origin: origin,
         accentLetter: matchOptions.accentLetter
       });
     }
 
-    // Part of speech
-    let pos = chunks[0];
+    // Try to find a match 
     let word = this.dictionary.getWord(
       pos,
       regExp,

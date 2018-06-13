@@ -12,6 +12,8 @@ const Context = require("./src/context.js");
 // Make preinstall and postinstall hooks
 // Make tests
 
+// Todo make a procedure for inflecting Verbs 
+
 //  {{VERB/.*/intr,plur,3per,pres/работают}}
 //  {{VERB/.*/sing,3per,pres/снижает}} 
 
@@ -25,12 +27,12 @@ const test = m => {
 
     console.log(
       m.runTemplate(tpl, {
-        first: false,
-        last: false,
+        first: true,
+        last: true,
         length: false,
         vowels: false,
         accent: false,
-        syllables: true,
+        syllables: false,
         accentLetter: false,
         contextSearch: true,
         tags: false
