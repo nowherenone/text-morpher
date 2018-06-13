@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "A standalone library for transforming russian words and text",
   "main": "index.js",
-  "engines" : { "node" : ">=8" },
+  "engines": {
+    "node": ">=8"
+  },
   "scripts": {
     "test": "test"
   },
@@ -35,11 +37,13 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
-    "args": "^4.0.0",
-    "az": "^0.2.3",
-    "dotenv": "^5.0.1",
-    "lodash": "^4.17.10",
-    "progress": "^2.0.0",
-    "readline": "^1.3.0"
+    "args": "4.0.0",
+    "az": "0.2.3",
+    "dotenv": "5.0.1",
+    "lodash": "4.17.10",
+    "node-windows": "^0.1.14",
+    "progress": "2.0.0",
+    "readline": "1.3.0",
+    "word2vector": "2.1.0"
   }
 }

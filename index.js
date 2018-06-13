@@ -4,6 +4,16 @@ const utils = require("./src/utils.js");
 const args = require("args");
 const Az = require("az");
 const Morpher = require("./src/morpher.js");
+const winTools = require("node-windows");
+
+const Parser = require("./src/parser.js");
+const Context = require("./src/context.js");
+
+// Make preinstall and postinstall hooks
+// Make tests
+
+//  {{VERB/.*/intr,plur,3per,pres/работают}}
+//  {{VERB/.*/sing,3per,pres/снижает}} 
 
 const test = m => {
   let input = utils.getFile("./input").split("\n");
@@ -11,15 +21,19 @@ const test = m => {
   input.forEach(line => {
     let tpl = m.createTemplate(line, {});
 
+    // console.log(tpl);
+
     console.log(
       m.runTemplate(tpl, {
         first: false,
         last: false,
         length: false,
         vowels: false,
-        accent: true,
-        accentLetter: true,
-        tags: true
+        accent: false,
+        syllables: true,
+        accentLetter: false,
+        contextSearch: true,
+        tags: false
       })
     );
   });
@@ -28,6 +42,17 @@ const test = m => {
 const runMorpher = () => {
   Az.Morph.init(() => {
     global.Az = Az;
+
+    // console.log(new Parser().parseWord("dlkfjslkjsdgrlsjdl"));
+    /*
+    let c = new Context();
+
+    c.getSimilarWords({ wordNormal: "стол", part: "NOUN" }).forEach(v =>
+      console.log(v.word)
+    );
+
+    return;
+*/
 
     let m = new Morpher({
       dictFile: "data/words.json"
@@ -76,3 +101,4 @@ const interactiveMode = () => {
 };
 
 runMorpher();
+//interactiveMode();

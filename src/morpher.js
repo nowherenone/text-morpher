@@ -2,8 +2,6 @@ const utils = require("./utils.js");
 const Dictionary = require("./dictionary.js");
 const Parser = require("./parser.js");
 
-/// femn , masc
-
 class Morpher {
   constructor(config) {
     this.dictionary = new Dictionary(config.dictFile);
@@ -22,7 +20,9 @@ class Morpher {
    * @memberof Morpher
    */
   createTemplate(inputStr, options) {
+
     let skipGrams = [
+      /*
       "tran",
       "indc",
       "anim",
@@ -31,12 +31,14 @@ class Morpher {
       "indc",
       "Apro",
       "impf"
+      */
     ];
 
     let tokens = (
       this.parser.parseText(inputStr, { withSpaces: true }) || []
     ).map(t => {
-      if (!t.tag || t.tag.isCapitalized() || t.word.length < 4) {
+
+      if (~["PRED", "PRCL", "PREP", "NPRO"].indexOf(t.part) || !t.tag || t.tag.isCapitalized() || t.word.length < 4) {
         return t.word;
       } else {
         let POST = t.tag.POST;
@@ -63,14 +65,15 @@ class Morpher {
   runTemplate(template, matchOptions = {}) {
     let steps = template.split(" ");
     let output = [];
+    let tokenLookup = {};
 
-    // console.log(template);
     steps.forEach(v => {
       let tag = (v.match("{{.*}}") || []).shift();
 
       if (tag) {
-        let word = this.processTag(tag, matchOptions);
-        output.push(v.replace(/{{.*}}/, word));
+        tokenLookup[tag] =
+          tokenLookup[tag] || this.processTag(tag, matchOptions);
+        output.push(v.replace(/{{.*}}/, tokenLookup[tag]));
       } else {
         output.push(v);
       }
@@ -107,23 +110,38 @@ class Morpher {
     if (matchOptions.first) regExp = `^${firstL}` + regExp;
     if (matchOptions.last) regExp = regExp + `${lastL}$`;
 
+    let searchOptions = Object.assign({ origin: origin }, matchOptions);
+
     // Options to search a word
-    let searchOptions = {};
     if (
       origin &&
-      (matchOptions.vowels || matchOptions.accent || matchOptions.accentLetter)
+      (matchOptions.vowels || matchOptions.syllables || matchOptions.accent || matchOptions.accentLetter)
     ) {
       let word = this.parser.parseWord(origin);
-      searchOptions.vowels = word.vowels;
-      searchOptions.accmap = word.accmap;
-      searchOptions.accentLetter = searchOptions.accentLetter;
+      Object.assign(searchOptions, {
+        vowelmap: word.vowels,
+        accmap: word.accmap,
+        origin: origin,
+        accentLetter: matchOptions.accentLetter
+      });
     }
 
     // Part of speech
     let pos = chunks[0];
-    let word = this.dictionary.getWordVerbose(pos, regExp, tags, searchOptions);
+    let word = this.dictionary.getWord(
+      pos,
+      regExp,
+      tags,
+      searchOptions
+    );
 
-    return word ? word : chunks[3] || "";
+    // If we didn't find context matches
+    if (!word && searchOptions.contextSearch) {
+      searchOptions.contextSearch = false;
+      word = this.dictionary.getWord(pos, regExp, tags, searchOptions);
+    }
+
+    return word ? word : origin || "";
   }
 
   /**
