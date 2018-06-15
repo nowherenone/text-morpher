@@ -14,14 +14,15 @@ class Morpher {
    * @param {*} config 
    */
   init(config) {
-    return new Promise((resolve) => {
+    return new Promise(async (resolve) => {
       Az.Morph.init(() => {
         global.Az = Az;
 
-        this.dictionary = new Dictionary(config.dictionary);
-        this.parser = new Parser({ withSpaces: true });
-
-        resolve(this);
+        new Dictionary(config.dictionary).then(d => {
+          this.dictionary = d;
+          this.parser = new Parser({ withSpaces: true });
+          resolve(this);
+        })
       });
     });
   }

@@ -8,5 +8,6 @@
   "syllables": false,
   "accentLetter": false,
   "contextSearch": true,
-  "tags": false
+  "tags": false,
+  "regexp": "^с.*"
 }

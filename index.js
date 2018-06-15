@@ -7,7 +7,7 @@ const fs = require("fs");
 const Morpher = require("./src/morpher.js");
 
 // Make preinstall and postinstall hooks
-
+// Add stopwords   [таких,который,самого и т.д. ]
 
 
 /**
