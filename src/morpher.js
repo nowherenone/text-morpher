@@ -20,25 +20,7 @@ class Morpher {
    * @memberof Morpher
    */
   createTemplate(inputStr, options) {
-
-    let tokens = (
-      this.parser.parseText(inputStr, { withSpaces: true }) || []
-    ).map(t => {
-
-      if (~["PRED", "PRCL", "PREP", "NPRO"].indexOf(t.part) || !t.tag || t.tag.isCapitalized() || t.word.length < 4) {
-        return t.word;
-      } else {
-        let POST = t.tag.POST;
-
-        let tags = t.tag.stat
-          .slice(1, 100)
-          .concat(t.tag.flex);
-
-        return `{{${POST}/.*/${tags.join(",")}/${t.word}}}`;
-      }
-    });
-
-    return tokens.join("");
+    return this.parser.parseText(inputStr).map(t => t.shortTag || t.word).join("");
   }
 
   /**
@@ -50,7 +32,7 @@ class Morpher {
    */
   runTemplate(template, matchOptions = {}) {
     let steps = template.split(" ");
-    let output = [];
+    let output = [], stats = [];
     let tokenLookup = {};
 
     steps.forEach(v => {
@@ -59,13 +41,15 @@ class Morpher {
       if (tag) {
         tokenLookup[tag] =
           tokenLookup[tag] || this.processTag(tag, matchOptions);
-        output.push(v.replace(/{{.*}}/, tokenLookup[tag]));
+        output.push(v.replace(/{{.*}}/, tokenLookup[tag].result));
       } else {
         output.push(v);
       }
+
+      stats.push(tokenLookup[tag] || { word: v })
     });
 
-    return output.join(" ");
+    return { text: output.join(" "), stats: stats };
   }
 
   /**
@@ -77,6 +61,8 @@ class Morpher {
    * @memberof Morpher
    */
   processTag(tag, matchOptions = {}) {
+    let output = {};
+
     let chunks = tag
       .replace("{{", "")
       .replace("}}", "")
@@ -116,20 +102,33 @@ class Morpher {
     }
 
     // Try to find a match 
-    let word = this.dictionary.getWord(
+    let tokens = this.dictionary.getWords(
       pos,
       regExp,
       tags,
       searchOptions
     );
 
-    // If we didn't find context matches
-    if (!word && searchOptions.contextSearch) {
-      searchOptions.contextSearch = false;
-      word = this.dictionary.getWord(pos, regExp, tags, searchOptions);
+    output.foundContext = false;
+
+    // If we didn't find context matches try
+    if (searchOptions.contextSearch && searchOptions.contextSearch != "strict") {
+      if (tokens.length) {
+        output.foundContext = true;
+      } else {
+        searchOptions.contextSearch = false;
+        tokens = this.dictionary.getWords(pos, regExp, tags, searchOptions);
+      }
     }
 
-    return word ? word : origin || "";
+    let word = utils.getRandomItem(tokens);
+
+    output.matches = (tokens.map(t => t.word) || []).slice(0, 20);
+    output.result = word ? word.word : origin || "";
+    output.tag = tag;
+    output.origin = origin;
+
+    return output;
   }
 
   /**
@@ -156,34 +155,7 @@ class Morpher {
     return newWord.word !== undefined ? newWord.word : "";
   }
 
-  /*
-  addAdjectives(nouns, adjFilter) {
-    let gender = "";
-    let isFound = false;
-    let tokens = new Parser(nouns);
-    let hasAdj = !!tokens.find(v => v.part == "ADJF");
-    let hasNoun = !!tokens.find(v => v.part == "NOUN");
 
-    let result = [];
-
-    tokens.forEach(v => {
-      v.wordFinal = this.conformAdjective(v.word, adjFilter);
-
-      let augmented = utils.prob(50)
-        ? v.word + " " + v.wordFinal
-        : v.wordFinal + " " + v.word;
-
-      if (!isFound || (isFound && utils.prob(30))) {
-        result.push(v.wordFinal ? augmented : v.word);
-      } else {
-        result.push(v.word);
-      }
-
-      if (v.wordFinal) isFound = true;
-    });
-
-    return result.join("");
-  }*/
 }
 
 module.exports = Morpher;

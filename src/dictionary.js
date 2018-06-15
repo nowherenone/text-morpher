@@ -119,7 +119,6 @@ class Dictionary {
     });
   }
 
-  getContextWord(part, regexp = ".*", tags = [], matchOptions = {}) { }
 
   /**
    *
@@ -133,7 +132,6 @@ class Dictionary {
     let tokens = this.getWords(...params);
     let word = utils.getRandomItem(tokens) || {};
 
-    //console.log(tokens);
     return word.word || "";
   }
 
@@ -154,8 +152,7 @@ class Dictionary {
       return v;
     });
 
-    //console.log(part, regexp, tags, matchOptions);
-
+    // Get a set of possibly matching words 
     if (matchOptions.contextSearch) {
       let origin = this.parser.parseWord(matchOptions.origin) || {
         wordNormal: matchOptions.origin,
@@ -163,9 +160,13 @@ class Dictionary {
       };
 
       tokens = this.context.getSimilarWords(origin);
+
     } else {
       tokens = this.speechParts[part] || [];
     }
+
+    // Try to inflect them 
+    tokens = this.getInflectedTokens(tokens, tags);
 
     // Get inflected list of words
     return this.filterTokens(tokens, regexp, tags, matchOptions) || [];
@@ -179,10 +180,15 @@ class Dictionary {
    * @param {*} matchOptions
    */
   filterTokens(tokens, regexp, tags, matchOptions) {
-    // Get inflected list of words
-
-    tokens = this.getInflectedTokens(tokens, tags);
     let part = (tokens[0] || {}).part;
+
+    // Filter words by tagset
+    tokens = tokens.filter(v => {
+      if (!v || !v.tag) return true;
+      let tokenTags = v.tag.stat.slice(1, 100).concat(v.tag.flex);
+      return tags.every(tag => ~tokenTags.indexOf(tag))
+    });
+
 
     // Filter words by regexp
     tokens =
@@ -200,12 +206,17 @@ class Dictionary {
    */
   getInflectedTokens(tokens, tags) {
     return tokens.map(v => {
+      let infTags = tags;
+
       // If this is noun - remove static tokens 
       if (v.part == "NOUN" || v.part == "PRTF") {
-        tags = tags.filter(v => !~["masc", "femn", "neut"].indexOf(v));
+        infTags = tags.filter(v => !~["masc", "femn", "neut"].indexOf(v));
       }
 
-      let inf = tags && v.parse && v.parse.inflect(tags);
+      // Inflect
+      let inf = infTags && v.parse && v.parse.inflect(infTags);
+
+
       return inf ? this.parser.parseWord(inf.word) : v;
     });
   }

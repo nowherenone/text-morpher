@@ -17,6 +17,9 @@ class Parser {
     accentLookup = JSON.parse(utils.getFile("./data/accentLookup.json"));
   }
 
+
+
+
   /**
    *
    *
@@ -33,9 +36,33 @@ class Parser {
     };
   }
 
+
+  getShortTag(token) {
+    let skipParts = ["PRED", "PRCL", "PREP", "NPRO", "GRND", "ADVB"];
+    let skipTags = ["inan", "anim"];
+
+    if (!token.tag
+      || !token.word
+      || token.tag.isCapitalized()
+      || ~skipParts.indexOf(token.tag.POST)
+      || token.word.length < 4) {
+      return false;
+    } else {
+      let POST = token.tag.POST;
+      let tags = token.tag.stat.slice(1, 100).concat(token.tag.flex) || [];
+
+      tags = tags.filter(t => !~skipTags.indexOf(t) && !/^[A-Z]/.test(t));
+
+      return `{{${POST}/.*/${tags.join(",")}/${token.word}}}`;
+    }
+  }
+
+
   parseWord(word) {
     return this.parseText(word).shift();
   }
+
+
 
   /**
    *
@@ -64,7 +91,8 @@ class Parser {
                 wordNormal: parse.normalize().word,
                 parse: parse,
                 tag: parse.tag,
-                part: parse.tag.POST
+                part: parse.tag.POST,
+                shortTag: this.getShortTag(parse) || word.word || ""
               },
               this.getVowelMap(word.word)
             );
@@ -74,9 +102,9 @@ class Parser {
         return word;
       });
 
-    return this.options.withSpaces
+    return (this.options.withSpaces
       ? tokens
-      : tokens.filter(token => token.word.trim());
+      : tokens.filter(token => token.word.trim())) || [];
   }
 }
 

@@ -3,32 +3,33 @@ const readline = require("readline");
 const utils = require("./src/utils.js");
 const args = require("args");
 const Az = require("az");
+const fs = require("fs");
 const Morpher = require("./src/morpher.js");
-const winTools = require("node-windows");
-
-const Parser = require("./src/parser.js");
-const Context = require("./src/context.js");
 
 // Make preinstall and postinstall hooks
 // Make tests
 
 // Todo make a procedure for inflecting Verbs 
 
-//  {{VERB/.*/intr,plur,3per,pres/работают}}
-//  {{VERB/.*/sing,3per,pres/снижает}} 
 
-const test = m => {
-  let input = utils.getFile("./input").split("\n");
+/**
+ * Test stuff in cli
+ */
+const interactiveMode = (Morpher) => {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
 
-  input.forEach(line => {
-    let tpl = m.createTemplate(line, {});
+  let question = () => {
+    rl.question("Input: ", answer => {
 
-    // console.log(tpl);
+      let cfg = JSON.parse(utils.getFile("./morpher.config.json"));
+      let tpl = Morpher.createTemplate(answer);
 
-    console.log(
-      m.runTemplate(tpl, {
-        first: true,
-        last: true,
+      let text = Morpher.runTemplate(tpl, cfg || {
+        first: false,
+        last: false,
         length: false,
         vowels: false,
         accent: false,
@@ -36,8 +37,57 @@ const test = m => {
         accentLetter: false,
         contextSearch: true,
         tags: false
-      })
-    );
+      });
+
+
+      let stat = { avgMatch: 0, matchContext: 0, replaced: 0 };
+      text.stats.forEach(s => {
+        if (s.tag) stat.replaced++;
+        if (s.foundContext) stat.matchContext++;
+        if (s.matches) stat.avgMatch += s.matches.length;
+      });
+
+      stat.replaced = (stat.replaced / text.stats.length);
+      stat.avgMatch = (stat.avgMatch / text.stats.length);
+      stat.matchContext = (stat.matchContext / text.stats.length);
+      stat.total = text.stats.length;
+
+      console.log(tpl);
+      console.log(stat);
+      console.log("");
+      console.log(text.text);
+
+
+      question();
+    });
+  };
+
+  question();
+};
+
+
+
+const test = m => {
+  let input = utils.getFile("./input").split("\n");
+
+  input.forEach(line => {
+    let tpl = m.createTemplate(line, {});
+    //let tpl = "{{VERB/.*/sing,3per,pres/снижает}}";
+    //console.log(tpl);
+
+    // console.log(
+    m.runTemplate(tpl, {
+      first: false,
+      last: false,
+      length: false,
+      vowels: false,
+      accent: false,
+      syllables: false,
+      accentLetter: false,
+      contextSearch: "strict",
+      tags: false
+    })
+    //  );
   });
 };
 
@@ -45,26 +95,23 @@ const runMorpher = () => {
   Az.Morph.init(() => {
     global.Az = Az;
 
-    // console.log(new Parser().parseWord("dlkfjslkjsdgrlsjdl"));
-    /*
-    let c = new Context();
-
-    c.getSimilarWords({ wordNormal: "стол", part: "NOUN" }).forEach(v =>
-      console.log(v.word)
-    );
-
-    return;
-*/
-
-    let m = new Morpher({
-      dictFile: "data/words.json"
+    let M = new Morpher({
+      dictFile: "data/words.json",
     });
 
-    test(m);
+
+
+    interactiveMode(M);
   });
 };
 
 /*
+
+   console.log(M.dictionary.context.getSimilarWords({
+      wordNormal: "месяц",
+      part: "NOUN"
+    }, topN = 500));
+    
 args
   .option('port', 'The port on which the app will be running', 3000)
   .option('reload', 'Enable/disable livereloading')
@@ -82,25 +129,7 @@ if (args[0] == "cli") {
 }
 */
 
-/**
- * Test stuff in cli
- */
-const interactiveMode = () => {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  });
 
-  let question = async () => {
-    rl.question("Input: ", async answer => {
-      //let a = await botCmd.test(answer);
-      //console.log(a);
-      question();
-    });
-  };
-
-  question();
-};
 
 runMorpher();
 //interactiveMode();

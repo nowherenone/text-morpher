@@ -1,0 +1,11 @@
+{
+  "first": false,
+  "last": false,
+  "length": false,
+  "vowels": false,
+  "accent": false,
+  "syllables": false,
+  "accentLetter": false,
+  "contextSearch": true,
+  "tags": false
+}
