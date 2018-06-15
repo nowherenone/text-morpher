@@ -6,6 +6,7 @@ class Parser {
     this.Az = global.Az;
     this.options = options;
     this.accentLookup = this.options.accentLookup || {};
+    this.options.withSpaces = true;
   }
 
   /**

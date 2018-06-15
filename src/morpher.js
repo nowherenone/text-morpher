@@ -20,7 +20,7 @@ class Morpher {
 
         new Dictionary(config.dictionary).then(d => {
           this.dictionary = d;
-          this.parser = new Parser({ withSpaces: true });
+          this.parser = this.dictionary.parser;
           resolve(this);
         })
       });
@@ -200,7 +200,8 @@ class Morpher {
       tag.origin &&
       (matchOptions.vowels || matchOptions.syllables || matchOptions.accent || matchOptions.accentLetter)
     ) {
-      let o = this.parser.parseWord(origin);
+      let o = this.parser.parseWord(tag.origin);
+
       Object.assign(searchOptions, {
         vowelmap: o.vowels,
         accmap: o.accmap,

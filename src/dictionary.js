@@ -264,30 +264,30 @@ class Dictionary {
 
     // Match only accent letters
     if (matchOptions.accentLetter) {
+      let index = (matchOptions.accmap || []).indexOf("1");
       tokens = tokens.filter(v => {
-        let index = (matchOptions.accmap || []).findIndex(v => v);
         return v.vowels[index] == matchOptions.vowels[index];
       });
-    } else {
-
-      // Match syllables count 
-      if (matchOptions.syllables) {
-        tokens = tokens.filter(v => v.accmap.length == matchOptions.accmap.length);
-      }
-
-      // Accent map filter
-      if (matchOptions.accent) {
-        tokens = tokens.filter(v => v.accmap == matchOptions.accmap);
-      }
-
-      // Vowels map filter
-      if (matchOptions.vowels) {
-        tokens = tokens.filter(v => {
-          return v.vowels == matchOptions.vowelmap;
-        });
-      }
-
     }
+
+    // Match syllables count 
+    if (matchOptions.syllables) {
+      tokens = tokens.filter(v => v.accmap.length == matchOptions.accmap.length);
+    }
+
+    // Accent map filter
+    if (matchOptions.accent) {
+      tokens = tokens.filter(v => v.accmap == matchOptions.accmap);
+    }
+
+    // Vowels map filter
+    if (matchOptions.vowels) {
+      tokens = tokens.filter(v => {
+        return v.vowels == matchOptions.vowelmap;
+      });
+    }
+
+
 
     return tokens;
   }

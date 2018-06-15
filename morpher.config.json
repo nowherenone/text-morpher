@@ -4,10 +4,9 @@
   "last": false,
   "length": false,
   "vowels": false,
-  "accent": false,
+  "accent": true,
   "syllables": false,
   "accentLetter": false,
   "contextSearch": true,
-  "tags": false,
-  "regexp": "^с.*"
+  "tags": false
 }
