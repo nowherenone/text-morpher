@@ -61,5 +61,8 @@ typings/
 .next
 
 
-data/*.txt
-data/*.bin
+data/**
+
+
+dictionary/**/*.bin
+dictionary/**/*.json

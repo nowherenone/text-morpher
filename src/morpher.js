@@ -1,25 +1,40 @@
 const utils = require("./utils.js");
 const Dictionary = require("./dictionary.js");
 const Parser = require("./parser.js");
+const Progress = require('cli-progress').Bar;
+const Az = require("az");
 
 class Morpher {
   constructor(config) {
-    this.dictionary = new Dictionary(config.dictFile);
-    this.parser = new Parser({ withSpaces: true });
-
-    if (config.inputFile) {
-      this.dictionary.loadFile(config.inputFile);
-    }
+    return this.init(config);
   }
+
+  /**
+   * 
+   * @param {*} config 
+   */
+  init(config) {
+    return new Promise((resolve) => {
+      Az.Morph.init(() => {
+        global.Az = Az;
+
+        this.dictionary = new Dictionary(config.dictionary);
+        this.parser = new Parser({ withSpaces: true });
+
+        resolve(this);
+      });
+    });
+  }
+
 
   /**
    *
    *
-   * options - matchVowels, matchAccent, matchFirst, matchLast
+   * 
    * @param {*} inputStr
    * @memberof Morpher
    */
-  createTemplate(inputStr, options) {
+  createTemplate(inputStr) {
     return this.parser.parseText(inputStr).map(t => t.shortTag || t.word).join("");
   }
 
@@ -34,8 +49,12 @@ class Morpher {
     let steps = template.split(" ");
     let output = [], stats = [];
     let tokenLookup = {};
+    let minProgress = 20;
+    let bar = new Progress({});
 
-    steps.forEach(v => {
+    if (steps.length > minProgress) bar.start(steps.length, 0);
+
+    steps.forEach((v, i) => {
       let tag = (v.match("{{.*}}") || []).shift();
 
       if (tag) {
@@ -46,10 +65,55 @@ class Morpher {
         output.push(v);
       }
 
+      if (steps.length > minProgress) bar.update(i);
       stats.push(tokenLookup[tag] || { word: v })
-    });
+    })
+
+    if (steps.length > minProgress) bar.stop();
 
     return { text: output.join(" "), stats: stats };
+  }
+
+
+  /**
+   * 
+   * @param {*} text 
+   * @param {*} tpl 
+   */
+  formatStats(text, tpl) {
+
+    let stat = { avgMatch: 0, matchContext: 0, replaced: 0 };
+    text.stats.forEach(s => {
+      if (s.tag) stat.replaced++;
+      if (s.foundContext) stat.matchContext++;
+      if (s.matches) stat.avgMatch += s.matches.length;
+    });
+
+    stat.replaced = (stat.replaced / text.stats.length) * 100 + "%";
+    stat.avgMatch = (stat.avgMatch / stat.replaced) * 100 + "%";
+    stat.matchContext = (stat.matchContext / stat.replaced) * 100 + "%";
+    stat.totalWords = text.stats.length;
+
+    return stat;
+  }
+
+
+  /**
+   * 
+   * @param {*} tag 
+   */
+  splitTag(tag = "") {
+    let chunks = tag
+      .replace("{{", "")
+      .replace("}}", "")
+      .split("/");
+
+    return {
+      pos: chunks[0],      // Part of speech
+      regExp: chunks[1],   // Regexp to match
+      tags: chunks[2] ? (chunks[2] = chunks[2].split(",")) : [], // Tags - third part of the token
+      origin: chunks[3] || "" // Initial word to replace 
+    }
   }
 
   /**
@@ -57,78 +121,94 @@ class Morpher {
    *
    * @param {*} tag
    * @param {*} [matchOptions={}]
-   * @returns
+   * @returns {Object}
    * @memberof Morpher
    */
-  processTag(tag, matchOptions = {}) {
-    let output = {};
+  processTag(tagText, matchOptions = {}) {
 
-    let chunks = tag
-      .replace("{{", "")
-      .replace("}}", "")
-      .split("/");
+    let partsFilter = matchOptions.parts;
+    let tag = this.splitTag(tagText);
 
-    // Part of speech
-    let pos = chunks[0];
+    // Prepare out
+    let result = {
+      matches: [],
+      tag, tagText,
+      origin: tag.origin
+    };
 
-    // Original word - third part of token
-    let origin = chunks[3] || "";
+    // If matchOptions have filter by parts - apply it 
+    if (partsFilter && !~partsFilter.indexOf(tag.pos)) {
+      result.result = tag.origin;
+      return result;
+    }
 
-    // Tags - third part of the token
-    let tags = chunks[2] ? (chunks[2] = chunks[2].split(",")) : [];
+    // Get search options
+    let searchOptions = this.getSearchOptions(tag, matchOptions);
+
+    // Try to find a match 
+    let tokens = this.dictionary.getWords(
+      tag.pos,
+      searchOptions.regExp,
+      tag.tags,
+      searchOptions
+    );
+
+    result.foundContext = false;
+
+    // If we didn't find context matches try
+    if (searchOptions.contextSearch) {
+      if (tokens.length) {
+        result.foundContext = true;
+      } else if (searchOptions.contextSearch != "strict") {
+        searchOptions.contextSearch = false;
+        tokens = this.dictionary.getWords(tag.pos, searchOptions.regExp, tag.tags, searchOptions);
+      }
+    }
+
+    let word = utils.getRandomItem(tokens);
+    result.matches = (tokens.map(t => t.word) || []).slice(0, 20);
+    result.result = word ? word.word : tag.origin || "";
+
+    return result;
+  }
+
+
+
+  /**
+   * 
+   * @param {*} origin 
+   * @param {*} matchOptions 
+   */
+  getSearchOptions(tag, matchOptions) {
 
     // Regexp - second part of token
-    let regExp = matchOptions.length ? `.{${origin.length - 1}}` : chunks[1];
-    let firstL = origin[0].toLowerCase();
-    let lastL = origin[origin.length - 1].toLowerCase();
+    let regExp = matchOptions.length ? `.{${origin.length - 1}}` : tag.regExp;
+    let firstL = tag.origin.toLowerCase();
+    let lastL = tag.origin[tag.origin.length - 1].toLowerCase();
 
     if (matchOptions.first) regExp = `^${firstL}` + regExp;
     if (matchOptions.last) regExp = regExp + `${lastL}$`;
 
-    let searchOptions = Object.assign({ origin: origin }, matchOptions);
+    // If we have a user-defined regexp - use it 
+    if (matchOptions.regexp) regExp = matchOptions.regexp;
+
+    let searchOptions = Object.assign({ origin: tag.origin, regExp: regExp }, matchOptions);
 
     // Options to search a word
     if (
-      origin &&
+      tag.origin &&
       (matchOptions.vowels || matchOptions.syllables || matchOptions.accent || matchOptions.accentLetter)
     ) {
       let o = this.parser.parseWord(origin);
       Object.assign(searchOptions, {
         vowelmap: o.vowels,
         accmap: o.accmap,
-        origin: origin,
+        origin: tag.origin,
         accentLetter: matchOptions.accentLetter
       });
     }
 
-    // Try to find a match 
-    let tokens = this.dictionary.getWords(
-      pos,
-      regExp,
-      tags,
-      searchOptions
-    );
-
-    output.foundContext = false;
-
-    // If we didn't find context matches try
-    if (searchOptions.contextSearch && searchOptions.contextSearch != "strict") {
-      if (tokens.length) {
-        output.foundContext = true;
-      } else {
-        searchOptions.contextSearch = false;
-        tokens = this.dictionary.getWords(pos, regExp, tags, searchOptions);
-      }
-    }
-
-    let word = utils.getRandomItem(tokens);
-
-    output.matches = (tokens.map(t => t.word) || []).slice(0, 20);
-    output.result = word ? word.word : origin || "";
-    output.tag = tag;
-    output.origin = origin;
-
-    return output;
+    return searchOptions;
   }
 
   /**

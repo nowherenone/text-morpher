@@ -1,47 +1,85 @@
-const utils = require("./utils.js");
 const fs = require("fs");
 const Parser = require("./parser.js");
 const Context = require("./context.js");
+const utils = require("./utils.js");
+
 
 /**
  * http://pymorphy2.readthedocs.io/en/latest/user/grammemes.html
  *
- * Граммема	Значение	Примеры
- * NOUN	имя существительное	хомяк
- * ADJF	имя прилагательное (полное)	хороший
- * ADJS	имя прилагательное (краткое)	хорош
- * COMP	компаратив	лучше, получше, выше
- * VERB	глагол (личная форма)	говорю, говорит, говорил
- * INFN	глагол (инфинитив)	говорить, сказать
- * PRTF	причастие (полное)	прочитавший, прочитанная
- * PRTS	причастие (краткое)	прочитана
- * GRND	деепричастие	прочитав, рассказывая
- * NUMR	числительное	три, пятьдесят
- * ADVB	наречие	круто
- * NPRO	местоимение-существительное	он
- * PRED	предикатив	некогда
- * PREP	предлог	в
- * CONJ	союз	и
- * PRCL	частица	бы, же, лишь
- * INTJ	междометие	ой
- *
  * @class Dictionary
  */
 class Dictionary {
-  constructor(inputText) {
+  constructor(name = "default") {
     this.speechParts = {};
-    this.parser = new Parser();
-    this.context = new Context();
 
-    // Try to find file, if not - process as a text
-    if (inputText && fs.existsSync(inputText)) {
-      this.loadFile(inputText);
-    } else {
-      this.loadString(inputText);
+    return new Promise(async (resolve, reject) => {
+      await this.initDictionary(name);
+      this.context = this.initContext(name);
+      this.generateRhythmLookup();
+      resolve(this);
+    });
+  }
+
+  async initDictionary(name, isFallback) {
+    let dPath = './dictionary/';
+
+    let wordsFile = utils.exists(`${dPath}${name}/words.json`);
+    let accentFile = utils.exists(`${dPath}${name}/accents.json`);
+    let packedFile = utils.exists(`${dPath}${name}/dictionary.gz`);
+
+    // If there is no words file - load defaults
+    if (!wordsFile && !packedFile) {
+      console.log(`${name} dictionary files weren't found`);
+      if (!isFallback) this.initDictionary("default", true);
+      else console.error("No dictionary found!");
+      return;
     }
 
-    this.generateRhythmLookup();
+    console.log(`Loading ${name} dictionary`);
+
+    // If dictionary is unpacked - unpack it
+    if (!wordsFile && packedFile) {
+      console.log(`Unpacking ${name} dictionary`);
+      await utils.unpackZip(packedFile, `${dPath}${name}`);
+      if (!isFallback) this.initDictionary(name, true);
+      else console.error("Cannot unpack dictionary");
+      return;
+    }
+
+    // Accent file fallback
+    if (!accentFile) accentFile = utils.exists(`${dPath}/default/accents.json`);
+    // Load accent lookups
+    this.accentLookup = JSON.parse(utils.getFile(accentFile));
+
+    // Init Parser
+    this.parser = new Parser({
+      accentLookup: this.accentLookup
+    });
+
+    // Load wordset
+    if (wordsFile) this.loadFile(wordsFile);
   }
+
+
+
+  /**
+   * 
+   * @param {*} name 
+   */
+  initContext(name) {
+    let dPath = './dictionary/';
+    let modelFile = utils.exists(`${dPath}${name}/context.bin`);
+
+    // Load context 
+    if (!modelFile) {
+      modelFile = utils.exists(`${dPath}/default/context.bin`);
+    }
+
+    return new Context({ modelFile });
+  }
+
+
 
   /**
    * Populate dictionary from file
@@ -70,8 +108,11 @@ class Dictionary {
     this.loadString(words || "");
   }
 
+  /**
+   * 
+   */
   generateRhythmLookup() {
-    let l = this.parser.accentLookup;
+    let l = this.accentLookup;
     this.accentReverse = {};
 
     Object.keys(l).forEach(key => {
@@ -145,13 +186,6 @@ class Dictionary {
   getWords(part, regexp = ".*", tags = [], matchOptions = {}) {
     let tokens = [];
 
-    tags = tags.map(v => {
-      if (v == "gen2") return "datv";
-      if (v == "loc2") return "datv";
-      if (v == "acc2") return "nomn";
-      return v;
-    });
-
     // Get a set of possibly matching words 
     if (matchOptions.contextSearch) {
       let origin = this.parser.parseWord(matchOptions.origin) || {
@@ -194,7 +228,7 @@ class Dictionary {
     tokens =
       (part == "NOUN" || part == "PRTF")
         ? this.filterNouns(tokens, regexp, tags)
-        : tokens.filter(v => v.word.match(regexp));
+        : tokens.filter(v => v && v.word.match(regexp));
 
     // Filter words by accent
     return this.filterByAccent(tokens, matchOptions);

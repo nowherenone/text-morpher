@@ -2,14 +2,12 @@ const dotenv = require("dotenv").config();
 const readline = require("readline");
 const utils = require("./src/utils.js");
 const args = require("args");
-const Az = require("az");
+
 const fs = require("fs");
 const Morpher = require("./src/morpher.js");
 
 // Make preinstall and postinstall hooks
-// Make tests
 
-// Todo make a procedure for inflecting Verbs 
 
 
 /**
@@ -27,37 +25,8 @@ const interactiveMode = (Morpher) => {
       let cfg = JSON.parse(utils.getFile("./morpher.config.json"));
       let tpl = Morpher.createTemplate(answer);
 
-      let text = Morpher.runTemplate(tpl, cfg || {
-        first: false,
-        last: false,
-        length: false,
-        vowels: false,
-        accent: false,
-        syllables: false,
-        accentLetter: false,
-        contextSearch: true,
-        tags: false
-      });
-
-
-      let stat = { avgMatch: 0, matchContext: 0, replaced: 0 };
-      text.stats.forEach(s => {
-        if (s.tag) stat.replaced++;
-        if (s.foundContext) stat.matchContext++;
-        if (s.matches) stat.avgMatch += s.matches.length;
-      });
-
-      stat.replaced = (stat.replaced / text.stats.length);
-      stat.avgMatch = (stat.avgMatch / text.stats.length);
-      stat.matchContext = (stat.matchContext / text.stats.length);
-      stat.total = text.stats.length;
-
-      console.log(tpl);
-      console.log(stat);
-      console.log("");
-      console.log(text.text);
-
-
+      let result = Morpher.runTemplate(tpl, cfg);
+      console.log(result.text);
       question();
     });
   };
@@ -67,42 +36,14 @@ const interactiveMode = (Morpher) => {
 
 
 
-const test = m => {
-  let input = utils.getFile("./input").split("\n");
 
-  input.forEach(line => {
-    let tpl = m.createTemplate(line, {});
-    //let tpl = "{{VERB/.*/sing,3per,pres/снижает}}";
-    //console.log(tpl);
+const runMorpher = async () => {
 
-    // console.log(
-    m.runTemplate(tpl, {
-      first: false,
-      last: false,
-      length: false,
-      vowels: false,
-      accent: false,
-      syllables: false,
-      accentLetter: false,
-      contextSearch: "strict",
-      tags: false
-    })
-    //  );
+  let M = await new Morpher({
+    dictionary: "default"
   });
-};
 
-const runMorpher = () => {
-  Az.Morph.init(() => {
-    global.Az = Az;
-
-    let M = new Morpher({
-      dictFile: "data/words.json",
-    });
-
-
-
-    interactiveMode(M);
-  });
+  interactiveMode(M);
 };
 
 /*

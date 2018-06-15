@@ -1,4 +1,38 @@
 const fs = require("fs");
+const chalk = require('chalk');
+const readline = require('readline');
+const Unzip = require("unzip-stream");
+
+const log = (text) => {
+  //const log = console.log;
+}
+
+const type = (text) => {
+  readline.write(text);
+
+}
+
+
+/**
+ * 
+ * @param {*} packedFile 
+ * @param {*} targetFolder 
+ */
+const unpackZip = async (packedFile, targetFolder) => {
+
+  return new Promise((resolve, reject) => {
+    const unzipper = Unzip.Extract({ path: targetFolder });
+    unzipper.on('error', reject);
+    unzipper.on('close', resolve);
+
+    fs.createReadStream(packedFile).pipe(unzipper);
+  })
+}
+
+
+const exists = (path) => {
+  return fs.existsSync(path) ? path : false;
+}
 
 const getFile = (name = "./dump.json") => {
   return fs.readFileSync(name, "utf8");
@@ -16,33 +50,20 @@ const getRandomItem = items => {
   return items[Math.floor(Math.random() * items.length)];
 };
 
+
+const asyncForEach = async (array, callback) => {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array)
+  }
+}
+
+
 module.exports = {
   getFile,
+  unpackZip,
   dumpFile,
+  exists,
   prob,
+  asyncForEach,
   getRandomItem
 };
-
-/*
-
-    let acc = JSON.parse(utils.getFile("./data/accent.json"));
-    let accentLookup = {};
-    Object.keys(acc).forEach(key => {
-      let w = acc[key];
-      w.forEach(word => {
-        let parts =
-          word.match(/[бвгджзйклмнпрстфхцчшщьъ']*?[аеёиоуыэюя]/gi) || [];
-
-        let accPos = parts.findIndex(p => ~p.indexOf("'"));
-        let map = new Array(parts.length).fill(0);
-        //console.log(word, accPos, parts, parts.length);
-        map[accPos == -1 ? parts.length - 1 : accPos - 1] = 1;
-
-        accentLookup[word.replace("'", "")] = map.join("");
-
-        //  .join("");
-      });
-    });
-
-    utils.dumpFile(accentLookup, "./accentLookup.json");
-    */

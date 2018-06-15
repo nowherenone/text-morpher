@@ -1,4 +1,5 @@
 {
+  "parts": ["NOUN","ADJF"],
   "first": false,
   "last": false,
   "length": false,

@@ -1,24 +1,12 @@
 const utils = require("./utils.js");
-let accentLookup;
 
 class Parser {
+
   constructor(options = {}) {
     this.Az = global.Az;
-    this.tokens = [];
     this.options = options;
-    this.text = "";
-
-    this.loadAccents();
-    this.accentLookup = accentLookup;
+    this.accentLookup = this.options.accentLookup || {};
   }
-
-  loadAccents() {
-    if (accentLookup) return;
-    accentLookup = JSON.parse(utils.getFile("./data/accentLookup.json"));
-  }
-
-
-
 
   /**
    *
@@ -27,16 +15,20 @@ class Parser {
    * @memberof Parser
    */
   getVowelMap(word = "") {
-    let parts = word.match(/[бвгджзйклмнпрстфхцчшщьъ]*?[аеёиоуыэюя]/gi) || [];
+    let w = word.toLowerCase();
+    let parts = w.match(/[бвгджзйклмнпрстфхцчшщьъ]*?[аеёиоуыэюя]/gi) || [];
 
     return {
       vowels: parts.map(p => p.match(/[аеёиоуыэюя]{1,3}/gi)).join("-"),
       accmap:
-        this.accentLookup[word] || new Array(parts.length).fill(0).join("")
+        this.accentLookup[w] || new Array(parts.length).fill(0).join("")
     };
   }
 
-
+  /**
+   * 
+   * @param {*} token 
+   */
   getShortTag(token) {
     let skipParts = ["PRED", "PRCL", "PREP", "NPRO", "GRND", "ADVB"];
     let skipTags = ["inan", "anim"];
@@ -58,6 +50,10 @@ class Parser {
   }
 
 
+  /**
+   * 
+   * @param {*} word 
+   */
   parseWord(word) {
     return this.parseText(word).shift();
   }
@@ -75,14 +71,18 @@ class Parser {
     let tokens = this.Az.Tokens(Array.isArray(text) ? text.join(" ") : text)
       .done()
       .map(token => {
+
+        let origin = token.source.substr(token.st, token.length);
+        let isCapitalized = origin[0] != (origin[0] || "").toLowerCase();
+
         let word = {
-          word: token.source.substr(token.st, token.length)
+          word: origin
         };
 
-        word = Object.assign(word, this.getVowelMap(word.word));
+        word = Object.assign(word, this.getVowelMap(origin));
 
-        if (token.type == "WORD" && token.subType == "CYRIL") {
-          let parse = this.Az.Morph(word.word).shift();
+        if (token.type == "WORD" && token.subType == "CYRIL" && !isCapitalized) {
+          let parse = this.Az.Morph(origin).shift();
 
           if (parse) {
             Object.assign(
@@ -92,9 +92,8 @@ class Parser {
                 parse: parse,
                 tag: parse.tag,
                 part: parse.tag.POST,
-                shortTag: this.getShortTag(parse) || word.word || ""
-              },
-              this.getVowelMap(word.word)
+                shortTag: this.getShortTag(parse) || origin || ""
+              }
             );
           }
         }
