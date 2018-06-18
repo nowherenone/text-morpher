@@ -1,7 +1,7 @@
 const fs = require("fs");
 const chalk = require("chalk");
 const readline = require("readline");
-const Unzip = require("extract-zip");
+const Unzip = require("unzip-stream");
 const spawn = require("child_process").spawn;
 const http = require("http");
 const Progress = require("cli-progress").Bar;
@@ -38,11 +38,13 @@ const download = (url, dest, cb) => {
     });
 
     file.on("finish", function() {
+      bar.stop();
       file.close(cb); // close() is async, call cb after close completes.
     });
 
     // check for request error too
     request.on("error", function(err) {
+      bar.stop();
       fs.unlink(dest);
       return cb(err.message);
     });
@@ -60,18 +62,13 @@ const download = (url, dest, cb) => {
  * @param {*} packedFile
  * @param {*} targetFolder
  */
-
 const unpackZip = async (packedFile, targetFolder) => {
   return new Promise((resolve, reject) => {
-    var AdmZip = require("adm-zip");
+    const unzipper = Unzip.Extract({ path: targetFolder });
+    unzipper.on("error", reject);
+    unzipper.on("close", resolve);
 
-    // reading archives
-    var zip = new AdmZip(packedFile);
-    var zipEntries = zip.getEntries(); // an array of ZipEntry records
-
-    zipEntries.forEach(function(zipEntry) {
-      console.log(zipEntry);
-    });
+    fs.createReadStream(packedFile).pipe(unzipper);
   });
 };
 

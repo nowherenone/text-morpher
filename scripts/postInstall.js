@@ -8,15 +8,20 @@ const fs = require("fs");
 const winTools = require("node-windows");
 const utils = require("../src/utils.js");
 const Spinner = require("cli-spinner").Spinner;
+const gunzip = require("gunzip-file");
+let installStage = false;
+
+const dictURL =
+  "http://rusvectores.org/static/models/ruwikiruscorpora_upos_cbow_300_20_2017.bin.gz";
 
 const text =
-  "One of the key features of this library is an ability to find \n" +
+  "\nOne of the key features of this library is an ability to find \n" +
   "words similar by context. But this feature requires a lot of RAM\n" +
   "(usually ~0.5-1Gb), and windows-build-tools library\n" +
   "\n" +
   "You may install it manually by running: \n" +
   chalk.white("npm install --global --production windows-build-tools\n") +
-  "or we can install it now (it requires admin privileges): ";
+  "or we can install it now (it requires admin privileges): \n";
 
 const installWindowsLibs = () => {
   let cmdFile = tmp.fileSync({ prefix: "winInstall-", postfix: ".cmd" });
@@ -24,43 +29,46 @@ const installWindowsLibs = () => {
   let cmd = "npm install --global --production windows-build-tools";
   let spinner = new Spinner("Please wait.. %s");
 
-  cmd = "npm -v";
-
   // Create a .cmd file
   fs.writeFileSync(cmdFile.name, `${cmd} >> "${logFile}" `);
 
   // Watch the installation progress
-  fs.watchFile(logFile, { interval: 1000 }, (cur, prev) => {
+  const w = fs.watchFile(logFile, { interval: 1000 }, (cur, prev) => {
     let a = utils.getFile(logFile);
+    console.log(a);
 
-    if (~a.indexOf("6")) {
+    if (~a.indexOf("All done!")) {
       spinner.stop();
-      console.log("All done!");
+      w.stop();
       installw2v();
     }
   });
 
   winTools.elevate(cmdFile.name);
-  console.log("Installing windows-build-tools - it may take a few minutes");
+  console.log(
+    chalk.white(
+      "Step 1/4: Installing windows-build-tools - it may take a few minutes"
+    )
+  );
   spinner.start();
 };
 
 // install word2vector library
 const installw2v = () => {
-  console.log("Installing word2vector npm.");
+  if (installStage != "installw2v") installStage = "installw2v";
+  else return;
+
+  console.log(chalk.white("Step 2/4: Installing word2vector npm."));
   utils.runProcess(utils.getNPMName(), ["install", "word2vector"], c => {
-    console.log("Done!");
     downloadDictionary();
   });
 };
 
 // Download dictionary
 const downloadDictionary = () => {
-  let dictURL =
-    "http://rusvectores.org/static/models/ruwikiruscorpora_upos_cbow_300_20_2017.bin.gz";
   let tmpFile = tmp.fileSync();
 
-  console.log("Downloading word2vec model (420Mb)...");
+  console.log(chalk.white("Step 3/4: Downloading word2vec model (420Mb)..."));
 
   utils.download(dictURL, tmpFile.name, v => {
     unpackAndRename(tmpFile.name);
@@ -68,21 +76,19 @@ const downloadDictionary = () => {
 };
 
 const unpackAndRename = async name => {
-  let localDir = __dirname + "../dictionary/default";
-  name = "C:/Users/malekseev/AppData/Local/Temp/tmp-37452G5fgio2P16cc.zip";
+  let localDir = __dirname + "/../dictionary/default/";
 
-  console.log("File is recieved, unpacking...");
-  let a = await utils.unpackZip(name, localDir);
-  console.log(a);
+  console.log(chalk.white("\n Step 4/4: File is recieved, unpacking..."));
 
-  let file = fs.readdirSync(localDir).find(v => ~v.name.indexOf(".bin"));
-
-  console.log(file);
-  fs.renameSync(file.name, localDir + "/context.bin");
-  process.exit();
+  gunzip(name, localDir + "context.bin", function() {
+    console.log("Model is extracted. Installation is completed now.");
+    process.exit();
+  });
 };
 
 const startPostInstall = () => {
+  console.log(text);
+
   // Check if we are on Windows
   if (
     ~require("os")
@@ -106,5 +112,5 @@ const startPostInstall = () => {
 };
 
 //downloadDictionary();
-unpackAndRename();
-//startPostInstall();
+//unpackAndRename();
+startPostInstall();
