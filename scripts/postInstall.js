@@ -15,13 +15,20 @@ const dictURL =
   "http://rusvectores.org/static/models/ruwikiruscorpora_upos_cbow_300_20_2017.bin.gz";
 
 const text =
+  chalk.yellow(" \n \nAdditional modules installation: \n") +
   "\nOne of the key features of this library is an ability to find \n" +
-  "words similar by context. But this feature requires a lot of RAM\n" +
-  "(usually ~0.5-1Gb), and windows-build-tools library\n" +
+  "words similar by context. But this feature requires to \n" +
+  "install a few additional packages: \n" +
   "\n" +
-  "You may install it manually by running: \n" +
+  chalk.yellow(
+    "1. Install windows-build-tools module (it requires admin privileges)\n"
+  ) +
+  chalk.yellow("2. Install word2vector module \n") +
+  chalk.yellow("3. Download w2v model file for russian language \n") +
+  "\n" +
+  "You may install windows-build-tools manually by running: \n" +
   chalk.white("npm install --global --production windows-build-tools\n") +
-  "or we can install it now (it requires admin privileges): \n";
+  "from windows shell with admin privileges, or we can install it now: \n";
 
 const installWindowsLibs = () => {
   let cmdFile = tmp.fileSync({ prefix: "winInstall-", postfix: ".cmd" });
@@ -45,6 +52,7 @@ const installWindowsLibs = () => {
   });
 
   winTools.elevate(cmdFile.name);
+
   console.log(
     chalk.white(
       "Step 1/4: Installing windows-build-tools - it may take a few minutes"
@@ -68,7 +76,7 @@ const installw2v = () => {
 const downloadDictionary = () => {
   let tmpFile = tmp.fileSync();
 
-  console.log(chalk.white("Step 3/4: Downloading word2vec model (420Mb)..."));
+  console.log(chalk.white("Step 3/4: Downloading word2vec model (420Mb)...\n"));
 
   utils.download(dictURL, tmpFile.name, v => {
     unpackAndRename(tmpFile.name);
@@ -78,7 +86,7 @@ const downloadDictionary = () => {
 const unpackAndRename = async name => {
   let localDir = __dirname + "/../dictionary/default/";
 
-  console.log(chalk.white("\n Step 4/4: File is recieved, unpacking..."));
+  console.log(chalk.white("Step 4/4: File is recieved, unpacking...\n"));
 
   gunzip(name, localDir + "context.bin", function() {
     console.log("Model is extracted. Installation is completed now.");

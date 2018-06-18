@@ -10,7 +10,7 @@
     "node": ">=8"
   },
   "scripts": {
-    "test": "test"
+    "test": "mocha --reporter spec"
   },
   "repository": {
     "type": "git",
