@@ -3,29 +3,30 @@ const Parser = require("./parser.js");
 const Context = require("./context.js");
 const utils = require("./utils.js");
 
-
 /**
  * http://pymorphy2.readthedocs.io/en/latest/user/grammemes.html
  *
  * @class Dictionary
  */
 class Dictionary {
-  constructor(name = "default") {
+  constructor(config = {}) {
     this.speechParts = {};
+    let name = config.dictionary;
 
     return new Promise(async (resolve, reject) => {
       await this.initDictionary(name);
-      this.context = this.initContext(name);
+      this.context = this.initContext(config);
       this.generateRhythmLookup();
       resolve(this);
     });
   }
 
   async initDictionary(name, isFallback) {
-    let dPath = './dictionary/';
+    let dPath = "./dictionary/";
 
     let wordsFile = utils.exists(`${dPath}${name}/words.json`);
     let accentFile = utils.exists(`${dPath}${name}/accents.json`);
+    let stopFile = utils.exists(`${dPath}${name}/stopwords.json`);
     let packedFile = utils.exists(`${dPath}${name}/dictionary.gz`);
 
     // If there is no words file - load defaults
@@ -47,39 +48,49 @@ class Dictionary {
       return;
     }
 
+    // Stopwords file fallback
+    if (!stopFile) stopFile = utils.exists(`${dPath}/default/stopwords.json`);
+    // Load stopwords
+    try {
+      this.stopWords = JSON.parse(utils.getFile(stopFile));
+    } catch (e) {
+      this.stopWords = [];
+    }
+
     // Accent file fallback
     if (!accentFile) accentFile = utils.exists(`${dPath}/default/accents.json`);
     // Load accent lookups
-    this.accentLookup = JSON.parse(utils.getFile(accentFile));
+    try {
+      this.accentLookup = JSON.parse(utils.getFile(accentFile));
+    } catch (e) {
+      this.accentLookup = {};
+    }
 
     // Init Parser
     this.parser = new Parser({
-      accentLookup: this.accentLookup
+      accentLookup: this.accentLookup,
+      stopWords: this.stopWords
     });
 
     // Load wordset
     if (wordsFile) this.loadFile(wordsFile);
   }
 
-
-
   /**
-   * 
-   * @param {*} name 
+   *
+   * @param {*} name
    */
-  initContext(name) {
-    let dPath = './dictionary/';
-    let modelFile = utils.exists(`${dPath}${name}/context.bin`);
+  initContext(config) {
+    let dPath = "./dictionary/";
+    let modelFile = utils.exists(`${dPath}${config.name}/context.bin`);
 
-    // Load context 
+    // Load context
     if (!modelFile) {
       modelFile = utils.exists(`${dPath}/default/context.bin`);
     }
 
-    return new Context({ modelFile });
+    return new Context({ modelFile, enable: config.context });
   }
-
-
 
   /**
    * Populate dictionary from file
@@ -109,7 +120,7 @@ class Dictionary {
   }
 
   /**
-   * 
+   *
    */
   generateRhythmLookup() {
     let l = this.accentLookup;
@@ -133,12 +144,6 @@ class Dictionary {
     this.sortTokens(tokens);
   }
 
-  getStat() {
-    Object.keys(this.speechParts).forEach(k => {
-      console.log(`${k} - ${this.speechParts[k].length}`);
-    });
-  }
-
   /**
    * Sort tokens by speech parts and add them into dictionary
    *
@@ -160,7 +165,6 @@ class Dictionary {
     });
   }
 
-
   /**
    *
    * @param {*} part
@@ -169,7 +173,6 @@ class Dictionary {
    * @param {*} matchOptions
    */
   getWord(...params) {
-
     let tokens = this.getWords(...params);
     let word = utils.getRandomItem(tokens) || {};
 
@@ -186,7 +189,7 @@ class Dictionary {
   getWords(part, regexp = ".*", tags = [], matchOptions = {}) {
     let tokens = [];
 
-    // Get a set of possibly matching words 
+    // Get a set of possibly matching words
     if (matchOptions.contextSearch) {
       let origin = this.parser.parseWord(matchOptions.origin) || {
         wordNormal: matchOptions.origin,
@@ -194,12 +197,11 @@ class Dictionary {
       };
 
       tokens = this.context.getSimilarWords(origin);
-
     } else {
       tokens = this.speechParts[part] || [];
     }
 
-    // Try to inflect them 
+    // Try to inflect them
     tokens = this.getInflectedTokens(tokens, tags);
 
     // Get inflected list of words
@@ -216,17 +218,24 @@ class Dictionary {
   filterTokens(tokens, regexp, tags, matchOptions) {
     let part = (tokens[0] || {}).part;
 
+    // Filter words by normal form
+    if (matchOptions.matchNormal) {
+      tokens = tokens.filter(v => {
+        if (!v) return false;
+        return v.wordNormal == matchOptions.matchNormal;
+      });
+    }
+
     // Filter words by tagset
     tokens = tokens.filter(v => {
       if (!v || !v.tag) return true;
       let tokenTags = v.tag.stat.slice(1, 100).concat(v.tag.flex);
-      return tags.every(tag => ~tokenTags.indexOf(tag))
+      return tags.every(tag => ~tokenTags.indexOf(tag));
     });
-
 
     // Filter words by regexp
     tokens =
-      (part == "NOUN" || part == "PRTF")
+      part == "NOUN" || part == "PRTF"
         ? this.filterNouns(tokens, regexp, tags)
         : tokens.filter(v => v && v.word.match(regexp));
 
@@ -242,14 +251,13 @@ class Dictionary {
     return tokens.map(v => {
       let infTags = tags;
 
-      // If this is noun - remove static tokens 
+      // If this is noun - remove static tokens
       if (v.part == "NOUN" || v.part == "PRTF") {
         infTags = tags.filter(v => !~["masc", "femn", "neut"].indexOf(v));
       }
 
       // Inflect
       let inf = infTags && v.parse && v.parse.inflect(infTags);
-
 
       return inf ? this.parser.parseWord(inf.word) : v;
     });
@@ -261,18 +269,21 @@ class Dictionary {
    * @param {*} matchOptions
    */
   filterByAccent(tokens, matchOptions) {
-
     // Match only accent letters
     if (matchOptions.accentLetter) {
       let index = (matchOptions.accmap || []).indexOf("1");
-      tokens = tokens.filter(v => {
-        return v.vowels[index] == matchOptions.vowels[index];
-      });
+      if (index > -1) {
+        tokens = tokens.filter(v => {
+          return v.vowels[index] == matchOptions.vowels[index];
+        });
+      }
     }
 
-    // Match syllables count 
+    // Match syllables count
     if (matchOptions.syllables) {
-      tokens = tokens.filter(v => v.accmap.length == matchOptions.accmap.length);
+      tokens = tokens.filter(
+        v => v.accmap.length == matchOptions.accmap.length
+      );
     }
 
     // Accent map filter
@@ -287,8 +298,6 @@ class Dictionary {
       });
     }
 
-
-
     return tokens;
   }
 
@@ -301,7 +310,6 @@ class Dictionary {
     let statTags = this.extractStatTags(tags, ["masc", "femn", "neut"]);
 
     return tokens.filter(v => {
-
       if (v && v.parse && v.word.match(regexp)) {
         if (statTags) {
           return (

@@ -4,9 +4,11 @@
   "last": false,
   "length": false,
   "vowels": false,
-  "accent": true,
+  "accent": false,
   "syllables": false,
   "accentLetter": false,
   "contextSearch": true,
-  "tags": false
+  "tags": false,
+  "regexp": "^о.*"
+
 }

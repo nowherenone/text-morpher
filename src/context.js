@@ -1,33 +1,30 @@
-// Microsoft Build Tools 2013
-// https://www.microsoft.com/en-us/download/details.aspx?id=40760
-// npm install --global --production windows-build-tools
-// Why no ES6 - because of conditional imports
-/*
-if (require('os').platform().indexOf('win32') < 0){
-  throw 'node-windows is only supported on Windows.';
-}
-    // Works!
-    winTools.elevate(".\\data\\123.cmd");
-    return;
-*/
 const Parser = require("./parser.js");
 const utils = require("./utils.js");
-
 
 module.exports = class Context {
   constructor(config) {
     this.parser = new Parser({ withSpaces: true });
 
-    this.treshHold = .5;
-    this.topN = 500;
+    this.treshHold = 0.5;
+    this.topN = 200;
 
-    // Check if word2vector is installed 
-    if (!utils.exists(`./node_modules/word2vector/index.js`) || !utils.exists(config.modelFile)) {
+    // Check if word2vector is installed
+    if (
+      config.enable == "0" ||
+      !utils.exists(`./node_modules/word2vector/index.js`) ||
+      !utils.exists(config.modelFile)
+    ) {
       console.log(`Context search with word2vec is disabled`);
       this.disabled = true;
     } else {
+      console.log(
+        `Context search is enabled, model size - ${utils.getFileSize(
+          config.modelFile
+        )}`
+      );
       this.w2v = require("word2vector");
       this.w2v.load(config.modelFile);
+      console.log("Done");
     }
   }
 
@@ -38,7 +35,7 @@ module.exports = class Context {
   getSimilarWords(token, extractPart) {
     if (this.disabled) return [];
 
-    // Edge case for adjectives 
+    // Edge case for adjectives
     let part = token.part == "ADJF" ? "ADJ" : token.part;
 
     let vTag = `${token.wordNormal}_${part}`;
@@ -46,7 +43,9 @@ module.exports = class Context {
 
     try {
       results = this.w2v.getSimilarWords(vTag, { N: this.topN });
-    } catch (e) { results = []; }
+    } catch (e) {
+      results = [];
+    }
 
     return results
       .map(v => {
@@ -59,10 +58,10 @@ module.exports = class Context {
       })
       .filter(v => {
         return (
-          !v.word.match("::") &&
-          v.word.match(/[^a-z]/g) &&
-          v.part == extractPart || token.part &&
-          v.score > this.treshHold
+          (!v.word.match("::") &&
+            v.word.match(/[^a-z]/g) &&
+            v.part == extractPart) ||
+          (token.part && v.score > this.treshHold)
         );
       })
       .map(v => this.parser.parseWord(v.word));
