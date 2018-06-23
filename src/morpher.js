@@ -283,26 +283,62 @@ class Morpher {
 
   /**
    *
+   * @param {*} origin
+   */
+  queryContext(origin) {
+    let input = this.parser.parseWord(origin);
+    return this.dictionary.context.getSimilarWords(input);
+  }
+
+  /**
+   *
    *
    * @param {*} nouns
    * @param {*} adj
    * @returns
    * @memberof Morpher
    */
-  conformAdjective(noun, adjFilter) {
-    let nounToken = this.parser.parseWord(noun || []);
-    let tag = nounToken.tag;
-    let myAdj = this.dictionary.getAdjective(adjFilter);
-    let newWord = "";
+  getNextWord(origin, regExp = ".*") {
+    let conformMap = {
+      NOUN: "ADJF",
+      ADJF: "NOUN",
+      VERB: "NOUN",
+      INFN: "NOUN"
+    };
 
-    if (myAdj && tag && tag.GNdr) {
-      let gender = tag.GNdr;
-      let flex = tag.flex.slice();
-      flex.push(tag.GNdr);
-      newWord = myAdj.parse.inflect(flex) || {};
+    let inputToken = this.parser.parseWord(origin || "");
+    if (!inputToken) return "";
+
+    let tag = this.splitTag(inputToken.shortTag);
+
+    // Edge case for verbs
+    if (tag.pos.match("VERB|INFN")) tag.tags = ["accs"];
+
+    let results = this.dictionary.getWords(
+      conformMap[tag.pos] || "NOUN",
+      regExp,
+      tag.tags,
+      {
+        origin: origin,
+        contextSearch: true
+      }
+    );
+
+    // If we didn't get enough matches from w2v - choose random one
+    if (results.length < 3) {
+      results = this.dictionary.getWords(
+        conformMap[tag.pos] || "NOUN",
+        regExp,
+        tag.tags,
+        {
+          origin: origin,
+          contextSearch: false
+        }
+      );
     }
 
-    return newWord.word !== undefined ? newWord.word : "";
+    let word = utils.getRandomItem(results) || {};
+    return word.word || "";
   }
 }
 

@@ -196,7 +196,10 @@ class Dictionary {
         part: part
       };
 
-      tokens = this.context.getSimilarWords(origin);
+      tokens = this.context.getSimilarWords(origin, {
+        extractPart: part,
+        treshHold: matchOptions.treshHold
+      });
     } else {
       tokens = this.speechParts[part] || [];
     }
@@ -228,7 +231,7 @@ class Dictionary {
 
     // Filter words by tagset
     tokens = tokens.filter(v => {
-      if (!v || !v.tag) return true;
+      if (!v || !v.tag || !tags.length) return true;
       let tokenTags = v.tag.stat.slice(1, 100).concat(v.tag.flex);
       return tags.every(tag => ~tokenTags.indexOf(tag));
     });
@@ -237,7 +240,12 @@ class Dictionary {
     tokens =
       part == "NOUN" || part == "PRTF"
         ? this.filterNouns(tokens, regexp, tags)
-        : tokens.filter(v => v && v.word.match(regexp));
+        : tokens.filter(
+            v =>
+              v &&
+              v.word.match(regexp) &&
+              !~this.stopWords.indexOf(v.wordNormal)
+          );
 
     // Filter words by accent
     return this.filterByAccent(tokens, matchOptions);

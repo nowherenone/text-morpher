@@ -32,13 +32,17 @@ module.exports = class Context {
    *
    * @param {*} token
    */
-  getSimilarWords(token, extractPart) {
+  getSimilarWords(token, options = {}) {
     if (this.disabled) return [];
 
     // Edge case for adjectives
-    let part = token.part == "ADJF" ? "ADJ" : token.part;
+    let posMap = {
+      ADJF: "ADJ",
+      INFN: "VERB"
+    };
+    let backMap = utils.invert(posMap);
 
-    let vTag = `${token.wordNormal}_${part}`;
+    let vTag = `${token.wordNormal}_${posMap[token.part] || token.part}`;
     let results = [];
 
     try {
@@ -52,16 +56,17 @@ module.exports = class Context {
         let w = v.word.split("_");
         return {
           word: w[0],
-          part: w[1] == "ADJ" ? "ADJF" : w[1],
+          part: backMap[w[1]] || w[1],
           score: v.similarity
         };
       })
       .filter(v => {
         return (
-          (!v.word.match("::") &&
-            v.word.match(/[^a-z]/g) &&
-            v.part == extractPart) ||
-          (token.part && v.score > this.treshHold)
+          !v.word.match("::") &&
+          v.word.match(/[^a-z]/g) &&
+          v.part ==
+            (options.extractPart || backMap[token.part] || token.part) &&
+          v.score > (options.treshHold || this.treshHold)
         );
       })
       .map(v => this.parser.parseWord(v.word));

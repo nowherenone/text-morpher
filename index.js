@@ -5,6 +5,33 @@ const args = require("args");
 const fs = require("fs");
 const Morpher = require("./src/morpher.js");
 
+/**
+ * Morph an input file
+ */
+const morphText = async (name, sub, options) => {
+  if (!options.input || !utils.exists(options.input)) {
+    console.log("Input file not found.");
+    console.log(
+      "Please provide a path to the input file using '--input' option."
+    );
+    return;
+  }
+
+  console.log(`Morphing ${options.input} file:`);
+
+  let M = await new Morpher(options);
+  let input = utils.getFile(options.input);
+
+  let cfg = JSON.parse(utils.getFile("./morpher.config.json"));
+
+  let tpl = M.createTemplate(input);
+  let result = M.runTemplate(tpl, cfg);
+
+  utils.writeFile(options.output, result.text);
+
+  console.log(`Done. Results are stored in ${options.output} file.`);
+};
+
 // Describe cli commands and options
 args
   .options([
@@ -39,11 +66,7 @@ args
       defaultValue: "text"
     }
   ])
-  .command(
-    "morph",
-    "Morph text using word substitution",
-    morphText
-  )
+  .command("morph", "Morph text using word substitution", morphText)
   .command(
     "cli",
     "Interactive command-line mode",
@@ -70,34 +93,6 @@ const runMorpher = async options => {
   });
 };
 
-
-/**
- * Morph an input file
- */
-const morphText = async (name, sub, options) => {
-  if (!options.input || !utils.exists(options.input)) {
-    console.log("Input file not found.");
-    console.log(
-      "Please provide a path to the input file using '--input' option."
-    );
-    return;
-  }
-
-  console.log(`Morphing ${options.input} file:`);
-
-  let M = await new Morpher(options);
-  let input = utils.getFile(options.input);
-
-  let cfg = JSON.parse(utils.getFile("./morpher.config.json"));
-
-  let tpl = M.createTemplate(input);
-  let result = M.runTemplate(tpl, cfg);
-
-  utils.writeFile(options.output, result.text);
-
-  console.log(`Done. Results are stored in ${options.output} file.`);
-};
-
 /**
  * Test stuff in cli
  */
@@ -117,7 +112,15 @@ const interactiveMode = Morpher => {
         let result = Morpher.runTemplate(tpl, cfg);
         console.log(result.text);
       } else {
-        console.log(Morpher.analyzeWord(answer));
+        if (~answer.indexOf("~")) {
+          console.log(
+            Morpher.queryContext(answer.replace("~", ""))
+              .map(v => v.word)
+              .join(", ")
+          );
+        } else {
+          console.log(Morpher.getNextWord(answer));
+        }
       }
 
       question();

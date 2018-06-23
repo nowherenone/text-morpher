@@ -1,5 +1,5 @@
 {
-  "parts": ["NOUN","ADJF"],
+  "parts": ["NOUN","ADJF","VERB","INFN"],
   "first": false,
   "last": false,
   "length": false,
@@ -9,6 +9,6 @@
   "accentLetter": false,
   "contextSearch": true,
   "tags": false,
-  "regexp": "^о.*"
-
+  "regexp": false,
+  "treshHold": 0.8
 }
