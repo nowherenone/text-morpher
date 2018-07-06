@@ -7,7 +7,9 @@ const Az = require("az");
 
 class Morpher {
   constructor(config) {
-    return this.init(config);
+    if (config) {
+      return this.init(config);
+    }
   }
 
   /**
@@ -45,11 +47,12 @@ class Morpher {
     console.log(``);
   }
 
+  /**
+   *
+   * @param {*} word
+   */
   analyzeWord(word) {
-    let token = this.parser.parseWord(word);
-    token.parse = false;
-    token.tag = false;
-    return token;
+    return this.parser.parseWord(word, true);
   }
 
   /**
@@ -288,6 +291,36 @@ class Morpher {
   queryContext(origin) {
     let input = this.parser.parseWord(origin);
     return this.dictionary.context.getSimilarWords(input);
+  }
+
+  /**
+   *
+   * @param {*} origin
+   */
+  inflect(origin, tags = []) {
+    let input = this.parser.parseWord(origin);
+    if (input && input.parse) {
+      // Inflect
+      let inf = input.parse.inflect(tags);
+      return inf ? inf.word : origin;
+    } else {
+      return origin;
+    }
+  }
+
+  /**
+   *
+   * @param {*} origin
+   */
+  pluralize(origin, number) {
+    let input = this.parser.parseWord(origin);
+    if (input && input.parse) {
+      // Inflect
+      let inf = input.parse.pluralize(number);
+      return inf ? inf.word : origin;
+    } else {
+      return origin;
+    }
   }
 
   /**

@@ -16,7 +16,7 @@ class Dictionary {
     return new Promise(async (resolve, reject) => {
       await this.initDictionary(name);
       this.context = this.initContext(config);
-      this.generateRhythmLookup();
+      //this.generateRhythmLookup();
       resolve(this);
     });
   }
@@ -31,7 +31,7 @@ class Dictionary {
 
     // If there is no words file - load defaults
     if (!wordsFile && !packedFile) {
-      console.log(`${name} dictionary files weren't found`);
+      if (name) console.log(`${name} dictionary files weren't found`);
       if (!isFallback) this.initDictionary("default", true);
       else console.error("No dictionary found!");
       return;
@@ -89,7 +89,7 @@ class Dictionary {
       modelFile = utils.exists(`${dPath}/default/context.bin`);
     }
 
-    return new Context({ modelFile, enable: config.context });
+    return new Context({ modelFile, contextSearch: config.contextSearch });
   }
 
   /**

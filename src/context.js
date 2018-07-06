@@ -10,7 +10,7 @@ module.exports = class Context {
 
     // Check if word2vector is installed
     if (
-      config.enable == "0" ||
+      config.contextSearch === false ||
       !utils.exists(`./node_modules/word2vector/index.js`) ||
       !utils.exists(config.modelFile)
     ) {

@@ -5,6 +5,14 @@ const args = require("args");
 const fs = require("fs");
 const Morpher = require("./src/morpher.js");
 
+const readConfig = () => {
+  let cfg = {};
+  try {
+    cfg = JSON.parse(utils.getFile("./morpher.config.json"));
+  } catch (e) {}
+  return cfg;
+};
+
 /**
  * Morph an input file
  */
@@ -19,17 +27,36 @@ const morphText = async (name, sub, options) => {
 
   console.log(`Morphing ${options.input} file:`);
 
-  let M = await new Morpher(options);
+  let M = new Morpher();
+  await M.init(options);
   let input = utils.getFile(options.input);
 
-  let cfg = JSON.parse(utils.getFile("./morpher.config.json"));
-
   let tpl = M.createTemplate(input);
-  let result = M.runTemplate(tpl, cfg);
+  let result = M.runTemplate(tpl, readConfig());
 
   utils.writeFile(options.output, result.text);
 
   console.log(`Done. Results are stored in ${options.output} file.`);
+};
+
+const processCLIInput = (answer, callback) => {
+  if (answer.split(" ").length > 1) {
+    let tpl = Morpher.createTemplate(answer);
+    let result = Morpher.runTemplate(tpl, readConfig());
+    console.log(result.text);
+  } else {
+    if (~answer.indexOf("~")) {
+      console.log(
+        Morpher.queryContext(answer.replace("~", ""))
+          .map(v => v.word)
+          .join(", ")
+      );
+    } else {
+      console.log(Morpher.getNextWord(answer));
+    }
+  }
+
+  callback && callback();
 };
 
 // Describe cli commands and options
@@ -71,7 +98,8 @@ args
     "cli",
     "Interactive command-line mode",
     async (name, sub, options) => {
-      let M = await new Morpher(options);
+      let M = new Morpher();
+      await M.init(options);
       interactiveMode(M);
     }
   );
@@ -85,15 +113,6 @@ if (require.main === module) {
 }
 
 /**
- * Initializer
- */
-const runMorpher = async options => {
-  return await new Morpher({
-    dictionary: "default"
-  });
-};
-
-/**
  * Test stuff in cli
  */
 const interactiveMode = Morpher => {
@@ -104,26 +123,7 @@ const interactiveMode = Morpher => {
 
   let question = () => {
     rl.question("Input: ", answer => {
-      let cfg = JSON.parse(utils.getFile("./morpher.config.json"));
-
-      if (answer.split(" ").length > 1) {
-        let tpl = Morpher.createTemplate(answer);
-        console.log(tpl);
-        let result = Morpher.runTemplate(tpl, cfg);
-        console.log(result.text);
-      } else {
-        if (~answer.indexOf("~")) {
-          console.log(
-            Morpher.queryContext(answer.replace("~", ""))
-              .map(v => v.word)
-              .join(", ")
-          );
-        } else {
-          console.log(Morpher.getNextWord(answer));
-        }
-      }
-
-      question();
+      processCLIInput();
     });
   };
 

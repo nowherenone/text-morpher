@@ -40,9 +40,18 @@ class Parser {
    *
    * @param {*} token
    */
+  getTags(token) {
+    let skipTags = ["inan", "anim"];
+    let tags = token.tag.stat.slice(1, 100).concat(token.tag.flex) || [];
+    return tags.filter(t => !~skipTags.indexOf(t) && !/^[A-Z]/.test(t));
+  }
+
+  /**
+   *
+   * @param {*} token
+   */
   getShortTag(token) {
     let skipParts = ["PRED", "PRCL", "PREP", "NPRO", "GRND", "ADVB"];
-    let skipTags = ["inan", "anim"];
 
     if (
       !token.tag ||
@@ -55,11 +64,7 @@ class Parser {
       return false;
     } else {
       let POST = token.tag.POST;
-      let tags = token.tag.stat.slice(1, 100).concat(token.tag.flex) || [];
-
-      tags = tags.filter(t => !~skipTags.indexOf(t) && !/^[A-Z]/.test(t));
-
-      return `{{${POST}/.*/${tags.join(",")}/${token.word}}}`;
+      return `{{${POST}/.*/${this.getTags(token).join(",")}/${token.word}}}`;
     }
   }
 
@@ -67,8 +72,17 @@ class Parser {
    *
    * @param {*} word
    */
-  parseWord(word) {
-    return this.parseText(word).shift();
+  parseWord(word, simpleForm) {
+    let token = this.parseText(word).shift();
+
+    if (simpleForm) {
+      token.tags = this.getTags(token).join(",");
+      delete token.parse;
+      delete token.tag;
+      delete token.shortTag;
+    }
+
+    return token;
   }
 
   /**
