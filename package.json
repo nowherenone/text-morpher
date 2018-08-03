@@ -2,9 +2,10 @@
   "name": "text-morpher",
   "version": "0.0.1",
   "description": "A standalone library for transforming russian words and text",
-  "main": "index.js",
+  "main": "./src/morpher.js",
+  "preferGlobal": true,
   "bin": {
-    "text-morpher": "./index.js"
+    "text-morpher": "./bin/text-morpher-cli.js"
   },
   "engines": {
     "node": ">=8"

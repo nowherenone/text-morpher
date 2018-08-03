@@ -1,21 +1,45 @@
+#!/usr/bin/env node
+"use strict";
+
+process.title = "text-morpher";
+
+let originalBaseDir = process.cwd();
+
 const dotenv = require("dotenv").config();
 const readline = require("readline");
-const utils = require("./src/utils.js");
+
 const args = require("args");
+const flags = args.parse(process.argv);
 const fs = require("fs");
-const Morpher = require("./src/morpher.js");
+
+const utils = require("../src/utils.js");
+const Morpher = require("../src/morpher.js");
+
+let MorpherInstance;
+
+//console.log(flags, process.argv);
+//args.showHelp();
+
+/**
+ *
+ *
+ * @returns
+ */
 const readConfig = () => {
   let cfg = {};
   try {
-    cfg = JSON.parse(utils.getFile("./morpher.config.json"));
+    cfg = JSON.parse(utils.getFile("../morpher.config.json"));
   } catch (e) {}
   return cfg;
 };
 
-let MorpherInstance;
-
 /**
  * Morph an input file
+ *
+ * @param {*} name
+ * @param {*} sub
+ * @param {*} options
+ * @returns
  */
 const morphText = async (name, sub, options) => {
   if (!options.input || !utils.exists(options.input)) {
@@ -40,15 +64,13 @@ const morphText = async (name, sub, options) => {
   console.log(`Done. Results are stored in ${options.output} file.`);
 };
 
+/**
+ *
+ * @param {*} answer
+ * @param {*} callback
+ */
 const processCLIInput = (answer = "", callback) => {
   let Morpher = MorpherInstance;
-
-  console.log(
-    Morpher.runTemplate(
-      "{{NOUN/.*/femn,sing,nomn/мама}} {{VERB/.*/impf,tran,femn,sing,past,indc/мыла}} {{NOUN/.*/femn,sing,accs/раму}}",
-      readConfig()
-    ).text
-  );
 
   if (answer.split(" ").length > 1) {
     let tpl = Morpher.createTemplate(answer);
@@ -69,60 +91,6 @@ const processCLIInput = (answer = "", callback) => {
   callback && callback();
 };
 
-// Describe cli commands and options
-args
-  .options([
-    {
-      name: "input",
-      description: "A text file to process",
-      defaultValue: ""
-    },
-    {
-      name: "context",
-      description: "Use word2vec model for context search",
-      defaultValue: "1"
-    },
-    {
-      name: "dictionary",
-      description: "A dictionary to use",
-      defaultValue: "default"
-    },
-    {
-      name: "output",
-      description: "A file to store results",
-      defaultValue: "results.txt"
-    },
-    {
-      name: "config",
-      description: "A config file with matching options",
-      defaultValue: ""
-    },
-    {
-      name: "mode",
-      description: "Matching mode [text | poetry]",
-      defaultValue: "text"
-    }
-  ])
-  .command("morph", "Morph text using word substitution", morphText)
-  .command(
-    "cli",
-    "Interactive command-line mode",
-    async (name, sub, options) => {
-      let M = new Morpher();
-      await M.init(options);
-      MorpherInstance = M;
-      interactiveMode();
-    }
-  );
-
-const flags = args.parse(process.argv);
-
-if (require.main === module) {
-  if (flags.mode) args.showHelp();
-} else {
-  console.log("required as a module");
-}
-
 /**
  * Test stuff in cli
  */
@@ -142,12 +110,49 @@ const interactiveMode = Morpher => {
   question();
 };
 
-/*
-
-   console.log(M.dictionary.context.getSimilarWords({
-      wordNormal: "месяц",
-      part: "NOUN"
-    }, topN = 500));
-*/
-
-module.exports = Morpher;
+// Describe cli commands and options
+args
+  .options([
+    {
+      name: "input",
+      description: "A text file to process",
+      defaultValue: ""
+    },
+    {
+      name: "output",
+      description: "A file to store results",
+      defaultValue: "results.txt"
+    }
+    /*
+    {
+      name: "dictionary",
+      description: "A dictionary to use",
+      defaultValue: "default"
+    },
+    {
+      name: "context",
+      description: "Use word2vec model for context search",
+      defaultValue: "1"
+    },
+    {
+      name: "config",
+      description: "A config file with matching options",
+      defaultValue: ""
+    },
+    {
+      name: "mode",
+      description: "Matching mode [text | poetry]",
+      defaultValue: "text"
+    }*/
+  ])
+  .command("morph", "Morph text using word substitution", morphText)
+  .command(
+    "cli",
+    "Interactive command-line mode",
+    async (name, sub, options) => {
+      let M = new Morpher();
+      await M.init(options);
+      MorpherInstance = M;
+      interactiveMode();
+    }
+  );
