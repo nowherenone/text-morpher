@@ -33,11 +33,11 @@ These features may be use to (just examples out of my head):
 
 ## How it works
 
-Here is a simple example to give you an idea of how Morhper is processing a text, lets suppose this is our input:
+Here is a simple example to give you an idea of how Morhper is processing text. Let's pick this sting as input:
 
     "мама мыла раму"
 
-First, it converts text in a set of tags using Morpher.createTemplate function, and returns a string where each of them contains all morphological properties of the word:
+It converts each word into a tag, containing all morphological properties of the word, and returns a string that looks somewhat like:
 
     {{NOUN/.*/femn,sing,nomn/мама}} 
     {{VERB/.*/impf,tran,femn,sing,past,indc/мыла}} 
