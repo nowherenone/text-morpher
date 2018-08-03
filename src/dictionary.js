@@ -32,7 +32,7 @@ class Dictionary {
     // If there is no words file - load defaults
     if (!wordsFile && !packedFile) {
       if (name) console.log(`${name} dictionary files weren't found`);
-      if (!isFallback) this.initDictionary("default", true);
+      if (!isFallback) await this.initDictionary("default", true);
       else console.error("No dictionary found!");
       return;
     }
@@ -43,8 +43,7 @@ class Dictionary {
     if (!wordsFile && packedFile) {
       console.log(`Unpacking ${name} dictionary`);
       await utils.unpackZip(packedFile, `${dPath}${name}`);
-      if (!isFallback) this.initDictionary(name, true);
-      else console.error("Cannot unpack dictionary");
+      await this.initDictionary(name, true);
       return;
     }
 

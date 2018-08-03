@@ -141,6 +141,7 @@ describe("", function() {
     });
 
     it("GetNextWord", async function() {
+      this.timeout(10000);
       let testSet = {
         параллелепипед: "ADJF", // NOUN -> ADJF
         синий: "NOUN", // ADJF -> NOUN,
