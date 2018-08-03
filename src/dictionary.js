@@ -81,7 +81,7 @@ class Dictionary {
    * @param {*} name
    */
   initContext(config) {
-    let dPath = "./dictionary/";
+    let dPath = `${baseDir}/dictionary/`;
     let modelFile = utils.exists(`${dPath}${config.name}/context.bin`);
 
     // Load context

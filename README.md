@@ -133,6 +133,8 @@ At the moment two commands are supported from command line:
 
 1. **text-morpher cli** - this command starts morpher in interactive mode. 
     * If you type any text - it will substitute it with any matches with default matching options from  ./morpher.config.json
+    * If you enter just a single word - it will try find the best matching word in word2vec model.
+      (яблоко -> печёное, сумка -> дерматиновая,  красный -> буржуй еtc.)  
     * If you enter just a single word with tilda, like this: `~свобода`, it will show you all the closest matches from word2vec model.
 
 2. **text-morpher morph** - this command has two options: `input` and `output`, where you can define input textfile to process and the name of an output file. Morpher will process all text from input file and save it in the output
@@ -143,6 +145,7 @@ At the moment two commands are supported from command line:
 This part is a subject to be updated soon.
 Like, very soon. :) But if you're interested - there are API call examples 
 in /test folder
+
 
 ## Useful links 
 

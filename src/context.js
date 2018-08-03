@@ -1,29 +1,31 @@
 const Parser = require("./parser.js");
 const utils = require("./utils.js");
+const path = require("path");
+const baseDir = path.join(__dirname, "../");
 
 module.exports = class Context {
   constructor(config) {
     this.parser = new Parser({ withSpaces: true });
 
-    this.treshHold = 0.8;
+    this.treshHold = 0.45;
     this.topN = 200;
 
     // Check if word2vector is installed
     if (
       config.contextSearch === false ||
-      !utils.exists(`./node_modules/word2vector/index.js`) ||
-      !utils.exists(config.modelFile)
+      !utils.exists(`${baseDir}/node_modules/word2vector/index.js`) ||
+      !utils.exists(`${config.modelFile}`)
     ) {
       console.log(`Context search with word2vec is disabled`);
       this.disabled = true;
     } else {
       console.log(
         `Context search is enabled, model size - ${utils.getFileSize(
-          config.modelFile
+          `${config.modelFile}`
         )}`
       );
       this.w2v = require("word2vector");
-      this.w2v.load(config.modelFile);
+      this.w2v.load(`${config.modelFile}`);
       console.log("Done");
     }
   }
