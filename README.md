@@ -1,4 +1,5 @@
 # text-morpher
+![TravisCL build](https://api.travis-ci.org/nowherenone/text-morpher.svg?branch=master)
 
 ## Features and goals
 
