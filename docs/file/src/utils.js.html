@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/utils.js | text-morpher</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A standalone library for transforming russian words and text"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="text-morpher"><meta property="twitter:description" content="A standalone library for transforming russian words and text"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/nowherenone/text-morpher"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/morpher.js~Morpher.html">Morpher</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/utils.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const fs = require(&quot;fs&quot;);
+const chalk = require(&quot;chalk&quot;);
+const readline = require(&quot;readline&quot;);
+const Unzip = require(&quot;unzip-stream&quot;);
+const spawn = require(&quot;child_process&quot;).spawn;
+const http = require(&quot;http&quot;);
+const Progress = require(&quot;cli-progress&quot;).Bar;
+
+const log = text =&gt; {
+  //const log = console.log;
+};
+
+const download = (url, dest, cb) =&gt; {
+  let file = fs.createWriteStream(dest);
+
+  let bar = new Progress({
+    barsize: 10,
+    format:
+      &quot;Downloading: [{bar}] {percentage}% | | ETA: {eta}s | {value}/{total}&quot;
+  });
+
+  let request = http.get(url, function(response) {
+    let len = parseInt(response.headers[&quot;content-length&quot;], 10);
+    var cur = 0;
+
+    bar.start(len, 0);
+
+    // check if response is success
+    if (response.statusCode !== 200) {
+      return cb(&quot;Response status was &quot; + response.statusCode);
+    }
+
+    response.pipe(file);
+
+    response.on(&quot;data&quot;, function(chunk) {
+      cur += chunk.length;
+      bar.update(cur);
+    });
+
+    file.on(&quot;finish&quot;, function() {
+      bar.stop();
+      file.close(cb); // close() is async, call cb after close completes.
+    });
+
+    // check for request error too
+    request.on(&quot;error&quot;, function(err) {
+      bar.stop();
+      fs.unlink(dest);
+      return cb(err.message);
+    });
+  });
+
+  file.on(&quot;error&quot;, function(err) {
+    // Handle errors
+    fs.unlink(dest); // Delete the file async. (But we don&apos;t check the result)
+    return cb(err.message);
+  });
+};
+
+/**
+ *
+ * @param {*} packedFile
+ * @param {*} targetFolder
+ */
+const unpackZip = async (packedFile, targetFolder) =&gt; {
+  return new Promise((resolve, reject) =&gt; {
+    const unzipper = Unzip.Extract({ path: targetFolder });
+    unzipper.on(&quot;error&quot;, reject);
+    unzipper.on(&quot;close&quot;, resolve);
+
+    fs.createReadStream(packedFile).pipe(unzipper);
+  });
+};
+
+const exists = path =&gt; {
+  return fs.existsSync(path) ? path : false;
+};
+
+const getFile = (name = &quot;./dump.json&quot;) =&gt; {
+  return exists(name) ? fs.readFileSync(name, &quot;utf8&quot;) : &quot;&quot;;
+};
+
+const getFileSize = path =&gt; {
+  const stats = fs.statSync(path);
+  return Math.floor(stats[&quot;size&quot;] / (1024 * 1024)) + &quot;MB&quot;;
+};
+
+const writeFile = (name = &quot;./dump.txt&quot;, str) =&gt; {
+  fs.writeFileSync(name, str);
+};
+
+const dumpFile = (name = &quot;./dump.json&quot;, object) =&gt; {
+  fs.writeFileSync(name, JSON.stringify(object, null, 2));
+};
+
+const prob = prob =&gt; {
+  return Math.floor(Math.random() * 100) &lt;= prob;
+};
+
+const getRandomItem = items =&gt; {
+  return items[Math.floor(Math.random() * items.length)];
+};
+
+const asyncForEach = async (array, callback) =&gt; {
+  for (let index = 0; index &lt; array.length; index++) {
+    await callback(array[index], index, array);
+  }
+};
+
+const invert = obj =&gt; {
+  let new_obj = {};
+  for (let prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      new_obj[obj[prop]] = prop;
+    }
+  }
+
+  return new_obj;
+};
+
+/**
+ *  Get OS-independent npm name
+ */
+const getNPMName = () =&gt; {
+  return /^win/.test(process.platform) ? &quot;npm.cmd&quot; : &quot;npm&quot;;
+};
+
+/**
+ * Start the child process and output everything into console
+ */
+const runProcess = (command, params, callback) =&gt; {
+  let proc = spawn(command, params);
+  //proc.stdout.on(&quot;data&quot;, data =&gt; console.log(&quot;&quot; + data));
+  //proc.stderr.on(&quot;data&quot;, data =&gt; console.log(&quot;&quot; + data));
+  if (callback) proc.on(&quot;close&quot;, callback);
+};
+
+module.exports = {
+  getFile,
+  getFileSize,
+  unpackZip,
+  download,
+  dumpFile,
+  writeFile,
+  exists,
+  prob,
+  invert,
+  runProcess,
+  getNPMName,
+  asyncForEach,
+  getRandomItem
+};
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

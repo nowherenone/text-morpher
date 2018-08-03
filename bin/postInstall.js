@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+"use strict";
+
 // Microsoft Build Tools 2013
 // https://www.microsoft.com/en-us/download/details.aspx?id=40760
 
@@ -5,7 +8,7 @@ const readline = require("readline");
 const chalk = require("chalk");
 const tmp = require("tmp");
 const fs = require("fs");
-const utils = require("../src/utils.js");
+const utils = require("../lib/utils.js");
 const Spinner = require("cli-spinner").Spinner;
 const gunzip = require("gunzip-file");
 let installStage = false;

@@ -1,0 +1,3179 @@
+[
+  {
+    "__docId__": 1,
+    "kind": "external",
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Infinity",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 2,
+    "kind": "external",
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~NaN",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 3,
+    "kind": "external",
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~undefined",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 4,
+    "kind": "external",
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~null",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 5,
+    "kind": "external",
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 6,
+    "kind": "external",
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 7,
+    "kind": "external",
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 8,
+    "kind": "external",
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 9,
+    "kind": "external",
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 10,
+    "kind": "external",
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 11,
+    "kind": "external",
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Symbol",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 12,
+    "kind": "external",
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Error",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 13,
+    "kind": "external",
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~EvalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 14,
+    "kind": "external",
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~InternalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 15,
+    "kind": "external",
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~RangeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 16,
+    "kind": "external",
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~ReferenceError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 17,
+    "kind": "external",
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~SyntaxError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 18,
+    "kind": "external",
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~TypeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 19,
+    "kind": "external",
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~URIError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 20,
+    "kind": "external",
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 21,
+    "kind": "external",
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 22,
+    "kind": "external",
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Date",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 23,
+    "kind": "external",
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~String",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 24,
+    "kind": "external",
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~string",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 25,
+    "kind": "external",
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~RegExp",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 26,
+    "kind": "external",
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 27,
+    "kind": "external",
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 28,
+    "kind": "external",
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 29,
+    "kind": "external",
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint8ClampedArray",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 30,
+    "kind": "external",
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 31,
+    "kind": "external",
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 32,
+    "kind": "external",
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 33,
+    "kind": "external",
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 34,
+    "kind": "external",
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Float32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 35,
+    "kind": "external",
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Float64Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 36,
+    "kind": "external",
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Map",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 37,
+    "kind": "external",
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Set",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 38,
+    "kind": "external",
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~WeakMap",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 39,
+    "kind": "external",
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~WeakSet",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 40,
+    "kind": "external",
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~ArrayBuffer",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 41,
+    "kind": "external",
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~DataView",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 42,
+    "kind": "external",
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~JSON",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 43,
+    "kind": "external",
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Promise",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 44,
+    "kind": "external",
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Generator",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 45,
+    "kind": "external",
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~GeneratorFunction",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 46,
+    "kind": "external",
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Reflect",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 47,
+    "kind": "external",
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Proxy",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 48,
+    "kind": "file",
+    "name": "src/context.js",
+    "content": "const Parser = require(\"./parser.js\");\r\nconst utils = require(\"./utils.js\");\r\nconst path = require(\"path\");\r\nconst baseDir = path.join(__dirname, \"../\");\r\n\r\nmodule.exports = class Context {\r\n  constructor(config) {\r\n    this.parser = new Parser({ withSpaces: true });\r\n\r\n    this.treshHold = 0.45;\r\n    this.topN = 200;\r\n\r\n    // Check if word2vector is installed\r\n    if (\r\n      config.contextSearch === false ||\r\n      !utils.exists(`${baseDir}/node_modules/word2vector/index.js`) ||\r\n      !utils.exists(`${config.modelFile}`)\r\n    ) {\r\n      console.log(`Context search with word2vec is disabled`);\r\n      this.disabled = true;\r\n    } else {\r\n      console.log(\r\n        `Context search is enabled, model size - ${utils.getFileSize(\r\n          `${config.modelFile}`\r\n        )}`\r\n      );\r\n      this.w2v = require(\"word2vector\");\r\n      this.w2v.load(`${config.modelFile}`);\r\n      console.log(\"Done\");\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} token\r\n   */\r\n  getSimilarWords(token, options = {}) {\r\n    if (this.disabled) return [];\r\n\r\n    // Edge case for adjectives\r\n    let posMap = {\r\n      ADJF: \"ADJ\",\r\n      INFN: \"VERB\"\r\n    };\r\n    let backMap = utils.invert(posMap);\r\n\r\n    let vTag = `${token.wordNormal}_${posMap[token.part] || token.part}`;\r\n    let results = [];\r\n\r\n    try {\r\n      results = this.w2v.getSimilarWords(vTag, { N: this.topN });\r\n    } catch (e) {\r\n      results = [];\r\n    }\r\n\r\n    return results\r\n      .map(v => {\r\n        let w = v.word.split(\"_\");\r\n        return {\r\n          word: w[0],\r\n          part: backMap[w[1]] || w[1],\r\n          score: v.similarity\r\n        };\r\n      })\r\n      .filter(v => {\r\n        return (\r\n          !v.word.match(\"::\") &&\r\n          v.word.match(/[^a-z]/g) &&\r\n          v.part ==\r\n            (options.extractPart || backMap[token.part] || token.part) &&\r\n          v.score > (options.treshHold || this.treshHold)\r\n        );\r\n      })\r\n      .map(v => this.parser.parseWord(v.word));\r\n  }\r\n};\r\n",
+    "static": true,
+    "longname": "C:/Work/text-morpher/src/context.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 49,
+    "kind": "variable",
+    "name": "Parser",
+    "memberof": "src/context.js",
+    "static": true,
+    "longname": "src/context.js~Parser",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/context.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 50,
+    "kind": "variable",
+    "name": "utils",
+    "memberof": "src/context.js",
+    "static": true,
+    "longname": "src/context.js~utils",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/context.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 51,
+    "kind": "variable",
+    "name": "path",
+    "memberof": "src/context.js",
+    "static": true,
+    "longname": "src/context.js~path",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/context.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 52,
+    "kind": "variable",
+    "name": "baseDir",
+    "memberof": "src/context.js",
+    "static": true,
+    "longname": "src/context.js~baseDir",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/context.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 53,
+    "kind": "class",
+    "name": "exports",
+    "memberof": "src/context.js",
+    "static": true,
+    "longname": "src/context.js~exports",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/context.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "interface": false,
+    "ignore": true
+  },
+  {
+    "__docId__": 54,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/context.js~exports",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/context.js~exports#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true
+  },
+  {
+    "__docId__": 55,
+    "kind": "member",
+    "name": "parser",
+    "memberof": "src/context.js~exports",
+    "static": false,
+    "longname": "src/context.js~exports#parser",
+    "access": "public",
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 56,
+    "kind": "member",
+    "name": "treshHold",
+    "memberof": "src/context.js~exports",
+    "static": false,
+    "longname": "src/context.js~exports#treshHold",
+    "access": "public",
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "type": {
+      "types": [
+        "number"
+      ]
+    }
+  },
+  {
+    "__docId__": 57,
+    "kind": "member",
+    "name": "topN",
+    "memberof": "src/context.js~exports",
+    "static": false,
+    "longname": "src/context.js~exports#topN",
+    "access": "public",
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "type": {
+      "types": [
+        "number"
+      ]
+    }
+  },
+  {
+    "__docId__": 58,
+    "kind": "member",
+    "name": "disabled",
+    "memberof": "src/context.js~exports",
+    "static": false,
+    "longname": "src/context.js~exports#disabled",
+    "access": "public",
+    "description": null,
+    "lineNumber": 20,
+    "undocument": true,
+    "type": {
+      "types": [
+        "boolean"
+      ]
+    }
+  },
+  {
+    "__docId__": 59,
+    "kind": "member",
+    "name": "w2v",
+    "memberof": "src/context.js~exports",
+    "static": false,
+    "longname": "src/context.js~exports#w2v",
+    "access": "public",
+    "description": null,
+    "lineNumber": 27,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 60,
+    "kind": "method",
+    "name": "getSimilarWords",
+    "memberof": "src/context.js~exports",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/context.js~exports#getSimilarWords",
+    "access": "public",
+    "description": "",
+    "lineNumber": 37,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "token",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 61,
+    "kind": "file",
+    "name": "src/dictionary.js",
+    "content": "const fs = require(\"fs\");\r\nconst Parser = require(\"./parser.js\");\r\nconst Context = require(\"./context.js\");\r\nconst utils = require(\"./utils.js\");\r\nconst path = require(\"path\");\r\nconst baseDir = path.join(__dirname, \"../\");\r\n\r\n/**\r\n *\r\n * @class Dictionary\r\n */\r\nclass Dictionary {\r\n  constructor(config = {}) {\r\n    this.speechParts = {};\r\n    let name = config.dictionary;\r\n\r\n    return new Promise(async (resolve, reject) => {\r\n      await this.initDictionary(name);\r\n      this.context = this.initContext(config);\r\n      //this.generateRhythmLookup();\r\n      resolve(this);\r\n    });\r\n  }\r\n\r\n  async initDictionary(name, isFallback) {\r\n    let dPath = `${baseDir}/dictionary/`;\r\n\r\n    let wordsFile = utils.exists(`${dPath}${name}/words.json`);\r\n    let accentFile = utils.exists(`${dPath}${name}/accents.json`);\r\n    let stopFile = utils.exists(`${dPath}${name}/stopwords.json`);\r\n    let packedFile = utils.exists(`${dPath}${name}/dictionary.gz`);\r\n\r\n    // If there is no words file - load defaults\r\n    if (!wordsFile && !packedFile) {\r\n      if (name) console.log(`${name} dictionary files weren't found`);\r\n      if (!isFallback) await this.initDictionary(\"default\", true);\r\n      else console.error(\"No dictionary found!\");\r\n      return;\r\n    }\r\n\r\n    console.log(`Loading ${name} dictionary`);\r\n\r\n    // If dictionary is unpacked - unpack it\r\n    if (!wordsFile && packedFile) {\r\n      console.log(`Unpacking ${name} dictionary`);\r\n      await utils.unpackZip(packedFile, `${dPath}${name}`);\r\n      await this.initDictionary(name, true);\r\n      return;\r\n    }\r\n\r\n    // Stopwords file fallback\r\n    if (!stopFile) stopFile = utils.exists(`${dPath}/default/stopwords.json`);\r\n    // Load stopwords\r\n    try {\r\n      this.stopWords = JSON.parse(utils.getFile(stopFile));\r\n    } catch (e) {\r\n      this.stopWords = [];\r\n    }\r\n\r\n    // Accent file fallback\r\n    if (!accentFile) accentFile = utils.exists(`${dPath}/default/accents.json`);\r\n    // Load accent lookups\r\n    try {\r\n      this.accentLookup = JSON.parse(utils.getFile(accentFile));\r\n    } catch (e) {\r\n      this.accentLookup = {};\r\n    }\r\n\r\n    // Init Parser\r\n    this.parser = new Parser({\r\n      accentLookup: this.accentLookup,\r\n      stopWords: this.stopWords\r\n    });\r\n\r\n    // Load wordset\r\n    if (wordsFile) this.loadFile(wordsFile);\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} name\r\n   */\r\n  initContext(config) {\r\n    let dPath = `${baseDir}/dictionary/`;\r\n    let modelFile = utils.exists(`${dPath}${config.name}/context.bin`);\r\n\r\n    // Load context\r\n    if (!modelFile) {\r\n      modelFile = utils.exists(`${dPath}/default/context.bin`);\r\n    }\r\n\r\n    return new Context({ modelFile, contextSearch: config.contextSearch });\r\n  }\r\n\r\n  /**\r\n   * Populate dictionary from file\r\n   *\r\n   * @param {*} dictFile\r\n   * @returns\r\n   * @memberof Dictionary\r\n   */\r\n  loadFile(dictFile) {\r\n    let fileContent = \"\",\r\n      words = [];\r\n\r\n    // Try to open file\r\n    try {\r\n      fileContent = utils.getFile(dictFile);\r\n    } catch (e) {\r\n      console.error(`Cannot load ${dictFile} file to dictionary`);\r\n    }\r\n\r\n    try {\r\n      words = JSON.parse(fileContent);\r\n    } catch (e) {\r\n      words = fileContent;\r\n    }\r\n\r\n    this.loadString(words || \"\");\r\n  }\r\n\r\n  /**\r\n   *\r\n   */\r\n  generateRhythmLookup() {\r\n    let l = this.accentLookup;\r\n    this.accentReverse = {};\r\n\r\n    Object.keys(l).forEach(key => {\r\n      let v = l[key];\r\n      if (!this.accentReverse[v]) this.accentReverse[v] = [key];\r\n      else this.accentReverse[v].push(key);\r\n    });\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {*} str\r\n   * @memberof Dictionary\r\n   */\r\n  loadString(str) {\r\n    let tokens = this.parser.parseText(str);\r\n    this.sortTokens(tokens);\r\n  }\r\n\r\n  /**\r\n   * Sort tokens by speech parts and add them into dictionary\r\n   *\r\n   * @param {*} tokens\r\n   * @memberof Dictionary\r\n   */\r\n  sortTokens(tokens) {\r\n    let lookup = {};\r\n\r\n    tokens.forEach(token => {\r\n      let part = token.part;\r\n\r\n      if (!this.speechParts[part]) this.speechParts[part] = [];\r\n\r\n      if (token.word.length > 1 && !lookup[token.word]) {\r\n        this.speechParts[part].push(token);\r\n        lookup[token.word] = 1;\r\n      }\r\n    });\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} part\r\n   * @param {*} regexp\r\n   * @param {*} tags\r\n   * @param {*} matchOptions\r\n   */\r\n  getWord(...params) {\r\n    let tokens = this.getWords(...params);\r\n    let word = utils.getRandomItem(tokens) || {};\r\n\r\n    return word.word || \"\";\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} part\r\n   * @param {*} regexp\r\n   * @param {*} tags\r\n   * @param {*} matchOptions\r\n   */\r\n  getWords(part, regexp = \".*\", tags = [], matchOptions = {}) {\r\n    let tokens = [];\r\n\r\n    // Get a set of possibly matching words\r\n    if (matchOptions.contextSearch) {\r\n      let origin = this.parser.parseWord(matchOptions.origin) || {\r\n        wordNormal: matchOptions.origin,\r\n        part: part\r\n      };\r\n\r\n      tokens = this.context.getSimilarWords(origin, {\r\n        extractPart: part,\r\n        treshHold: matchOptions.treshHold\r\n      });\r\n    } else {\r\n      tokens = this.speechParts[part] || [];\r\n    }\r\n\r\n    // Try to inflect them\r\n    tokens = this.getInflectedTokens(tokens, tags);\r\n\r\n    // Get inflected list of words\r\n    return this.filterTokens(tokens, regexp, tags, matchOptions) || [];\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} tokens\r\n   * @param {*} regexp\r\n   * @param {*} tags\r\n   * @param {*} matchOptions\r\n   */\r\n  filterTokens(tokens, regexp, tags, matchOptions) {\r\n    let part = (tokens[0] || {}).part;\r\n\r\n    // Filter words by normal form\r\n    if (matchOptions.matchNormal) {\r\n      tokens = tokens.filter(v => {\r\n        if (!v) return false;\r\n        return v.wordNormal == matchOptions.matchNormal;\r\n      });\r\n    }\r\n\r\n    // Filter words by tagset\r\n    tokens = tokens.filter(v => {\r\n      if (!v || !v.tag || !tags.length) return true;\r\n      let tokenTags = v.tag.stat.slice(1, 100).concat(v.tag.flex);\r\n      return tags.every(tag => ~tokenTags.indexOf(tag));\r\n    });\r\n\r\n    // Filter words by regexp\r\n    tokens =\r\n      part == \"NOUN\" || part == \"PRTF\"\r\n        ? this.filterNouns(tokens, regexp, tags)\r\n        : tokens.filter(\r\n            v =>\r\n              v &&\r\n              v.word.match(regexp) &&\r\n              !~this.stopWords.indexOf(v.wordNormal)\r\n          );\r\n\r\n    // Filter words by accent\r\n    return this.filterByAccent(tokens, matchOptions);\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} words\r\n   */\r\n  getInflectedTokens(tokens, tags) {\r\n    return tokens.map(v => {\r\n      let infTags = tags;\r\n\r\n      // If this is noun - remove static tokens\r\n      if (v.part == \"NOUN\" || v.part == \"PRTF\") {\r\n        infTags = tags.filter(v => !~[\"masc\", \"femn\", \"neut\"].indexOf(v));\r\n      }\r\n\r\n      // Inflect\r\n      let inf = infTags && v.parse && v.parse.inflect(infTags);\r\n\r\n      return inf ? this.parser.parseWord(inf.word) : v;\r\n    });\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} tokens\r\n   * @param {*} matchOptions\r\n   */\r\n  filterByAccent(tokens, matchOptions) {\r\n    // Match only accent letters\r\n    if (matchOptions.accentLetter) {\r\n      let index = (matchOptions.accmap || []).indexOf(\"1\");\r\n      if (index > -1) {\r\n        tokens = tokens.filter(v => {\r\n          return v.vowels[index] == matchOptions.vowels[index];\r\n        });\r\n      }\r\n    }\r\n\r\n    // Match syllables count\r\n    if (matchOptions.syllables) {\r\n      tokens = tokens.filter(\r\n        v => v.accmap.length == matchOptions.accmap.length\r\n      );\r\n    }\r\n\r\n    // Accent map filter\r\n    if (matchOptions.accent) {\r\n      tokens = tokens.filter(v => v.accmap == matchOptions.accmap);\r\n    }\r\n\r\n    // Vowels map filter\r\n    if (matchOptions.vowels) {\r\n      tokens = tokens.filter(v => {\r\n        return v.vowels == matchOptions.vowelmap;\r\n      });\r\n    }\r\n\r\n    return tokens;\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} regexp\r\n   * @param {*} tags\r\n   */\r\n  filterNouns(tokens = [], regexp = \".*\", tags = []) {\r\n    let statTags = this.extractStatTags(tags, [\"masc\", \"femn\", \"neut\"]);\r\n\r\n    return tokens.filter(v => {\r\n      if (v && v.parse && v.word.match(regexp)) {\r\n        if (statTags) {\r\n          return (\r\n            statTags.filter(s => ~v.tag.stat.slice().indexOf(s)).length ==\r\n            statTags.length\r\n          );\r\n        }\r\n\r\n        return true;\r\n      }\r\n    });\r\n  }\r\n\r\n  /**\r\n   * Extract static tags from array\r\n   * @param {*} tags\r\n   * @param {*} statTags\r\n   */\r\n  extractStatTags(tags = [], statTags = []) {\r\n    return tags.filter(v => ~statTags.indexOf(v));\r\n  }\r\n}\r\n\r\n/*\r\n  // наречие  (как?)\r\n  getAdverb(regexp = \".*\", tags) {\r\n    return this.getWord(\"ADVB\", regexp, tags);\r\n  }\r\n\r\n  // глагол (инфинитив)\r\n  getVerb(regexp = \".*\", tags) {\r\n    return this.getWord(\"VERB\", regexp, tags);\r\n  }\r\n\r\n  // Прилигательное\r\n  getAdjective(regexp = \".*\", tags) {\r\n    return this.getWord(\"ADJF\", regexp, tags);\r\n  }\r\n  */\r\n\r\nmodule.exports = Dictionary;\r\n",
+    "static": true,
+    "longname": "C:/Work/text-morpher/src/dictionary.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 62,
+    "kind": "variable",
+    "name": "fs",
+    "memberof": "src/dictionary.js",
+    "static": true,
+    "longname": "src/dictionary.js~fs",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/dictionary.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 63,
+    "kind": "variable",
+    "name": "Parser",
+    "memberof": "src/dictionary.js",
+    "static": true,
+    "longname": "src/dictionary.js~Parser",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/dictionary.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 64,
+    "kind": "variable",
+    "name": "Context",
+    "memberof": "src/dictionary.js",
+    "static": true,
+    "longname": "src/dictionary.js~Context",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/dictionary.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 65,
+    "kind": "variable",
+    "name": "utils",
+    "memberof": "src/dictionary.js",
+    "static": true,
+    "longname": "src/dictionary.js~utils",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/dictionary.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 66,
+    "kind": "variable",
+    "name": "path",
+    "memberof": "src/dictionary.js",
+    "static": true,
+    "longname": "src/dictionary.js~path",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/dictionary.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 67,
+    "kind": "variable",
+    "name": "baseDir",
+    "memberof": "src/dictionary.js",
+    "static": true,
+    "longname": "src/dictionary.js~baseDir",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/dictionary.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 68,
+    "kind": "class",
+    "name": "Dictionary",
+    "memberof": "src/dictionary.js",
+    "static": true,
+    "longname": "src/dictionary.js~Dictionary",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/dictionary.js",
+    "importStyle": null,
+    "description": "",
+    "lineNumber": 12,
+    "unknown": [
+      {
+        "tagName": "@class",
+        "tagValue": "Dictionary"
+      }
+    ],
+    "interface": false,
+    "ignore": true
+  },
+  {
+    "__docId__": 69,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/dictionary.js~Dictionary",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true
+  },
+  {
+    "__docId__": 70,
+    "kind": "member",
+    "name": "speechParts",
+    "memberof": "src/dictionary.js~Dictionary",
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#speechParts",
+    "access": "public",
+    "description": null,
+    "lineNumber": 14,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{}"
+      ]
+    }
+  },
+  {
+    "__docId__": 71,
+    "kind": "member",
+    "name": "context",
+    "memberof": "src/dictionary.js~Dictionary",
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#context",
+    "access": "public",
+    "description": null,
+    "lineNumber": 19,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 72,
+    "kind": "method",
+    "name": "initDictionary",
+    "memberof": "src/dictionary.js~Dictionary",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#initDictionary",
+    "access": "public",
+    "description": null,
+    "lineNumber": 25,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "isFallback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 73,
+    "kind": "member",
+    "name": "stopWords",
+    "memberof": "src/dictionary.js~Dictionary",
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#stopWords",
+    "access": "public",
+    "description": null,
+    "lineNumber": 55,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 75,
+    "kind": "member",
+    "name": "accentLookup",
+    "memberof": "src/dictionary.js~Dictionary",
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#accentLookup",
+    "access": "public",
+    "description": null,
+    "lineNumber": 64,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 77,
+    "kind": "member",
+    "name": "parser",
+    "memberof": "src/dictionary.js~Dictionary",
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#parser",
+    "access": "public",
+    "description": null,
+    "lineNumber": 70,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 78,
+    "kind": "method",
+    "name": "initContext",
+    "memberof": "src/dictionary.js~Dictionary",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#initContext",
+    "access": "public",
+    "description": "",
+    "lineNumber": 83,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "name",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 79,
+    "kind": "method",
+    "name": "loadFile",
+    "memberof": "src/dictionary.js~Dictionary",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#loadFile",
+    "access": "public",
+    "description": "Populate dictionary from file",
+    "lineNumber": 102,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "dictFile",
+        "description": ""
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 80,
+    "kind": "method",
+    "name": "generateRhythmLookup",
+    "memberof": "src/dictionary.js~Dictionary",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#generateRhythmLookup",
+    "access": "public",
+    "description": "",
+    "lineNumber": 125,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 81,
+    "kind": "member",
+    "name": "accentReverse",
+    "memberof": "src/dictionary.js~Dictionary",
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#accentReverse",
+    "access": "public",
+    "description": null,
+    "lineNumber": 127,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{}"
+      ]
+    }
+  },
+  {
+    "__docId__": 82,
+    "kind": "method",
+    "name": "loadString",
+    "memberof": "src/dictionary.js~Dictionary",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#loadString",
+    "access": "public",
+    "description": "",
+    "lineNumber": 142,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "str",
+        "description": ""
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 83,
+    "kind": "method",
+    "name": "sortTokens",
+    "memberof": "src/dictionary.js~Dictionary",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#sortTokens",
+    "access": "public",
+    "description": "Sort tokens by speech parts and add them into dictionary",
+    "lineNumber": 153,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "tokens",
+        "description": ""
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 84,
+    "kind": "method",
+    "name": "getWord",
+    "memberof": "src/dictionary.js~Dictionary",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#getWord",
+    "access": "public",
+    "description": "",
+    "lineNumber": 175,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "part",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "regexp",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "tags",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "matchOptions",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 85,
+    "kind": "method",
+    "name": "getWords",
+    "memberof": "src/dictionary.js~Dictionary",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#getWords",
+    "access": "public",
+    "description": "",
+    "lineNumber": 189,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "part",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "regexp",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "tags",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "matchOptions",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 86,
+    "kind": "method",
+    "name": "filterTokens",
+    "memberof": "src/dictionary.js~Dictionary",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#filterTokens",
+    "access": "public",
+    "description": "",
+    "lineNumber": 221,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "tokens",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "regexp",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "tags",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "matchOptions",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 87,
+    "kind": "method",
+    "name": "getInflectedTokens",
+    "memberof": "src/dictionary.js~Dictionary",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#getInflectedTokens",
+    "access": "public",
+    "description": "",
+    "lineNumber": 258,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "words",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 88,
+    "kind": "method",
+    "name": "filterByAccent",
+    "memberof": "src/dictionary.js~Dictionary",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#filterByAccent",
+    "access": "public",
+    "description": "",
+    "lineNumber": 279,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "tokens",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "matchOptions",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 89,
+    "kind": "method",
+    "name": "filterNouns",
+    "memberof": "src/dictionary.js~Dictionary",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#filterNouns",
+    "access": "public",
+    "description": "",
+    "lineNumber": 317,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "regexp",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "tags",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 90,
+    "kind": "method",
+    "name": "extractStatTags",
+    "memberof": "src/dictionary.js~Dictionary",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/dictionary.js~Dictionary#extractStatTags",
+    "access": "public",
+    "description": "Extract static tags from array",
+    "lineNumber": 339,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "tags",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "statTags",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 91,
+    "kind": "file",
+    "name": "src/morpher.js",
+    "content": "const utils = require(\"./utils.js\");\r\nconst Dictionary = require(\"./dictionary.js\");\r\nconst Progress = require(\"cli-progress\").Bar;\r\nconst procStats = require(\"process-stats\");\r\nconst Az = require(\"az\");\r\n\r\n/**\r\n *\r\n *\r\n * @class Morpher\r\n */\r\nexport default class Morpher {\r\n  constructor(config) {\r\n    if (config) {\r\n      return this.init(config);\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} config\r\n   */\r\n  init(config) {\r\n    return new Promise(async resolve => {\r\n      Az.Morph.init(() => {\r\n        global.Az = Az;\r\n\r\n        new Dictionary(config).then(d => {\r\n          this.dictionary = d;\r\n          this.parser = this.dictionary.parser;\r\n          this.showStat();\r\n          resolve(this);\r\n        });\r\n      });\r\n    });\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @memberof Morpher\r\n   */\r\n  showStat() {\r\n    let wordCount = 0;\r\n    let d = this.dictionary.speechParts;\r\n    let pstat = procStats({ pretty: true });\r\n    Object.keys(d).forEach(k => (wordCount += d[k].length));\r\n\r\n    console.log(`Words in dictionary - ${wordCount}`);\r\n    console.log(`Memory used - ${pstat.memUsed.pretty}`);\r\n    console.log(``);\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} word\r\n   */\r\n  analyzeWord(word) {\r\n    return this.parser.parseWord(word, true);\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   *\r\n   * @param {*} inputStr\r\n   * @memberof Morpher\r\n   */\r\n  createTemplate(inputStr) {\r\n    return this.parser\r\n      .parseText(inputStr)\r\n      .map(t => t.shortTag || t.word)\r\n      .join(\"\");\r\n  }\r\n\r\n  /**\r\n   *  Template syntax - {NOUN/^п./мр}\r\n   *  {[PART]/[Regexp]/[tags]/[original]}\r\n   *\r\n   * @param {*} template\r\n   * @memberof Morpher\r\n   */\r\n  runTemplate(template, matchOptions = {}) {\r\n    let steps = template.split(\" \");\r\n    let output = [],\r\n      stats = [];\r\n    let tokenLookup = {};\r\n    let normalLookup = {};\r\n    let minProgress = 20;\r\n    let startTime = new Date();\r\n    let replaces = 0;\r\n\r\n    let bar = new Progress({\r\n      barsize: 10,\r\n      format:\r\n        \"Processing: [{bar}] {percentage}% | {speed} words/s | {replaces} replaces | {value}/{total}\"\r\n    });\r\n\r\n    if (steps.length > minProgress) bar.start(steps.length, 0);\r\n\r\n    steps.forEach((v, i) => {\r\n      let tagText = (v.match(\"{{.*}}\") || []).shift();\r\n\r\n      if (tagText) {\r\n        let tag = this.splitTag(tagText);\r\n\r\n        // If we have a normal match\r\n        matchOptions.matchNormal = false;\r\n        if (tag.origin && normalLookup[tag.origin]) {\r\n          matchOptions.matchNormal = normalLookup[tag.origin];\r\n        }\r\n\r\n        let tagData =\r\n          tokenLookup[tagText] || this.processTag(tag, matchOptions);\r\n\r\n        // Cache processed tags\r\n        if (!tokenLookup[tagText]) tokenLookup[tagText] = tagData;\r\n\r\n        // Cache processed normal matches\r\n        if (tag.origin && !normalLookup[tag.origin]) {\r\n          normalLookup[tag.origin] = tagData.wordNormal;\r\n        }\r\n\r\n        if (tag.origin != tagData.result) replaces++;\r\n\r\n        output.push(v.replace(/{{.*}}/, tagData.result));\r\n      } else {\r\n        output.push(v);\r\n      }\r\n\r\n      // Update progressbar\r\n      if (steps.length > minProgress)\r\n        bar.update(i, {\r\n          speed: Math.floor(i / ((new Date() - startTime) / 1000)),\r\n          replaces\r\n        });\r\n\r\n      stats.push(tokenLookup[tagText] || { word: v });\r\n    });\r\n\r\n    if (steps.length > minProgress) bar.stop();\r\n\r\n    return { text: output.join(\" \"), stats: stats };\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} text\r\n   * @param {*} tpl\r\n   */\r\n  formatStats(text, tpl) {\r\n    let stat = { avgMatch: 0, matchContext: 0, replaced: 0 };\r\n    text.stats.forEach(s => {\r\n      if (s.tag) stat.replaced++;\r\n      if (s.foundContext) stat.matchContext++;\r\n      if (s.matches) stat.avgMatch += s.matches.length;\r\n    });\r\n\r\n    stat.replaced = (stat.replaced / text.stats.length) * 100 + \"%\";\r\n    stat.avgMatch = (stat.avgMatch / stat.replaced) * 100 + \"%\";\r\n    stat.matchContext = (stat.matchContext / stat.replaced) * 100 + \"%\";\r\n    stat.totalWords = text.stats.length;\r\n\r\n    return stat;\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} tag\r\n   */\r\n  splitTag(tag = \"\") {\r\n    let chunks = tag\r\n      .replace(\"{{\", \"\")\r\n      .replace(\"}}\", \"\")\r\n      .split(\"/\");\r\n\r\n    return {\r\n      pos: chunks[0], // Part of speech\r\n      regExp: chunks[1], // Regexp to match\r\n      tags: chunks[2] ? (chunks[2] = chunks[2].split(\",\")) : [], // Tags - third part of the token\r\n      origin: chunks[3] || \"\", // Initial word to replace\r\n      text: tag // initial text\r\n    };\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {*} tag\r\n   * @param {*} [matchOptions={}]\r\n   * @returns {Object}\r\n   * @memberof Morpher\r\n   */\r\n  processTag(tag, matchOptions = {}) {\r\n    let partsFilter = matchOptions.parts;\r\n\r\n    // Prepare out\r\n    let result = {\r\n      matches: [],\r\n      tag,\r\n      tagText: tag.text,\r\n      origin: tag.origin\r\n    };\r\n\r\n    // If matchOptions have filter by parts - apply it\r\n    if (partsFilter && !~partsFilter.indexOf(tag.pos)) {\r\n      result.result = tag.origin;\r\n      return result;\r\n    }\r\n\r\n    // Get search options\r\n    let searchOptions = this.getSearchOptions(tag, matchOptions);\r\n\r\n    // Try to find a match\r\n    let tokens = this.dictionary.getWords(\r\n      tag.pos,\r\n      searchOptions.regExp,\r\n      tag.tags,\r\n      searchOptions\r\n    );\r\n\r\n    result.foundContext = false;\r\n\r\n    // If we didn't find context matches try\r\n    if (searchOptions.contextSearch) {\r\n      if (tokens.length) {\r\n        result.foundContext = true;\r\n      } else if (searchOptions.contextSearch != \"strict\") {\r\n        searchOptions.contextSearch = false;\r\n        tokens = this.dictionary.getWords(\r\n          tag.pos,\r\n          searchOptions.regExp,\r\n          tag.tags,\r\n          searchOptions\r\n        );\r\n      }\r\n    }\r\n\r\n    let word = utils.getRandomItem(tokens);\r\n    result.matches = (tokens.map(t => t.word) || []).slice(0, 20);\r\n    result.wordNormal = word ? word.wordNormal : tag.origin || \"\";\r\n    result.result = word ? word.word : tag.origin || \"\";\r\n\r\n    return result;\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} origin\r\n   * @param {*} matchOptions\r\n   */\r\n  getSearchOptions(tag, matchOptions) {\r\n    // Regexp - second part of token\r\n    let regExp = matchOptions.length ? `.{${origin.length - 1}}` : tag.regExp;\r\n    let firstL = tag.origin.toLowerCase();\r\n    let lastL = tag.origin[tag.origin.length - 1].toLowerCase();\r\n\r\n    if (matchOptions.first) regExp = `^${firstL}` + regExp;\r\n    if (matchOptions.last) regExp = regExp + `${lastL}$`;\r\n\r\n    // If we have a user-defined regexp - use it\r\n    if (matchOptions.regexp) regExp = matchOptions.regexp;\r\n\r\n    let searchOptions = Object.assign(\r\n      { origin: tag.origin, regExp: regExp },\r\n      matchOptions\r\n    );\r\n\r\n    // Options to search a word\r\n    if (\r\n      tag.origin &&\r\n      (matchOptions.vowels ||\r\n        matchOptions.syllables ||\r\n        matchOptions.accent ||\r\n        matchOptions.accentLetter)\r\n    ) {\r\n      let o = this.parser.parseWord(tag.origin) || {};\r\n\r\n      Object.assign(searchOptions, {\r\n        vowelmap: o.vowels || \"\",\r\n        accmap: o.accmap || \"\",\r\n        origin: tag.origin,\r\n        originNormal: o.wordNormal || tag.origin || \"\",\r\n        accentLetter: matchOptions.accentLetter\r\n      });\r\n    }\r\n\r\n    return searchOptions;\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} origin\r\n   */\r\n  queryContext(origin) {\r\n    let input = this.parser.parseWord(origin);\r\n    return this.dictionary.context.getSimilarWords(input);\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} origin\r\n   */\r\n  inflect(origin, tags = []) {\r\n    let tagArray = typeof tags === \"string\" ? tags.split(\",\") : tags;\r\n\r\n    let input = this.parser.parseWord(origin);\r\n    if (input && input.parse) {\r\n      // Inflect\r\n      let inf = input.parse.inflect(tagArray);\r\n      return inf ? inf.word : origin;\r\n    } else {\r\n      return origin;\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} origin\r\n   */\r\n  pluralize(origin, number = 1) {\r\n    let input = this.parser.parseWord(origin);\r\n    number = parseInt(number, 10);\r\n\r\n    if (input && input.parse && number) {\r\n      // Inflect\r\n      let inf = input.parse.pluralize(number);\r\n      return inf ? inf.word : origin;\r\n    } else {\r\n      return origin;\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {*} nouns\r\n   * @param {*} adj\r\n   * @returns\r\n   * @memberof Morpher\r\n   */\r\n  getNextWord(origin, regExp = \".*\") {\r\n    let conformMap = {\r\n      NOUN: \"ADJF\",\r\n      ADJF: \"NOUN\",\r\n      VERB: \"NOUN\",\r\n      INFN: \"NOUN\"\r\n    };\r\n\r\n    let inputToken = this.parser.parseWord(origin || \"\");\r\n    if (!inputToken) return \"\";\r\n\r\n    let tag = this.splitTag(inputToken.shortTag);\r\n\r\n    // Edge case for verbs\r\n    if (tag.pos.match(\"VERB|INFN\")) tag.tags = [\"accs\"];\r\n\r\n    let results = this.dictionary.getWords(\r\n      conformMap[tag.pos] || \"NOUN\",\r\n      regExp,\r\n      tag.tags,\r\n      {\r\n        origin: origin,\r\n        contextSearch: true\r\n      }\r\n    );\r\n\r\n    // If we didn't get enough matches from w2v - choose random one\r\n    if (results.length < 3) {\r\n      results = this.dictionary.getWords(\r\n        conformMap[tag.pos] || \"NOUN\",\r\n        regExp,\r\n        tag.tags,\r\n        {\r\n          origin: origin,\r\n          contextSearch: false\r\n        }\r\n      );\r\n    }\r\n\r\n    let word = utils.getRandomItem(results) || {};\r\n    return word.word || \"\";\r\n  }\r\n}\r\n\r\n//module.exports = Morpher;\r\n",
+    "static": true,
+    "longname": "C:/Work/text-morpher/src/morpher.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 92,
+    "kind": "variable",
+    "name": "utils",
+    "memberof": "src/morpher.js",
+    "static": true,
+    "longname": "src/morpher.js~utils",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 93,
+    "kind": "variable",
+    "name": "Dictionary",
+    "memberof": "src/morpher.js",
+    "static": true,
+    "longname": "src/morpher.js~Dictionary",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 94,
+    "kind": "variable",
+    "name": "Progress",
+    "memberof": "src/morpher.js",
+    "static": true,
+    "longname": "src/morpher.js~Progress",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 95,
+    "kind": "variable",
+    "name": "procStats",
+    "memberof": "src/morpher.js",
+    "static": true,
+    "longname": "src/morpher.js~procStats",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 96,
+    "kind": "variable",
+    "name": "Az",
+    "memberof": "src/morpher.js",
+    "static": true,
+    "longname": "src/morpher.js~Az",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 97,
+    "kind": "class",
+    "name": "Morpher",
+    "memberof": "src/morpher.js",
+    "static": true,
+    "longname": "src/morpher.js~Morpher",
+    "access": "public",
+    "export": true,
+    "importPath": "text-morpher",
+    "importStyle": "Morpher",
+    "description": "",
+    "lineNumber": 12,
+    "unknown": [
+      {
+        "tagName": "@class",
+        "tagValue": "Morpher"
+      }
+    ],
+    "interface": false
+  },
+  {
+    "__docId__": 98,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/morpher.js~Morpher",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/morpher.js~Morpher#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true
+  },
+  {
+    "__docId__": 99,
+    "kind": "method",
+    "name": "init",
+    "memberof": "src/morpher.js~Morpher",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/morpher.js~Morpher#init",
+    "access": "public",
+    "description": "",
+    "lineNumber": 23,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "config",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 100,
+    "kind": "member",
+    "name": "dictionary",
+    "memberof": "src/morpher.js~Morpher",
+    "static": false,
+    "longname": "src/morpher.js~Morpher#dictionary",
+    "access": "public",
+    "description": null,
+    "lineNumber": 29,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 101,
+    "kind": "member",
+    "name": "parser",
+    "memberof": "src/morpher.js~Morpher",
+    "static": false,
+    "longname": "src/morpher.js~Morpher#parser",
+    "access": "public",
+    "description": null,
+    "lineNumber": 30,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 102,
+    "kind": "method",
+    "name": "showStat",
+    "memberof": "src/morpher.js~Morpher",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/morpher.js~Morpher#showStat",
+    "access": "public",
+    "description": "",
+    "lineNumber": 43,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 103,
+    "kind": "method",
+    "name": "analyzeWord",
+    "memberof": "src/morpher.js~Morpher",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/morpher.js~Morpher#analyzeWord",
+    "access": "public",
+    "description": "",
+    "lineNumber": 58,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "word",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 104,
+    "kind": "method",
+    "name": "createTemplate",
+    "memberof": "src/morpher.js~Morpher",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/morpher.js~Morpher#createTemplate",
+    "access": "public",
+    "description": "",
+    "lineNumber": 69,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "inputStr",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 105,
+    "kind": "method",
+    "name": "runTemplate",
+    "memberof": "src/morpher.js~Morpher",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/morpher.js~Morpher#runTemplate",
+    "access": "public",
+    "description": " Template syntax - {NOUN/^п./мр}\n {[PART]/[Regexp]/[tags]/[original]}",
+    "lineNumber": 83,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "template",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "{\"text\": *, \"stats\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 106,
+    "kind": "method",
+    "name": "formatStats",
+    "memberof": "src/morpher.js~Morpher",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/morpher.js~Morpher#formatStats",
+    "access": "public",
+    "description": "",
+    "lineNumber": 151,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "text",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "tpl",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 107,
+    "kind": "method",
+    "name": "splitTag",
+    "memberof": "src/morpher.js~Morpher",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/morpher.js~Morpher#splitTag",
+    "access": "public",
+    "description": "",
+    "lineNumber": 171,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "tag",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "{\"pos\": *, \"regExp\": *, \"tags\": *, \"origin\": *, \"text\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 108,
+    "kind": "method",
+    "name": "processTag",
+    "memberof": "src/morpher.js~Morpher",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/morpher.js~Morpher#processTag",
+    "access": "public",
+    "description": "",
+    "lineNumber": 194,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Object}"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "tag",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "{}",
+        "defaultRaw": {},
+        "name": "matchOptions",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Object"
+      ],
+      "spread": false,
+      "description": ""
+    }
+  },
+  {
+    "__docId__": 109,
+    "kind": "method",
+    "name": "getSearchOptions",
+    "memberof": "src/morpher.js~Morpher",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/morpher.js~Morpher#getSearchOptions",
+    "access": "public",
+    "description": "",
+    "lineNumber": 252,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "origin",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "matchOptions",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 110,
+    "kind": "method",
+    "name": "queryContext",
+    "memberof": "src/morpher.js~Morpher",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/morpher.js~Morpher#queryContext",
+    "access": "public",
+    "description": "",
+    "lineNumber": 295,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "origin",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 111,
+    "kind": "method",
+    "name": "inflect",
+    "memberof": "src/morpher.js~Morpher",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/morpher.js~Morpher#inflect",
+    "access": "public",
+    "description": "",
+    "lineNumber": 304,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "origin",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 112,
+    "kind": "method",
+    "name": "pluralize",
+    "memberof": "src/morpher.js~Morpher",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/morpher.js~Morpher#pluralize",
+    "access": "public",
+    "description": "",
+    "lineNumber": 321,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "origin",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 113,
+    "kind": "method",
+    "name": "getNextWord",
+    "memberof": "src/morpher.js~Morpher",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/morpher.js~Morpher#getNextWord",
+    "access": "public",
+    "description": "",
+    "lineNumber": 342,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "nouns",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "adj",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 114,
+    "kind": "file",
+    "name": "src/parser.js",
+    "content": "const utils = require(\"./utils.js\");\r\n\r\nclass Parser {\r\n  constructor(options = {}) {\r\n    this.Az = global.Az;\r\n    this.options = options;\r\n    this.accentLookup = this.options.accentLookup || {};\r\n    this.stopWords = this.options.stopWords || [];\r\n    this.options.withSpaces = true;\r\n    this.initStopWords();\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @memberof Parser\r\n   */\r\n  initStopWords() {\r\n    this.stopWordsLookup = {};\r\n    this.stopWords.forEach(word => (this.stopWordsLookup[word] = true));\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {string} [word=\"\"]\r\n   * @memberof Parser\r\n   */\r\n  getVowelMap(word = \"\") {\r\n    let w = word.toLowerCase();\r\n    let parts = w.match(/[бвгджзйклмнпрстфхцчшщьъ]*?[аеёиоуыэюя]/gi) || [];\r\n\r\n    return {\r\n      vowels: parts.map(p => p.match(/[аеёиоуыэюя]{1,3}/gi)).join(\"-\"),\r\n      accmap: this.accentLookup[w] || new Array(parts.length).fill(0).join(\"\")\r\n    };\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} token\r\n   */\r\n  getTags(token) {\r\n    let skipTags = [\"inan\", \"anim\"];\r\n    let tags = token.tag.stat.slice(1, 100).concat(token.tag.flex) || [];\r\n    return tags.filter(t => !~skipTags.indexOf(t) && !/^[A-Z]/.test(t));\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} token\r\n   */\r\n  getShortTag(token) {\r\n    let skipParts = [\"PRED\", \"PRCL\", \"PREP\", \"NPRO\", \"GRND\", \"ADVB\"];\r\n\r\n    if (\r\n      !token.tag ||\r\n      !token.word ||\r\n      this.stopWordsLookup[token.normalize().word] ||\r\n      token.tag.isCapitalized() ||\r\n      ~skipParts.indexOf(token.tag.POST) ||\r\n      token.word.length < 4\r\n    ) {\r\n      return false;\r\n    } else {\r\n      let POST = token.tag.POST;\r\n      return `{{${POST}/.*/${this.getTags(token).join(\",\")}/${token.word}}}`;\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} word\r\n   */\r\n  parseWord(word, simpleForm) {\r\n    let token = this.parseText(word).shift();\r\n\r\n    if (simpleForm) {\r\n      token.tags = this.getTags(token).join(\",\");\r\n      delete token.parse;\r\n      delete token.tag;\r\n      delete token.shortTag;\r\n    }\r\n\r\n    return token;\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {*} text\r\n   * @returns\r\n   * @memberof Parser\r\n   */\r\n  parseText(inputText) {\r\n    let text = Array.isArray(inputText) ? inputText.join(\" \") : inputText;\r\n    let tokens = this.Az.Tokens(text)\r\n      .done()\r\n      .map(token => {\r\n        return this.parseToken(token, true).shift() || {};\r\n      });\r\n\r\n    return (\r\n      (this.options.withSpaces\r\n        ? tokens\r\n        : tokens.filter(token => token.word.trim())) || []\r\n    );\r\n  }\r\n\r\n  /**\r\n   *\r\n   */\r\n  parseToken(token, quick) {\r\n    let origin = token.source.substr(token.st, token.length);\r\n    let isCapitalized = origin[0] != (origin[0] || \"\").toLowerCase();\r\n    let output = [];\r\n\r\n    // Get basic word properties\r\n    let wordData = Object.assign(\r\n      {\r\n        word: origin\r\n      },\r\n      this.getVowelMap(origin)\r\n    );\r\n\r\n    // Process only cyrillic words for now\r\n    if (token.type == \"WORD\" && token.subType == \"CYRIL\" && !isCapitalized) {\r\n      let parseVars = this.Az.Morph(origin);\r\n\r\n      if (parseVars && parseVars.length) {\r\n        if (quick) parseVars = [parseVars[0]];\r\n\r\n        output = parseVars.map(parse => {\r\n          return Object.assign({}, wordData, {\r\n            wordNormal: parse.normalize().word,\r\n            parse: parse,\r\n            tag: parse.tag,\r\n            part: parse.tag.POST,\r\n            shortTag: this.getShortTag(parse) || origin || \"\"\r\n          });\r\n        });\r\n      }\r\n    }\r\n\r\n    return output.length ? output : [wordData];\r\n  }\r\n}\r\n\r\nmodule.exports = Parser;\r\n",
+    "static": true,
+    "longname": "C:/Work/text-morpher/src/parser.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 115,
+    "kind": "variable",
+    "name": "utils",
+    "memberof": "src/parser.js",
+    "static": true,
+    "longname": "src/parser.js~utils",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/parser.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 116,
+    "kind": "class",
+    "name": "Parser",
+    "memberof": "src/parser.js",
+    "static": true,
+    "longname": "src/parser.js~Parser",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/parser.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "interface": false,
+    "ignore": true
+  },
+  {
+    "__docId__": 117,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "src/parser.js~Parser",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/parser.js~Parser#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true
+  },
+  {
+    "__docId__": 118,
+    "kind": "member",
+    "name": "Az",
+    "memberof": "src/parser.js~Parser",
+    "static": false,
+    "longname": "src/parser.js~Parser#Az",
+    "access": "public",
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 119,
+    "kind": "member",
+    "name": "options",
+    "memberof": "src/parser.js~Parser",
+    "static": false,
+    "longname": "src/parser.js~Parser#options",
+    "access": "public",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 120,
+    "kind": "member",
+    "name": "accentLookup",
+    "memberof": "src/parser.js~Parser",
+    "static": false,
+    "longname": "src/parser.js~Parser#accentLookup",
+    "access": "public",
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 121,
+    "kind": "member",
+    "name": "stopWords",
+    "memberof": "src/parser.js~Parser",
+    "static": false,
+    "longname": "src/parser.js~Parser#stopWords",
+    "access": "public",
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 122,
+    "kind": "method",
+    "name": "initStopWords",
+    "memberof": "src/parser.js~Parser",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/parser.js~Parser#initStopWords",
+    "access": "public",
+    "description": "",
+    "lineNumber": 18,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 123,
+    "kind": "member",
+    "name": "stopWordsLookup",
+    "memberof": "src/parser.js~Parser",
+    "static": false,
+    "longname": "src/parser.js~Parser#stopWordsLookup",
+    "access": "public",
+    "description": null,
+    "lineNumber": 19,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{}"
+      ]
+    }
+  },
+  {
+    "__docId__": 124,
+    "kind": "method",
+    "name": "getVowelMap",
+    "memberof": "src/parser.js~Parser",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/parser.js~Parser#getVowelMap",
+    "access": "public",
+    "description": "",
+    "lineNumber": 29,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "string"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "\"\"",
+        "defaultRaw": "",
+        "name": "word",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "{\"vowels\": *, \"accmap\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 125,
+    "kind": "method",
+    "name": "getTags",
+    "memberof": "src/parser.js~Parser",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/parser.js~Parser#getTags",
+    "access": "public",
+    "description": "",
+    "lineNumber": 43,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "token",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 126,
+    "kind": "method",
+    "name": "getShortTag",
+    "memberof": "src/parser.js~Parser",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/parser.js~Parser#getShortTag",
+    "access": "public",
+    "description": "",
+    "lineNumber": 53,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "token",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 127,
+    "kind": "method",
+    "name": "parseWord",
+    "memberof": "src/parser.js~Parser",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/parser.js~Parser#parseWord",
+    "access": "public",
+    "description": "",
+    "lineNumber": 75,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "word",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 128,
+    "kind": "method",
+    "name": "parseText",
+    "memberof": "src/parser.js~Parser",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/parser.js~Parser#parseText",
+    "access": "public",
+    "description": "",
+    "lineNumber": 95,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": ""
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "text",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 129,
+    "kind": "method",
+    "name": "parseToken",
+    "memberof": "src/parser.js~Parser",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "src/parser.js~Parser#parseToken",
+    "access": "public",
+    "description": "",
+    "lineNumber": 113,
+    "params": [
+      {
+        "name": "token",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "quick",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 130,
+    "kind": "file",
+    "name": "src/utils.js",
+    "content": "const fs = require(\"fs\");\r\nconst chalk = require(\"chalk\");\r\nconst readline = require(\"readline\");\r\nconst Unzip = require(\"unzip-stream\");\r\nconst spawn = require(\"child_process\").spawn;\r\nconst http = require(\"http\");\r\nconst Progress = require(\"cli-progress\").Bar;\r\n\r\nconst log = text => {\r\n  //const log = console.log;\r\n};\r\n\r\nconst download = (url, dest, cb) => {\r\n  let file = fs.createWriteStream(dest);\r\n\r\n  let bar = new Progress({\r\n    barsize: 10,\r\n    format:\r\n      \"Downloading: [{bar}] {percentage}% | | ETA: {eta}s | {value}/{total}\"\r\n  });\r\n\r\n  let request = http.get(url, function(response) {\r\n    let len = parseInt(response.headers[\"content-length\"], 10);\r\n    var cur = 0;\r\n\r\n    bar.start(len, 0);\r\n\r\n    // check if response is success\r\n    if (response.statusCode !== 200) {\r\n      return cb(\"Response status was \" + response.statusCode);\r\n    }\r\n\r\n    response.pipe(file);\r\n\r\n    response.on(\"data\", function(chunk) {\r\n      cur += chunk.length;\r\n      bar.update(cur);\r\n    });\r\n\r\n    file.on(\"finish\", function() {\r\n      bar.stop();\r\n      file.close(cb); // close() is async, call cb after close completes.\r\n    });\r\n\r\n    // check for request error too\r\n    request.on(\"error\", function(err) {\r\n      bar.stop();\r\n      fs.unlink(dest);\r\n      return cb(err.message);\r\n    });\r\n  });\r\n\r\n  file.on(\"error\", function(err) {\r\n    // Handle errors\r\n    fs.unlink(dest); // Delete the file async. (But we don't check the result)\r\n    return cb(err.message);\r\n  });\r\n};\r\n\r\n/**\r\n *\r\n * @param {*} packedFile\r\n * @param {*} targetFolder\r\n */\r\nconst unpackZip = async (packedFile, targetFolder) => {\r\n  return new Promise((resolve, reject) => {\r\n    const unzipper = Unzip.Extract({ path: targetFolder });\r\n    unzipper.on(\"error\", reject);\r\n    unzipper.on(\"close\", resolve);\r\n\r\n    fs.createReadStream(packedFile).pipe(unzipper);\r\n  });\r\n};\r\n\r\nconst exists = path => {\r\n  return fs.existsSync(path) ? path : false;\r\n};\r\n\r\nconst getFile = (name = \"./dump.json\") => {\r\n  return exists(name) ? fs.readFileSync(name, \"utf8\") : \"\";\r\n};\r\n\r\nconst getFileSize = path => {\r\n  const stats = fs.statSync(path);\r\n  return Math.floor(stats[\"size\"] / (1024 * 1024)) + \"MB\";\r\n};\r\n\r\nconst writeFile = (name = \"./dump.txt\", str) => {\r\n  fs.writeFileSync(name, str);\r\n};\r\n\r\nconst dumpFile = (name = \"./dump.json\", object) => {\r\n  fs.writeFileSync(name, JSON.stringify(object, null, 2));\r\n};\r\n\r\nconst prob = prob => {\r\n  return Math.floor(Math.random() * 100) <= prob;\r\n};\r\n\r\nconst getRandomItem = items => {\r\n  return items[Math.floor(Math.random() * items.length)];\r\n};\r\n\r\nconst asyncForEach = async (array, callback) => {\r\n  for (let index = 0; index < array.length; index++) {\r\n    await callback(array[index], index, array);\r\n  }\r\n};\r\n\r\nconst invert = obj => {\r\n  let new_obj = {};\r\n  for (let prop in obj) {\r\n    if (obj.hasOwnProperty(prop)) {\r\n      new_obj[obj[prop]] = prop;\r\n    }\r\n  }\r\n\r\n  return new_obj;\r\n};\r\n\r\n/**\r\n *  Get OS-independent npm name\r\n */\r\nconst getNPMName = () => {\r\n  return /^win/.test(process.platform) ? \"npm.cmd\" : \"npm\";\r\n};\r\n\r\n/**\r\n * Start the child process and output everything into console\r\n */\r\nconst runProcess = (command, params, callback) => {\r\n  let proc = spawn(command, params);\r\n  //proc.stdout.on(\"data\", data => console.log(\"\" + data));\r\n  //proc.stderr.on(\"data\", data => console.log(\"\" + data));\r\n  if (callback) proc.on(\"close\", callback);\r\n};\r\n\r\nmodule.exports = {\r\n  getFile,\r\n  getFileSize,\r\n  unpackZip,\r\n  download,\r\n  dumpFile,\r\n  writeFile,\r\n  exists,\r\n  prob,\r\n  invert,\r\n  runProcess,\r\n  getNPMName,\r\n  asyncForEach,\r\n  getRandomItem\r\n};\r\n",
+    "static": true,
+    "longname": "C:/Work/text-morpher/src/utils.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 131,
+    "kind": "variable",
+    "name": "fs",
+    "memberof": "src/utils.js",
+    "static": true,
+    "longname": "src/utils.js~fs",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 132,
+    "kind": "variable",
+    "name": "chalk",
+    "memberof": "src/utils.js",
+    "static": true,
+    "longname": "src/utils.js~chalk",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 133,
+    "kind": "variable",
+    "name": "readline",
+    "memberof": "src/utils.js",
+    "static": true,
+    "longname": "src/utils.js~readline",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 134,
+    "kind": "variable",
+    "name": "Unzip",
+    "memberof": "src/utils.js",
+    "static": true,
+    "longname": "src/utils.js~Unzip",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 135,
+    "kind": "variable",
+    "name": "spawn",
+    "memberof": "src/utils.js",
+    "static": true,
+    "longname": "src/utils.js~spawn",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 136,
+    "kind": "variable",
+    "name": "http",
+    "memberof": "src/utils.js",
+    "static": true,
+    "longname": "src/utils.js~http",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 137,
+    "kind": "variable",
+    "name": "Progress",
+    "memberof": "src/utils.js",
+    "static": true,
+    "longname": "src/utils.js~Progress",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 138,
+    "kind": "function",
+    "name": "log",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~log",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "params": [
+      {
+        "name": "text",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 139,
+    "kind": "function",
+    "name": "download",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~download",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true,
+    "params": [
+      {
+        "name": "url",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "dest",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "cb",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 140,
+    "kind": "function",
+    "name": "unpackZip",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": true,
+    "static": true,
+    "longname": "src/utils.js~unpackZip",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": "",
+    "lineNumber": 65,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "packedFile",
+        "description": ""
+      },
+      {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "targetFolder",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 141,
+    "kind": "function",
+    "name": "exists",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~exists",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 75,
+    "undocument": true,
+    "params": [
+      {
+        "name": "path",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 142,
+    "kind": "function",
+    "name": "getFile",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~getFile",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 79,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "optional": true,
+        "types": [
+          "string"
+        ],
+        "defaultRaw": "./dump.json",
+        "defaultValue": "./dump.json"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 143,
+    "kind": "function",
+    "name": "getFileSize",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~getFileSize",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 83,
+    "undocument": true,
+    "params": [
+      {
+        "name": "path",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 144,
+    "kind": "function",
+    "name": "writeFile",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~writeFile",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 88,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "optional": true,
+        "types": [
+          "string"
+        ],
+        "defaultRaw": "./dump.txt",
+        "defaultValue": "./dump.txt"
+      },
+      {
+        "name": "str",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 145,
+    "kind": "function",
+    "name": "dumpFile",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~dumpFile",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 92,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "optional": true,
+        "types": [
+          "string"
+        ],
+        "defaultRaw": "./dump.json",
+        "defaultValue": "./dump.json"
+      },
+      {
+        "name": "object",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 146,
+    "kind": "function",
+    "name": "prob",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~prob",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 96,
+    "undocument": true,
+    "params": [
+      {
+        "name": "prob",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 147,
+    "kind": "function",
+    "name": "getRandomItem",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~getRandomItem",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 100,
+    "undocument": true,
+    "params": [
+      {
+        "name": "items",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 148,
+    "kind": "function",
+    "name": "asyncForEach",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": true,
+    "static": true,
+    "longname": "src/utils.js~asyncForEach",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 104,
+    "undocument": true,
+    "params": [
+      {
+        "name": "array",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 149,
+    "kind": "function",
+    "name": "invert",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~invert",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 110,
+    "undocument": true,
+    "params": [
+      {
+        "name": "obj",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 150,
+    "kind": "function",
+    "name": "getNPMName",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~getNPMName",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": " Get OS-independent npm name",
+    "lineNumber": 124,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 151,
+    "kind": "function",
+    "name": "runProcess",
+    "memberof": "src/utils.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/utils.js~runProcess",
+    "access": "public",
+    "export": false,
+    "importPath": "text-morpher/src/utils.js",
+    "importStyle": null,
+    "description": "Start the child process and output everything into console",
+    "lineNumber": 131,
+    "params": [
+      {
+        "name": "command",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "params",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "callback",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "kind": "index",
+    "content": "# text-morpher\r\n[![npm version](https://badge.fury.io/js/text-morpher.svg)](https://badge.fury.io/js/text-morpher)\r\n![TravisCL build](https://api.travis-ci.org/nowherenone/text-morpher.svg?branch=master)\r\n![](https://img.shields.io/npm/dt/text-morpher.svg)\r\n\r\n\r\n## Features and goals\r\n\r\nBasically this module was designed to serve a single purpose: generating morphologically correct sentences **in russian** to use them in a chatbot. So the main feature of this module sounds like:\r\n\r\n\tGenerate me a sentence of a given structure for a given topic\r\n\r\nIt looks very simple on the first sight, but when it comes to the russian morphology things get complicated, since you have to put your words in proper genders, forms, case etc. So, over the time it started to get more and more features and here is what it can do at the moment:\r\n\r\n* Detect part of speech and other grammar tags of any word\r\n* Convert words in text into inline templates with grammar metadata\r\n* Put a word to any chosen form (and get it's initial form from any other)\r\n* Use Word2Vec models to search words close by **meaning**\r\n* Find matches to any word by:\r\n    * Syllable length\r\n    * Vowels structure: папа -> мама \r\n    * Accent syllable: долото -> паразит\r\n    * Grammar properties\r\n    * Regexp (match first/last letter of the orginal word etc.)\r\n    * And meaning (!): яблоко -> зеленое, круглое\r\n\r\nThese features may be use to (just examples out of my head):\r\n* Make all words in the text start with the sale letter\r\n* Replace all adjectives with close (or contrary) ones by meaning \r\n* Update poetry by replacing words matching by syllables and accent\r\n* Lookup which adjectives is related to a chosen noun\r\n* This could be an endless list :)\r\n\r\n## How it works\r\n\r\nHere is a simple example to give you an idea of how Morhper is processing text. Let's pick this sting as input:\r\n\r\n    \"мама мыла раму\"\r\n\r\nIt converts each word into a tag, containing all morphological properties of the word, and returns a string that looks somewhat like:\r\n\r\n    {{NOUN/.*/femn,sing,nomn/мама}} \r\n    {{VERB/.*/impf,tran,femn,sing,past,indc/мыла}} \r\n    {{NOUN/.*/femn,sing,accs/раму}}\r\n\r\nThe structure of each tag is quite simple:\r\n1. Part of speech\r\n2. Regexp to filter matches\r\n3. Set of grammar tags (gender, tense, plural, case etc.)\r\n4. Original word\r\n\r\nThen using function Morpher.runTemplate we can process this string with tags and find matches for each word. Searching for matches could be configured with parameters provided as a second argument to this function. By default set of parameters is taken from ./morpher.config.json file in the root folder. \r\n\r\nSo if we try to run this template without using Word2Vec model - we get morphologically correct, but quite meaningless replacements, like:\r\n\r\n    \"француженка клеила миску\"\r\n    \"страница брала бороду\"\r\n    \"харчевня пенила клятву\"\r\n\r\nThen, if we turn context search option on - the output word will be way more relevant to original: \r\n\r\n    \"девочка слала шахту\"\r\n    \"соседка пугала веранду\"\r\n    \"сестрёнка меняла рекламу\"\r\n\r\nAlthou, the whole output sentence may not have the same meaning as the original one.  :)  This is one of the major TO-DO's at the moment.\r\n\r\n## Installation \r\n\r\n1. Install [NodeJS](https://nodejs.org),   \r\n2. Run `npm i -g text-morpher` to install package globally\r\n\r\nThis module has a built-in dictionary for about ~22K words, so it kinda  works right after the installation. But the most interesting part of it require to use word2vec model file to enable context search features.\r\nIn order to use it - we need to install a word2vector module and download the word2vec model for russian language.  Since it is quite an expensive feature (the model is about 600Mb in size and when it is loaded it takes the same amount of RAM) I left it disabled by default.  But you need just to run one extra command to make it all automatically. An important note: **on Windows it will ask for admin privileges** to compile a c++ binary, but don't worry - you may check /scripts/postInstall.js and make sure it doesn't do any harm. :)\r\n\r\n3. Run `text-morpher install` to add word2vec support\r\n\r\nThat's it - now you may use Morpher class in your app or run in from CLI\r\n\r\n## Configuration\r\n\r\nThere is a morpher.config.json file in the root folder. Morpher use it to look for matches when it processing tags.  Here is all the options available at the moment:\r\n\r\n```js\r\n{\r\n  // Parts of speech to process\r\n  // (see the whole list here http://opencorpora.org/dict.php?act=gram)\r\n  // Anythig else will be skipped and left in the original form\r\n  \"parts\": [\"NOUN\",\"ADJF\",\"VERB\",\"INFN\"],\r\n\r\n  // Match the first letter of the original word\r\n  \"first\": false,\r\n  \r\n  // Match the last letter of the original word\r\n  \"last\": false,\r\n\r\n  // Match the length of the original word\r\n  \"length\": false,\r\n\r\n  // Match all the vowels  (молоко -> долото)\r\n  \"vowels\": false,\r\n\r\n  // Match syllable count (горбившиеся -> гусеницами)\r\n  \"syllables\": false,\r\n\r\n  // Match the accent syllable  (пого`да -> профе`ссия)\r\n  \"accent\": false,\r\n\r\n  // Match the accent vowel (пого`да -> забо`та)\r\n  \"accentLetter\": false,\r\n\r\n  // Match all the original grammar tags  (gender, tense, plural, case etc.) \r\n  // (see the whole list here http://opencorpora.org/dict.php?act=gram)\r\n  \"tags\": false,\r\n\r\n  // false or a string with regexp\r\n  \"regexp\": false,\r\n\r\n  // Enable search by word2vec model\r\n  \"contextSearch\": true,\r\n\r\n  // Treshold for search by word2vec model - float\r\n  \"treshHold\": 0.6\r\n}\r\n```\r\n\r\nThe same structure could be passed as an object to Morpher.runTemplate to override any of these options.\r\n\r\n\r\n## CLI Usage \r\n\r\nAt the moment two commands are supported from command line: \r\n\r\n1. **text-morpher cli** - this command starts morpher in interactive mode. \r\n    * If you type any text - it will substitute it with any matches with default matching options from  ./morpher.config.json\r\n    * If you enter just a single word - it will try find the best matching word in word2vec model.\r\n      (яблоко -> печёное, сумка -> дерматиновая,  красный -> буржуй еtc.)  \r\n    * If you enter just a single word with tilda, like this: `~свобода`, it will show you all the closest matches from word2vec model.\r\n\r\n2. **text-morpher morph** - this command has two options: `input` and `output`, where you can define input textfile to process and the name of an output file. Morpher will process all text from input file and save it in the output\r\n\r\n\r\n## API Usage \r\n\r\nThis part is a subject to be updated soon.\r\nLike, very soon. :) But if you're interested - there are API call examples \r\nin /test folder\r\n\r\n\r\n## Useful links \r\n\r\n[OpenCorpora grammar tag list](http://opencorpora.org/dict.php?act=gram)  \r\n[Word2Vec models](http://rusvectores.org/ru/models/)  \r\n[Word2Vec technology reference](https://deeplearning4j.org/word2vec.html)  \r\n[Google NGrams](http://storage.googleapis.com/books/ngrams/books/datasetsv2.html)\r\n\r\n\r\n## Thanks to \r\n\r\nDenis Olshin <me@denull.ru> for [Az.js](https://github.com/deNULL/Az.js)   \r\nMikhail Korobov <kmike84@gmail.com> for [Pymorphy](https://github.com/kmike/pymorphy2)   \r\nLee Xun <speachlesslee@gmail.com> for [word2vector](https://github.com/LeeXun/word2vector)\r\n\r\n\r\n",
+    "longname": "C:\\Work\\text-morpher\\README.md",
+    "name": "./README.md",
+    "static": true,
+    "access": "public"
+  },
+  {
+    "kind": "packageJSON",
+    "content": "{\n  \"name\": \"text-morpher\",\n  \"version\": \"0.0.4\",\n  \"description\": \"A standalone library for transforming russian words and text\",\n  \"main\": \"./src/morpher.js\",\n  \"preferGlobal\": true,\n  \"bin\": {\n    \"text-morpher\": \"./bin/text-morpher-cli.js\"\n  },\n  \"engines\": {\n    \"node\": \">=8\"\n  },\n  \"scripts\": {\n    \"test\": \"mocha --reporter mochawesome\",\n    \"docs\": \"./node_modules/.bin/esdoc\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/nowherenone/text-morpher.git\"\n  },\n  \"keywords\": [\n    \"russian\",\n    \"text\",\n    \"words\",\n    \"morphing\",\n    \"morphology\",\n    \"word2vec\",\n    \"context\",\n    \"synonyms\",\n    \"русский\",\n    \"язык\",\n    \"слова\",\n    \"падежи\",\n    \"прилагательные\",\n    \"существительные\",\n    \"морфинг\"\n  ],\n  \"author\": \"Mikhail Alekseev\",\n  \"license\": \"GPL-3.0\",\n  \"bugs\": {\n    \"url\": \"https://github.com/nowherenone/text-morpher/issues\"\n  },\n  \"homepage\": \"https://github.com/nowherenone/text-morpher#readme\",\n  \"devDependencies\": {\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"istanbul\": \"^0.4.5\",\n    \"mocha\": \"^5.2.0\",\n    \"mochawesome\": \"^3.0.3\",\n    \"should\": \"^13.2.1\"\n  },\n  \"optionalDependencies\": {\n    \"word2vector\": \"^2.1.0\",\n    \"node-windows\": \"^0.1.14\"\n  },\n  \"dependencies\": {\n    \"adm-zip\": \"^0.4.11\",\n    \"args\": \"4.0.0\",\n    \"az\": \"0.2.3\",\n    \"chalk\": \"^2.4.1\",\n    \"cli-progress\": \"^2.0.0\",\n    \"cli-spinner\": \"^0.2.8\",\n    \"dotenv\": \"5.0.1\",\n    \"extract-zip\": \"^1.6.7\",\n    \"gunzip-file\": \"^0.1.1\",\n    \"lodash\": \"4.17.10\",\n    \"process-stats\": \"^2.0.1\",\n    \"readline\": \"1.3.0\",\n    \"tmp\": \"0.0.33\",\n    \"unzip-stream\": \"^0.3.0\"\n  }\n}\n",
+    "longname": "C:\\Work\\text-morpher\\package.json",
+    "name": "package.json",
+    "static": true,
+    "access": "public"
+  }
+]

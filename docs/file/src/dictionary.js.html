@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/dictionary.js | text-morpher</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A standalone library for transforming russian words and text"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="text-morpher"><meta property="twitter:description" content="A standalone library for transforming russian words and text"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/nowherenone/text-morpher"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/morpher.js~Morpher.html">Morpher</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/dictionary.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const fs = require(&quot;fs&quot;);
+const Parser = require(&quot;./parser.js&quot;);
+const Context = require(&quot;./context.js&quot;);
+const utils = require(&quot;./utils.js&quot;);
+const path = require(&quot;path&quot;);
+const baseDir = path.join(__dirname, &quot;../&quot;);
+
+/**
+ *
+ * @class Dictionary
+ */
+class Dictionary {
+  constructor(config = {}) {
+    this.speechParts = {};
+    let name = config.dictionary;
+
+    return new Promise(async (resolve, reject) =&gt; {
+      await this.initDictionary(name);
+      this.context = this.initContext(config);
+      //this.generateRhythmLookup();
+      resolve(this);
+    });
+  }
+
+  async initDictionary(name, isFallback) {
+    let dPath = `${baseDir}/dictionary/`;
+
+    let wordsFile = utils.exists(`${dPath}${name}/words.json`);
+    let accentFile = utils.exists(`${dPath}${name}/accents.json`);
+    let stopFile = utils.exists(`${dPath}${name}/stopwords.json`);
+    let packedFile = utils.exists(`${dPath}${name}/dictionary.gz`);
+
+    // If there is no words file - load defaults
+    if (!wordsFile &amp;&amp; !packedFile) {
+      if (name) console.log(`${name} dictionary files weren&apos;t found`);
+      if (!isFallback) await this.initDictionary(&quot;default&quot;, true);
+      else console.error(&quot;No dictionary found!&quot;);
+      return;
+    }
+
+    console.log(`Loading ${name} dictionary`);
+
+    // If dictionary is unpacked - unpack it
+    if (!wordsFile &amp;&amp; packedFile) {
+      console.log(`Unpacking ${name} dictionary`);
+      await utils.unpackZip(packedFile, `${dPath}${name}`);
+      await this.initDictionary(name, true);
+      return;
+    }
+
+    // Stopwords file fallback
+    if (!stopFile) stopFile = utils.exists(`${dPath}/default/stopwords.json`);
+    // Load stopwords
+    try {
+      this.stopWords = JSON.parse(utils.getFile(stopFile));
+    } catch (e) {
+      this.stopWords = [];
+    }
+
+    // Accent file fallback
+    if (!accentFile) accentFile = utils.exists(`${dPath}/default/accents.json`);
+    // Load accent lookups
+    try {
+      this.accentLookup = JSON.parse(utils.getFile(accentFile));
+    } catch (e) {
+      this.accentLookup = {};
+    }
+
+    // Init Parser
+    this.parser = new Parser({
+      accentLookup: this.accentLookup,
+      stopWords: this.stopWords
+    });
+
+    // Load wordset
+    if (wordsFile) this.loadFile(wordsFile);
+  }
+
+  /**
+   *
+   * @param {*} name
+   */
+  initContext(config) {
+    let dPath = `${baseDir}/dictionary/`;
+    let modelFile = utils.exists(`${dPath}${config.name}/context.bin`);
+
+    // Load context
+    if (!modelFile) {
+      modelFile = utils.exists(`${dPath}/default/context.bin`);
+    }
+
+    return new Context({ modelFile, contextSearch: config.contextSearch });
+  }
+
+  /**
+   * Populate dictionary from file
+   *
+   * @param {*} dictFile
+   * @returns
+   * @memberof Dictionary
+   */
+  loadFile(dictFile) {
+    let fileContent = &quot;&quot;,
+      words = [];
+
+    // Try to open file
+    try {
+      fileContent = utils.getFile(dictFile);
+    } catch (e) {
+      console.error(`Cannot load ${dictFile} file to dictionary`);
+    }
+
+    try {
+      words = JSON.parse(fileContent);
+    } catch (e) {
+      words = fileContent;
+    }
+
+    this.loadString(words || &quot;&quot;);
+  }
+
+  /**
+   *
+   */
+  generateRhythmLookup() {
+    let l = this.accentLookup;
+    this.accentReverse = {};
+
+    Object.keys(l).forEach(key =&gt; {
+      let v = l[key];
+      if (!this.accentReverse[v]) this.accentReverse[v] = [key];
+      else this.accentReverse[v].push(key);
+    });
+  }
+
+  /**
+   *
+   *
+   * @param {*} str
+   * @memberof Dictionary
+   */
+  loadString(str) {
+    let tokens = this.parser.parseText(str);
+    this.sortTokens(tokens);
+  }
+
+  /**
+   * Sort tokens by speech parts and add them into dictionary
+   *
+   * @param {*} tokens
+   * @memberof Dictionary
+   */
+  sortTokens(tokens) {
+    let lookup = {};
+
+    tokens.forEach(token =&gt; {
+      let part = token.part;
+
+      if (!this.speechParts[part]) this.speechParts[part] = [];
+
+      if (token.word.length &gt; 1 &amp;&amp; !lookup[token.word]) {
+        this.speechParts[part].push(token);
+        lookup[token.word] = 1;
+      }
+    });
+  }
+
+  /**
+   *
+   * @param {*} part
+   * @param {*} regexp
+   * @param {*} tags
+   * @param {*} matchOptions
+   */
+  getWord(...params) {
+    let tokens = this.getWords(...params);
+    let word = utils.getRandomItem(tokens) || {};
+
+    return word.word || &quot;&quot;;
+  }
+
+  /**
+   *
+   * @param {*} part
+   * @param {*} regexp
+   * @param {*} tags
+   * @param {*} matchOptions
+   */
+  getWords(part, regexp = &quot;.*&quot;, tags = [], matchOptions = {}) {
+    let tokens = [];
+
+    // Get a set of possibly matching words
+    if (matchOptions.contextSearch) {
+      let origin = this.parser.parseWord(matchOptions.origin) || {
+        wordNormal: matchOptions.origin,
+        part: part
+      };
+
+      tokens = this.context.getSimilarWords(origin, {
+        extractPart: part,
+        treshHold: matchOptions.treshHold
+      });
+    } else {
+      tokens = this.speechParts[part] || [];
+    }
+
+    // Try to inflect them
+    tokens = this.getInflectedTokens(tokens, tags);
+
+    // Get inflected list of words
+    return this.filterTokens(tokens, regexp, tags, matchOptions) || [];
+  }
+
+  /**
+   *
+   * @param {*} tokens
+   * @param {*} regexp
+   * @param {*} tags
+   * @param {*} matchOptions
+   */
+  filterTokens(tokens, regexp, tags, matchOptions) {
+    let part = (tokens[0] || {}).part;
+
+    // Filter words by normal form
+    if (matchOptions.matchNormal) {
+      tokens = tokens.filter(v =&gt; {
+        if (!v) return false;
+        return v.wordNormal == matchOptions.matchNormal;
+      });
+    }
+
+    // Filter words by tagset
+    tokens = tokens.filter(v =&gt; {
+      if (!v || !v.tag || !tags.length) return true;
+      let tokenTags = v.tag.stat.slice(1, 100).concat(v.tag.flex);
+      return tags.every(tag =&gt; ~tokenTags.indexOf(tag));
+    });
+
+    // Filter words by regexp
+    tokens =
+      part == &quot;NOUN&quot; || part == &quot;PRTF&quot;
+        ? this.filterNouns(tokens, regexp, tags)
+        : tokens.filter(
+            v =&gt;
+              v &amp;&amp;
+              v.word.match(regexp) &amp;&amp;
+              !~this.stopWords.indexOf(v.wordNormal)
+          );
+
+    // Filter words by accent
+    return this.filterByAccent(tokens, matchOptions);
+  }
+
+  /**
+   *
+   * @param {*} words
+   */
+  getInflectedTokens(tokens, tags) {
+    return tokens.map(v =&gt; {
+      let infTags = tags;
+
+      // If this is noun - remove static tokens
+      if (v.part == &quot;NOUN&quot; || v.part == &quot;PRTF&quot;) {
+        infTags = tags.filter(v =&gt; !~[&quot;masc&quot;, &quot;femn&quot;, &quot;neut&quot;].indexOf(v));
+      }
+
+      // Inflect
+      let inf = infTags &amp;&amp; v.parse &amp;&amp; v.parse.inflect(infTags);
+
+      return inf ? this.parser.parseWord(inf.word) : v;
+    });
+  }
+
+  /**
+   *
+   * @param {*} tokens
+   * @param {*} matchOptions
+   */
+  filterByAccent(tokens, matchOptions) {
+    // Match only accent letters
+    if (matchOptions.accentLetter) {
+      let index = (matchOptions.accmap || []).indexOf(&quot;1&quot;);
+      if (index &gt; -1) {
+        tokens = tokens.filter(v =&gt; {
+          return v.vowels[index] == matchOptions.vowels[index];
+        });
+      }
+    }
+
+    // Match syllables count
+    if (matchOptions.syllables) {
+      tokens = tokens.filter(
+        v =&gt; v.accmap.length == matchOptions.accmap.length
+      );
+    }
+
+    // Accent map filter
+    if (matchOptions.accent) {
+      tokens = tokens.filter(v =&gt; v.accmap == matchOptions.accmap);
+    }
+
+    // Vowels map filter
+    if (matchOptions.vowels) {
+      tokens = tokens.filter(v =&gt; {
+        return v.vowels == matchOptions.vowelmap;
+      });
+    }
+
+    return tokens;
+  }
+
+  /**
+   *
+   * @param {*} regexp
+   * @param {*} tags
+   */
+  filterNouns(tokens = [], regexp = &quot;.*&quot;, tags = []) {
+    let statTags = this.extractStatTags(tags, [&quot;masc&quot;, &quot;femn&quot;, &quot;neut&quot;]);
+
+    return tokens.filter(v =&gt; {
+      if (v &amp;&amp; v.parse &amp;&amp; v.word.match(regexp)) {
+        if (statTags) {
+          return (
+            statTags.filter(s =&gt; ~v.tag.stat.slice().indexOf(s)).length ==
+            statTags.length
+          );
+        }
+
+        return true;
+      }
+    });
+  }
+
+  /**
+   * Extract static tags from array
+   * @param {*} tags
+   * @param {*} statTags
+   */
+  extractStatTags(tags = [], statTags = []) {
+    return tags.filter(v =&gt; ~statTags.indexOf(v));
+  }
+}
+
+/*
+  // &#x43D;&#x430;&#x440;&#x435;&#x447;&#x438;&#x435;  (&#x43A;&#x430;&#x43A;?)
+  getAdverb(regexp = &quot;.*&quot;, tags) {
+    return this.getWord(&quot;ADVB&quot;, regexp, tags);
+  }
+
+  // &#x433;&#x43B;&#x430;&#x433;&#x43E;&#x43B; (&#x438;&#x43D;&#x444;&#x438;&#x43D;&#x438;&#x442;&#x438;&#x432;)
+  getVerb(regexp = &quot;.*&quot;, tags) {
+    return this.getWord(&quot;VERB&quot;, regexp, tags);
+  }
+
+  // &#x41F;&#x440;&#x438;&#x43B;&#x438;&#x433;&#x430;&#x442;&#x435;&#x43B;&#x44C;&#x43D;&#x43E;&#x435;
+  getAdjective(regexp = &quot;.*&quot;, tags) {
+    return this.getWord(&quot;ADJF&quot;, regexp, tags);
+  }
+  */
+
+module.exports = Dictionary;
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -1,0 +1,462 @@
+[
+  {
+    "name": "exports#getSimilarWords",
+    "filePath": "src/context.js",
+    "lines": [
+      {
+        "lineNumber": 32,
+        "line": "  /**\r"
+      },
+      {
+        "lineNumber": 33,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 34,
+        "line": "   * @param {*} token\r"
+      },
+      {
+        "lineNumber": 35,
+        "line": "   */\r"
+      },
+      {
+        "lineNumber": 36,
+        "line": "  getSimilarWords(token, options = {}) {\r"
+      }
+    ],
+    "codeParams": [
+      "token",
+      "options"
+    ],
+    "docParams": [
+      "token"
+    ]
+  },
+  {
+    "name": "Dictionary#initContext",
+    "filePath": "src/dictionary.js",
+    "lines": [
+      {
+        "lineNumber": 78,
+        "line": "  /**\r"
+      },
+      {
+        "lineNumber": 79,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 80,
+        "line": "   * @param {*} name\r"
+      },
+      {
+        "lineNumber": 81,
+        "line": "   */\r"
+      },
+      {
+        "lineNumber": 82,
+        "line": "  initContext(config) {\r"
+      }
+    ],
+    "codeParams": [
+      "config"
+    ],
+    "docParams": [
+      "name"
+    ]
+  },
+  {
+    "name": "Dictionary#getWord",
+    "filePath": "src/dictionary.js",
+    "lines": [
+      {
+        "lineNumber": 167,
+        "line": "  /**\r"
+      },
+      {
+        "lineNumber": 168,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 169,
+        "line": "   * @param {*} part\r"
+      },
+      {
+        "lineNumber": 170,
+        "line": "   * @param {*} regexp\r"
+      },
+      {
+        "lineNumber": 171,
+        "line": "   * @param {*} tags\r"
+      },
+      {
+        "lineNumber": 172,
+        "line": "   * @param {*} matchOptions\r"
+      },
+      {
+        "lineNumber": 173,
+        "line": "   */\r"
+      },
+      {
+        "lineNumber": 174,
+        "line": "  getWord(...params) {\r"
+      }
+    ],
+    "codeParams": [
+      "params"
+    ],
+    "docParams": [
+      "part",
+      "regexp",
+      "tags",
+      "matchOptions"
+    ]
+  },
+  {
+    "name": "Dictionary#getInflectedTokens",
+    "filePath": "src/dictionary.js",
+    "lines": [
+      {
+        "lineNumber": 253,
+        "line": "  /**\r"
+      },
+      {
+        "lineNumber": 254,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 255,
+        "line": "   * @param {*} words\r"
+      },
+      {
+        "lineNumber": 256,
+        "line": "   */\r"
+      },
+      {
+        "lineNumber": 257,
+        "line": "  getInflectedTokens(tokens, tags) {\r"
+      }
+    ],
+    "codeParams": [
+      "tokens",
+      "tags"
+    ],
+    "docParams": [
+      "words"
+    ]
+  },
+  {
+    "name": "Dictionary#filterNouns",
+    "filePath": "src/dictionary.js",
+    "lines": [
+      {
+        "lineNumber": 311,
+        "line": "  /**\r"
+      },
+      {
+        "lineNumber": 312,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 313,
+        "line": "   * @param {*} regexp\r"
+      },
+      {
+        "lineNumber": 314,
+        "line": "   * @param {*} tags\r"
+      },
+      {
+        "lineNumber": 315,
+        "line": "   */\r"
+      },
+      {
+        "lineNumber": 316,
+        "line": "  filterNouns(tokens = [], regexp = \".*\", tags = []) {\r"
+      }
+    ],
+    "codeParams": [
+      "tokens",
+      "regexp",
+      "tags"
+    ],
+    "docParams": [
+      "regexp",
+      "tags"
+    ]
+  },
+  {
+    "name": "Morpher#runTemplate",
+    "filePath": "src/morpher.js",
+    "lines": [
+      {
+        "lineNumber": 75,
+        "line": "  /**\r"
+      },
+      {
+        "lineNumber": 76,
+        "line": "   *  Template syntax - {NOUN/^п./мр}\r"
+      },
+      {
+        "lineNumber": 77,
+        "line": "   *  {[PART]/[Regexp]/[tags]/[original]}\r"
+      },
+      {
+        "lineNumber": 78,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 79,
+        "line": "   * @param {*} template\r"
+      },
+      {
+        "lineNumber": 80,
+        "line": "   * @memberof Morpher\r"
+      },
+      {
+        "lineNumber": 81,
+        "line": "   */\r"
+      },
+      {
+        "lineNumber": 82,
+        "line": "  runTemplate(template, matchOptions = {}) {\r"
+      }
+    ],
+    "codeParams": [
+      "template",
+      "matchOptions"
+    ],
+    "docParams": [
+      "template"
+    ]
+  },
+  {
+    "name": "Morpher#getSearchOptions",
+    "filePath": "src/morpher.js",
+    "lines": [
+      {
+        "lineNumber": 246,
+        "line": "  /**\r"
+      },
+      {
+        "lineNumber": 247,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 248,
+        "line": "   * @param {*} origin\r"
+      },
+      {
+        "lineNumber": 249,
+        "line": "   * @param {*} matchOptions\r"
+      },
+      {
+        "lineNumber": 250,
+        "line": "   */\r"
+      },
+      {
+        "lineNumber": 251,
+        "line": "  getSearchOptions(tag, matchOptions) {\r"
+      }
+    ],
+    "codeParams": [
+      "tag",
+      "matchOptions"
+    ],
+    "docParams": [
+      "origin",
+      "matchOptions"
+    ]
+  },
+  {
+    "name": "Morpher#inflect",
+    "filePath": "src/morpher.js",
+    "lines": [
+      {
+        "lineNumber": 299,
+        "line": "  /**\r"
+      },
+      {
+        "lineNumber": 300,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 301,
+        "line": "   * @param {*} origin\r"
+      },
+      {
+        "lineNumber": 302,
+        "line": "   */\r"
+      },
+      {
+        "lineNumber": 303,
+        "line": "  inflect(origin, tags = []) {\r"
+      }
+    ],
+    "codeParams": [
+      "origin",
+      "tags"
+    ],
+    "docParams": [
+      "origin"
+    ]
+  },
+  {
+    "name": "Morpher#pluralize",
+    "filePath": "src/morpher.js",
+    "lines": [
+      {
+        "lineNumber": 316,
+        "line": "  /**\r"
+      },
+      {
+        "lineNumber": 317,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 318,
+        "line": "   * @param {*} origin\r"
+      },
+      {
+        "lineNumber": 319,
+        "line": "   */\r"
+      },
+      {
+        "lineNumber": 320,
+        "line": "  pluralize(origin, number = 1) {\r"
+      }
+    ],
+    "codeParams": [
+      "origin",
+      "number"
+    ],
+    "docParams": [
+      "origin"
+    ]
+  },
+  {
+    "name": "Morpher#getNextWord",
+    "filePath": "src/morpher.js",
+    "lines": [
+      {
+        "lineNumber": 333,
+        "line": "  /**\r"
+      },
+      {
+        "lineNumber": 334,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 335,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 336,
+        "line": "   * @param {*} nouns\r"
+      },
+      {
+        "lineNumber": 337,
+        "line": "   * @param {*} adj\r"
+      },
+      {
+        "lineNumber": 338,
+        "line": "   * @returns\r"
+      },
+      {
+        "lineNumber": 339,
+        "line": "   * @memberof Morpher\r"
+      },
+      {
+        "lineNumber": 340,
+        "line": "   */\r"
+      },
+      {
+        "lineNumber": 341,
+        "line": "  getNextWord(origin, regExp = \".*\") {\r"
+      }
+    ],
+    "codeParams": [
+      "origin",
+      "regExp"
+    ],
+    "docParams": [
+      "nouns",
+      "adj"
+    ]
+  },
+  {
+    "name": "Parser#parseWord",
+    "filePath": "src/parser.js",
+    "lines": [
+      {
+        "lineNumber": 70,
+        "line": "  /**\r"
+      },
+      {
+        "lineNumber": 71,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 72,
+        "line": "   * @param {*} word\r"
+      },
+      {
+        "lineNumber": 73,
+        "line": "   */\r"
+      },
+      {
+        "lineNumber": 74,
+        "line": "  parseWord(word, simpleForm) {\r"
+      }
+    ],
+    "codeParams": [
+      "word",
+      "simpleForm"
+    ],
+    "docParams": [
+      "word"
+    ]
+  },
+  {
+    "name": "Parser#parseText",
+    "filePath": "src/parser.js",
+    "lines": [
+      {
+        "lineNumber": 87,
+        "line": "  /**\r"
+      },
+      {
+        "lineNumber": 88,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 89,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 90,
+        "line": "   * @param {*} text\r"
+      },
+      {
+        "lineNumber": 91,
+        "line": "   * @returns\r"
+      },
+      {
+        "lineNumber": 92,
+        "line": "   * @memberof Parser\r"
+      },
+      {
+        "lineNumber": 93,
+        "line": "   */\r"
+      },
+      {
+        "lineNumber": 94,
+        "line": "  parseText(inputText) {\r"
+      }
+    ],
+    "codeParams": [
+      "inputText"
+    ],
+    "docParams": [
+      "text"
+    ]
+  }
+]

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/parser.js | text-morpher</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A standalone library for transforming russian words and text"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="text-morpher"><meta property="twitter:description" content="A standalone library for transforming russian words and text"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/nowherenone/text-morpher"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/morpher.js~Morpher.html">Morpher</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/parser.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const utils = require(&quot;./utils.js&quot;);
+
+class Parser {
+  constructor(options = {}) {
+    this.Az = global.Az;
+    this.options = options;
+    this.accentLookup = this.options.accentLookup || {};
+    this.stopWords = this.options.stopWords || [];
+    this.options.withSpaces = true;
+    this.initStopWords();
+  }
+
+  /**
+   *
+   *
+   * @memberof Parser
+   */
+  initStopWords() {
+    this.stopWordsLookup = {};
+    this.stopWords.forEach(word =&gt; (this.stopWordsLookup[word] = true));
+  }
+
+  /**
+   *
+   *
+   * @param {string} [word=&quot;&quot;]
+   * @memberof Parser
+   */
+  getVowelMap(word = &quot;&quot;) {
+    let w = word.toLowerCase();
+    let parts = w.match(/[&#x431;&#x432;&#x433;&#x434;&#x436;&#x437;&#x439;&#x43A;&#x43B;&#x43C;&#x43D;&#x43F;&#x440;&#x441;&#x442;&#x444;&#x445;&#x446;&#x447;&#x448;&#x449;&#x44C;&#x44A;]*?[&#x430;&#x435;&#x451;&#x438;&#x43E;&#x443;&#x44B;&#x44D;&#x44E;&#x44F;]/gi) || [];
+
+    return {
+      vowels: parts.map(p =&gt; p.match(/[&#x430;&#x435;&#x451;&#x438;&#x43E;&#x443;&#x44B;&#x44D;&#x44E;&#x44F;]{1,3}/gi)).join(&quot;-&quot;),
+      accmap: this.accentLookup[w] || new Array(parts.length).fill(0).join(&quot;&quot;)
+    };
+  }
+
+  /**
+   *
+   * @param {*} token
+   */
+  getTags(token) {
+    let skipTags = [&quot;inan&quot;, &quot;anim&quot;];
+    let tags = token.tag.stat.slice(1, 100).concat(token.tag.flex) || [];
+    return tags.filter(t =&gt; !~skipTags.indexOf(t) &amp;&amp; !/^[A-Z]/.test(t));
+  }
+
+  /**
+   *
+   * @param {*} token
+   */
+  getShortTag(token) {
+    let skipParts = [&quot;PRED&quot;, &quot;PRCL&quot;, &quot;PREP&quot;, &quot;NPRO&quot;, &quot;GRND&quot;, &quot;ADVB&quot;];
+
+    if (
+      !token.tag ||
+      !token.word ||
+      this.stopWordsLookup[token.normalize().word] ||
+      token.tag.isCapitalized() ||
+      ~skipParts.indexOf(token.tag.POST) ||
+      token.word.length &lt; 4
+    ) {
+      return false;
+    } else {
+      let POST = token.tag.POST;
+      return `{{${POST}/.*/${this.getTags(token).join(&quot;,&quot;)}/${token.word}}}`;
+    }
+  }
+
+  /**
+   *
+   * @param {*} word
+   */
+  parseWord(word, simpleForm) {
+    let token = this.parseText(word).shift();
+
+    if (simpleForm) {
+      token.tags = this.getTags(token).join(&quot;,&quot;);
+      delete token.parse;
+      delete token.tag;
+      delete token.shortTag;
+    }
+
+    return token;
+  }
+
+  /**
+   *
+   *
+   * @param {*} text
+   * @returns
+   * @memberof Parser
+   */
+  parseText(inputText) {
+    let text = Array.isArray(inputText) ? inputText.join(&quot; &quot;) : inputText;
+    let tokens = this.Az.Tokens(text)
+      .done()
+      .map(token =&gt; {
+        return this.parseToken(token, true).shift() || {};
+      });
+
+    return (
+      (this.options.withSpaces
+        ? tokens
+        : tokens.filter(token =&gt; token.word.trim())) || []
+    );
+  }
+
+  /**
+   *
+   */
+  parseToken(token, quick) {
+    let origin = token.source.substr(token.st, token.length);
+    let isCapitalized = origin[0] != (origin[0] || &quot;&quot;).toLowerCase();
+    let output = [];
+
+    // Get basic word properties
+    let wordData = Object.assign(
+      {
+        word: origin
+      },
+      this.getVowelMap(origin)
+    );
+
+    // Process only cyrillic words for now
+    if (token.type == &quot;WORD&quot; &amp;&amp; token.subType == &quot;CYRIL&quot; &amp;&amp; !isCapitalized) {
+      let parseVars = this.Az.Morph(origin);
+
+      if (parseVars &amp;&amp; parseVars.length) {
+        if (quick) parseVars = [parseVars[0]];
+
+        output = parseVars.map(parse =&gt; {
+          return Object.assign({}, wordData, {
+            wordNormal: parse.normalize().word,
+            parse: parse,
+            tag: parse.tag,
+            part: parse.tag.POST,
+            shortTag: this.getShortTag(parse) || origin || &quot;&quot;
+          });
+        });
+      }
+    }
+
+    return output.length ? output : [wordData];
+  }
+}
+
+module.exports = Parser;
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

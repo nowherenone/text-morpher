@@ -1,15 +1,24 @@
-const fs = require("fs");
+import path from "path";
+import fs from "fs";
+
+import Parser from "./parser.js";
+import Context from "./context.js";
+import { exists, getFile, unpackZip, getRandomItem } from "./utils.js";
+
+/*
 const Parser = require("./parser.js");
 const Context = require("./context.js");
 const utils = require("./utils.js");
 const path = require("path");
+*/
+
 const baseDir = path.join(__dirname, "../");
 
 /**
  *
  * @class Dictionary
  */
-class Dictionary {
+export default class Dictionary {
   constructor(config = {}) {
     this.speechParts = {};
     let name = config.dictionary;
@@ -25,10 +34,10 @@ class Dictionary {
   async initDictionary(name, isFallback) {
     let dPath = `${baseDir}/dictionary/`;
 
-    let wordsFile = utils.exists(`${dPath}${name}/words.json`);
-    let accentFile = utils.exists(`${dPath}${name}/accents.json`);
-    let stopFile = utils.exists(`${dPath}${name}/stopwords.json`);
-    let packedFile = utils.exists(`${dPath}${name}/dictionary.gz`);
+    let wordsFile = exists(`${dPath}${name}/words.json`);
+    let accentFile = exists(`${dPath}${name}/accents.json`);
+    let stopFile = exists(`${dPath}${name}/stopwords.json`);
+    let packedFile = exists(`${dPath}${name}/dictionary.gz`);
 
     // If there is no words file - load defaults
     if (!wordsFile && !packedFile) {
@@ -43,25 +52,25 @@ class Dictionary {
     // If dictionary is unpacked - unpack it
     if (!wordsFile && packedFile) {
       console.log(`Unpacking ${name} dictionary`);
-      await utils.unpackZip(packedFile, `${dPath}${name}`);
+      await unpackZip(packedFile, `${dPath}${name}`);
       await this.initDictionary(name, true);
       return;
     }
 
     // Stopwords file fallback
-    if (!stopFile) stopFile = utils.exists(`${dPath}/default/stopwords.json`);
+    if (!stopFile) stopFile = exists(`${dPath}/default/stopwords.json`);
     // Load stopwords
     try {
-      this.stopWords = JSON.parse(utils.getFile(stopFile));
+      this.stopWords = JSON.parse(getFile(stopFile));
     } catch (e) {
       this.stopWords = [];
     }
 
     // Accent file fallback
-    if (!accentFile) accentFile = utils.exists(`${dPath}/default/accents.json`);
+    if (!accentFile) accentFile = exists(`${dPath}/default/accents.json`);
     // Load accent lookups
     try {
-      this.accentLookup = JSON.parse(utils.getFile(accentFile));
+      this.accentLookup = JSON.parse(getFile(accentFile));
     } catch (e) {
       this.accentLookup = {};
     }
@@ -82,11 +91,11 @@ class Dictionary {
    */
   initContext(config) {
     let dPath = `${baseDir}/dictionary/`;
-    let modelFile = utils.exists(`${dPath}${config.name}/context.bin`);
+    let modelFile = exists(`${dPath}${config.name}/context.bin`);
 
     // Load context
     if (!modelFile) {
-      modelFile = utils.exists(`${dPath}/default/context.bin`);
+      modelFile = exists(`${dPath}/default/context.bin`);
     }
 
     return new Context({ modelFile, contextSearch: config.contextSearch });
@@ -105,7 +114,7 @@ class Dictionary {
 
     // Try to open file
     try {
-      fileContent = utils.getFile(dictFile);
+      fileContent = getFile(dictFile);
     } catch (e) {
       console.error(`Cannot load ${dictFile} file to dictionary`);
     }
@@ -174,7 +183,7 @@ class Dictionary {
    */
   getWord(...params) {
     let tokens = this.getWords(...params);
-    let word = utils.getRandomItem(tokens) || {};
+    let word = getRandomItem(tokens) || {};
 
     return word.word || "";
   }
@@ -357,5 +366,3 @@ class Dictionary {
     return this.getWord("ADJF", regexp, tags);
   }
   */
-
-module.exports = Dictionary;

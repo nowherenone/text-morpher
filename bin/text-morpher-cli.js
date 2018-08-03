@@ -7,8 +7,8 @@ const readline = require("readline");
 const path = require("path");
 const baseDir = path.join(__dirname, "../");
 const args = require("args");
-const utils = require("../src/utils.js");
-const Morpher = require("../src/morpher.js");
+const utils = require("../lib/utils.js");
+const Morpher = require("../lib/morpher.js");
 
 let originalBaseDir = process.cwd();
 let MorpherInstance;

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl">
+  <title data-ice="title">Home | text-morpher</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A standalone library for transforming russian words and text"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="text-morpher"><meta property="twitter:description" content="A standalone library for transforming russian words and text"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/nowherenone/text-morpher"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/morpher.js~Morpher.html">Morpher</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="text-morpher">text-morpher</h1><p><a href="https://badge.fury.io/js/text-morpher"><img src="https://badge.fury.io/js/text-morpher.svg" alt="npm version"></a>
+<img src="https://api.travis-ci.org/nowherenone/text-morpher.svg?branch=master" alt="TravisCL build">
+<img src="https://img.shields.io/npm/dt/text-morpher.svg" alt=""></p>
+<h2 id="features-and-goals">Features and goals</h2><p>Basically this module was designed to serve a single purpose: generating morphologically correct sentences <strong>in russian</strong> to use them in a chatbot. So the main feature of this module sounds like:</p>
+<pre><code><code class="source-code prettyprint">Generate me a sentence of a given structure for a given topic</code>
+</code></pre><p>It looks very simple on the first sight, but when it comes to the russian morphology things get complicated, since you have to put your words in proper genders, forms, case etc. So, over the time it started to get more and more features and here is what it can do at the moment:</p>
+<ul>
+<li>Detect part of speech and other grammar tags of any word</li>
+<li>Convert words in text into inline templates with grammar metadata</li>
+<li>Put a word to any chosen form (and get it&apos;s initial form from any other)</li>
+<li>Use Word2Vec models to search words close by <strong>meaning</strong></li>
+<li>Find matches to any word by:<ul>
+<li>Syllable length</li>
+<li>Vowels structure: &#x43F;&#x430;&#x43F;&#x430; -&gt; &#x43C;&#x430;&#x43C;&#x430; </li>
+<li>Accent syllable: &#x434;&#x43E;&#x43B;&#x43E;&#x442;&#x43E; -&gt; &#x43F;&#x430;&#x440;&#x430;&#x437;&#x438;&#x442;</li>
+<li>Grammar properties</li>
+<li>Regexp (match first/last letter of the orginal word etc.)</li>
+<li>And meaning (!): &#x44F;&#x431;&#x43B;&#x43E;&#x43A;&#x43E; -&gt; &#x437;&#x435;&#x43B;&#x435;&#x43D;&#x43E;&#x435;, &#x43A;&#x440;&#x443;&#x433;&#x43B;&#x43E;&#x435;</li>
+</ul>
+</li>
+</ul>
+<p>These features may be use to (just examples out of my head):</p>
+<ul>
+<li>Make all words in the text start with the sale letter</li>
+<li>Replace all adjectives with close (or contrary) ones by meaning </li>
+<li>Update poetry by replacing words matching by syllables and accent</li>
+<li>Lookup which adjectives is related to a chosen noun</li>
+<li>This could be an endless list :)</li>
+</ul>
+<h2 id="how-it-works">How it works</h2><p>Here is a simple example to give you an idea of how Morhper is processing text. Let&apos;s pick this sting as input:</p>
+<pre><code><code class="source-code prettyprint">&quot;&#x43C;&#x430;&#x43C;&#x430; &#x43C;&#x44B;&#x43B;&#x430; &#x440;&#x430;&#x43C;&#x443;&quot;</code>
+</code></pre><p>It converts each word into a tag, containing all morphological properties of the word, and returns a string that looks somewhat like:</p>
+<pre><code><code class="source-code prettyprint">{{NOUN/.*/femn,sing,nomn/&#x43C;&#x430;&#x43C;&#x430;}} 
+{{VERB/.*/impf,tran,femn,sing,past,indc/&#x43C;&#x44B;&#x43B;&#x430;}} 
+{{NOUN/.*/femn,sing,accs/&#x440;&#x430;&#x43C;&#x443;}}</code>
+</code></pre><p>The structure of each tag is quite simple:</p>
+<ol>
+<li>Part of speech</li>
+<li>Regexp to filter matches</li>
+<li>Set of grammar tags (gender, tense, plural, case etc.)</li>
+<li>Original word</li>
+</ol>
+<p>Then using function Morpher.runTemplate we can process this string with tags and find matches for each word. Searching for matches could be configured with parameters provided as a second argument to this function. By default set of parameters is taken from ./morpher.config.json file in the root folder. </p>
+<p>So if we try to run this template without using Word2Vec model - we get morphologically correct, but quite meaningless replacements, like:</p>
+<pre><code><code class="source-code prettyprint">&quot;&#x444;&#x440;&#x430;&#x43D;&#x446;&#x443;&#x436;&#x435;&#x43D;&#x43A;&#x430; &#x43A;&#x43B;&#x435;&#x438;&#x43B;&#x430; &#x43C;&#x438;&#x441;&#x43A;&#x443;&quot;
+&quot;&#x441;&#x442;&#x440;&#x430;&#x43D;&#x438;&#x446;&#x430; &#x431;&#x440;&#x430;&#x43B;&#x430; &#x431;&#x43E;&#x440;&#x43E;&#x434;&#x443;&quot;
+&quot;&#x445;&#x430;&#x440;&#x447;&#x435;&#x432;&#x43D;&#x44F; &#x43F;&#x435;&#x43D;&#x438;&#x43B;&#x430; &#x43A;&#x43B;&#x44F;&#x442;&#x432;&#x443;&quot;</code>
+</code></pre><p>Then, if we turn context search option on - the output word will be way more relevant to original: </p>
+<pre><code><code class="source-code prettyprint">&quot;&#x434;&#x435;&#x432;&#x43E;&#x447;&#x43A;&#x430; &#x441;&#x43B;&#x430;&#x43B;&#x430; &#x448;&#x430;&#x445;&#x442;&#x443;&quot;
+&quot;&#x441;&#x43E;&#x441;&#x435;&#x434;&#x43A;&#x430; &#x43F;&#x443;&#x433;&#x430;&#x43B;&#x430; &#x432;&#x435;&#x440;&#x430;&#x43D;&#x434;&#x443;&quot;
+&quot;&#x441;&#x435;&#x441;&#x442;&#x440;&#x451;&#x43D;&#x43A;&#x430; &#x43C;&#x435;&#x43D;&#x44F;&#x43B;&#x430; &#x440;&#x435;&#x43A;&#x43B;&#x430;&#x43C;&#x443;&quot;</code>
+</code></pre><p>Althou, the whole output sentence may not have the same meaning as the original one.  :)  This is one of the major TO-DO&apos;s at the moment.</p>
+<h2 id="installation">Installation</h2><ol>
+<li>Install <a href="https://nodejs.org">NodeJS</a>,   </li>
+<li>Run <code>npm i -g text-morpher</code> to install package globally</li>
+</ol>
+<p>This module has a built-in dictionary for about ~22K words, so it kinda  works right after the installation. But the most interesting part of it require to use word2vec model file to enable context search features.
+In order to use it - we need to install a word2vector module and download the word2vec model for russian language.  Since it is quite an expensive feature (the model is about 600Mb in size and when it is loaded it takes the same amount of RAM) I left it disabled by default.  But you need just to run one extra command to make it all automatically. An important note: <strong>on Windows it will ask for admin privileges</strong> to compile a c++ binary, but don&apos;t worry - you may check /scripts/postInstall.js and make sure it doesn&apos;t do any harm. :)</p>
+<ol start="3">
+<li>Run <code>text-morpher install</code> to add word2vec support</li>
+</ol>
+<p>That&apos;s it - now you may use Morpher class in your app or run in from CLI</p>
+<h2 id="configuration">Configuration</h2><p>There is a morpher.config.json file in the root folder. Morpher use it to look for matches when it processing tags.  Here is all the options available at the moment:</p>
+<pre><code class="lang-js"><code class="source-code prettyprint">{
+  // Parts of speech to process
+  // (see the whole list here http://opencorpora.org/dict.php?act=gram)
+  // Anythig else will be skipped and left in the original form
+  &quot;parts&quot;: [&quot;NOUN&quot;,&quot;ADJF&quot;,&quot;VERB&quot;,&quot;INFN&quot;],
+
+  // Match the first letter of the original word
+  &quot;first&quot;: false,
+
+  // Match the last letter of the original word
+  &quot;last&quot;: false,
+
+  // Match the length of the original word
+  &quot;length&quot;: false,
+
+  // Match all the vowels  (&#x43C;&#x43E;&#x43B;&#x43E;&#x43A;&#x43E; -&gt; &#x434;&#x43E;&#x43B;&#x43E;&#x442;&#x43E;)
+  &quot;vowels&quot;: false,
+
+  // Match syllable count (&#x433;&#x43E;&#x440;&#x431;&#x438;&#x432;&#x448;&#x438;&#x435;&#x441;&#x44F; -&gt; &#x433;&#x443;&#x441;&#x435;&#x43D;&#x438;&#x446;&#x430;&#x43C;&#x438;)
+  &quot;syllables&quot;: false,
+
+  // Match the accent syllable  (&#x43F;&#x43E;&#x433;&#x43E;`&#x434;&#x430; -&gt; &#x43F;&#x440;&#x43E;&#x444;&#x435;`&#x441;&#x441;&#x438;&#x44F;)
+  &quot;accent&quot;: false,
+
+  // Match the accent vowel (&#x43F;&#x43E;&#x433;&#x43E;`&#x434;&#x430; -&gt; &#x437;&#x430;&#x431;&#x43E;`&#x442;&#x430;)
+  &quot;accentLetter&quot;: false,
+
+  // Match all the original grammar tags  (gender, tense, plural, case etc.) 
+  // (see the whole list here http://opencorpora.org/dict.php?act=gram)
+  &quot;tags&quot;: false,
+
+  // false or a string with regexp
+  &quot;regexp&quot;: false,
+
+  // Enable search by word2vec model
+  &quot;contextSearch&quot;: true,
+
+  // Treshold for search by word2vec model - float
+  &quot;treshHold&quot;: 0.6
+}</code>
+</code></pre>
+<p>The same structure could be passed as an object to Morpher.runTemplate to override any of these options.</p>
+<h2 id="cli-usage">CLI Usage</h2><p>At the moment two commands are supported from command line: </p>
+<ol>
+<li><p><strong>text-morpher cli</strong> - this command starts morpher in interactive mode. </p>
+<ul>
+<li>If you type any text - it will substitute it with any matches with default matching options from  ./morpher.config.json</li>
+<li>If you enter just a single word - it will try find the best matching word in word2vec model.
+(&#x44F;&#x431;&#x43B;&#x43E;&#x43A;&#x43E; -&gt; &#x43F;&#x435;&#x447;&#x451;&#x43D;&#x43E;&#x435;, &#x441;&#x443;&#x43C;&#x43A;&#x430; -&gt; &#x434;&#x435;&#x440;&#x43C;&#x430;&#x442;&#x438;&#x43D;&#x43E;&#x432;&#x430;&#x44F;,  &#x43A;&#x440;&#x430;&#x441;&#x43D;&#x44B;&#x439; -&gt; &#x431;&#x443;&#x440;&#x436;&#x443;&#x439; &#x435;tc.)  </li>
+<li>If you enter just a single word with tilda, like this: <code>~&#x441;&#x432;&#x43E;&#x431;&#x43E;&#x434;&#x430;</code>, it will show you all the closest matches from word2vec model.</li>
+</ul>
+</li>
+<li><p><strong>text-morpher morph</strong> - this command has two options: <code>input</code> and <code>output</code>, where you can define input textfile to process and the name of an output file. Morpher will process all text from input file and save it in the output</p>
+</li>
+</ol>
+<h2 id="api-usage">API Usage</h2><p>This part is a subject to be updated soon.
+Like, very soon. :) But if you&apos;re interested - there are API call examples 
+in /test folder</p>
+<h2 id="useful-links">Useful links</h2><p><a href="http://opencorpora.org/dict.php?act=gram">OpenCorpora grammar tag list</a><br><a href="http://rusvectores.org/ru/models/">Word2Vec models</a><br><a href="https://deeplearning4j.org/word2vec.html">Word2Vec technology reference</a><br><a href="http://storage.googleapis.com/books/ngrams/books/datasetsv2.html">Google NGrams</a></p>
+<h2 id="thanks-to">Thanks to</h2><p>Denis Olshin <a href="mailto:me@denull.ru">me@denull.ru</a> for <a href="https://github.com/deNULL/Az.js">Az.js</a><br>Mikhail Korobov <a href="mailto:kmike84@gmail.com">kmike84@gmail.com</a> for <a href="https://github.com/kmike/pymorphy2">Pymorphy</a><br>Lee Xun <a href="mailto:speachlesslee@gmail.com">speachlesslee@gmail.com</a> for <a href="https://github.com/LeeXun/word2vector">word2vector</a></p>
+</div>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

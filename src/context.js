@@ -1,9 +1,17 @@
+import path from "path";
+
+import Parser from "./parser.js";
+
+import { exists, getFileSize, invert } from "./utils.js";
+
+/*
 const Parser = require("./parser.js");
 const utils = require("./utils.js");
-const path = require("path");
-const baseDir = path.join(__dirname, "../");
 
-module.exports = class Context {
+const baseDir = path.join(__dirname, "../");
+*/
+
+export default class Context {
   constructor(config) {
     this.parser = new Parser({ withSpaces: true });
 
@@ -13,14 +21,14 @@ module.exports = class Context {
     // Check if word2vector is installed
     if (
       config.contextSearch === false ||
-      !utils.exists(`${baseDir}/node_modules/word2vector/index.js`) ||
-      !utils.exists(`${config.modelFile}`)
+      !exists(`${baseDir}/node_modules/word2vector/index.js`) ||
+      !exists(`${config.modelFile}`)
     ) {
       console.log(`Context search with word2vec is disabled`);
       this.disabled = true;
     } else {
       console.log(
-        `Context search is enabled, model size - ${utils.getFileSize(
+        `Context search is enabled, model size - ${getFileSize(
           `${config.modelFile}`
         )}`
       );
@@ -42,7 +50,7 @@ module.exports = class Context {
       ADJF: "ADJ",
       INFN: "VERB"
     };
-    let backMap = utils.invert(posMap);
+    let backMap = invert(posMap);
 
     let vTag = `${token.wordNormal}_${posMap[token.part] || token.part}`;
     let results = [];
@@ -73,4 +81,4 @@ module.exports = class Context {
       })
       .map(v => this.parser.parseWord(v.word));
   }
-};
+}

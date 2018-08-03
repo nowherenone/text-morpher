@@ -1,24 +1,7 @@
-const MorpherJS = require("../src/morpher.js");
-const should = require("should");
+import MorpherJS from "../src/morpher.js";
+import should from "should";
 
 let Morpher;
-
-/*
-      Падежи:
-        nomn - именительный	(Кто? Что?)	хомяк ест
-        gent - родительный	(Кого? Чего?)	у нас нет хомяка
-        datv - дательный	(Кому? Чему?)	сказать хомяку спасибо
-        accs - винительный	(Кого? Что?)	книга читает хомяка
-        ablt - творительный	(Кем? Чем?)	зерно съедено хомяком 
-        loct - предложный	(О ком? О чём?)	память о хомякe
-      Число: 
-        sing - единственное число	хомяк
-        plur - множественное число	хомяки
-      Род:
-        masc - мужской род	хомяк, говорил
-        femn - женский род	хомячиха, говорила
-        neut - средний род	зерно, говорило
-    */
 
 describe("", function() {
   before(async function() {

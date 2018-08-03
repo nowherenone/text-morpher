@@ -1,17 +1,45 @@
-import { Bar as Progress } from "cli-progress";
-import procStats from "process-stats";
-import Az from "az";
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/morpher.js | text-morpher</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A standalone library for transforming russian words and text"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="text-morpher"><meta property="twitter:description" content="A standalone library for transforming russian words and text"></head>
+<body class="layout-container" data-ice="rootContainer">
 
-import Dictionary from "./dictionary.js";
-import { getRandomItem } from "./utils.js";
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/nowherenone/text-morpher"><img width="20px" src="./image/github.png"></a></header>
 
-/*
-const utils = require("./utils.js");
-const Dictionary = require("./dictionary.js");
-const Progress = require("cli-progress").Bar;
-const procStats = require("process-stats");
-const Az = require("az");
-*/
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/morpher.js~Morpher.html">Morpher</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/morpher.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const utils = require(&quot;./utils.js&quot;);
+const Dictionary = require(&quot;./dictionary.js&quot;);
+const Progress = require(&quot;cli-progress&quot;).Bar;
+const procStats = require(&quot;process-stats&quot;);
+const Az = require(&quot;az&quot;);
 
 /**
  *
@@ -30,11 +58,11 @@ export default class Morpher {
    * @param {*} config
    */
   init(config) {
-    return new Promise(async resolve => {
-      Az.Morph.init(() => {
+    return new Promise(async resolve =&gt; {
+      Az.Morph.init(() =&gt; {
         global.Az = Az;
 
-        new Dictionary(config).then(d => {
+        new Dictionary(config).then(d =&gt; {
           this.dictionary = d;
           this.parser = this.dictionary.parser;
           this.showStat();
@@ -53,7 +81,7 @@ export default class Morpher {
     let wordCount = 0;
     let d = this.dictionary.speechParts;
     let pstat = procStats({ pretty: true });
-    Object.keys(d).forEach(k => (wordCount += d[k].length));
+    Object.keys(d).forEach(k =&gt; (wordCount += d[k].length));
 
     console.log(`Words in dictionary - ${wordCount}`);
     console.log(`Memory used - ${pstat.memUsed.pretty}`);
@@ -78,19 +106,19 @@ export default class Morpher {
   createTemplate(inputStr) {
     return this.parser
       .parseText(inputStr)
-      .map(t => t.shortTag || t.word)
-      .join("");
+      .map(t =&gt; t.shortTag || t.word)
+      .join(&quot;&quot;);
   }
 
   /**
-   *  Template syntax - {NOUN/^п./мр}
+   *  Template syntax - {NOUN/^&#x43F;./&#x43C;&#x440;}
    *  {[PART]/[Regexp]/[tags]/[original]}
    *
    * @param {*} template
    * @memberof Morpher
    */
   runTemplate(template, matchOptions = {}) {
-    let steps = template.split(" ");
+    let steps = template.split(&quot; &quot;);
     let output = [],
       stats = [];
     let tokenLookup = {};
@@ -102,20 +130,20 @@ export default class Morpher {
     let bar = new Progress({
       barsize: 10,
       format:
-        "Processing: [{bar}] {percentage}% | {speed} words/s | {replaces} replaces | {value}/{total}"
+        &quot;Processing: [{bar}] {percentage}% | {speed} words/s | {replaces} replaces | {value}/{total}&quot;
     });
 
-    if (steps.length > minProgress) bar.start(steps.length, 0);
+    if (steps.length &gt; minProgress) bar.start(steps.length, 0);
 
-    steps.forEach((v, i) => {
-      let tagText = (v.match("{{.*}}") || []).shift();
+    steps.forEach((v, i) =&gt; {
+      let tagText = (v.match(&quot;{{.*}}&quot;) || []).shift();
 
       if (tagText) {
         let tag = this.splitTag(tagText);
 
         // If we have a normal match
         matchOptions.matchNormal = false;
-        if (tag.origin && normalLookup[tag.origin]) {
+        if (tag.origin &amp;&amp; normalLookup[tag.origin]) {
           matchOptions.matchNormal = normalLookup[tag.origin];
         }
 
@@ -126,7 +154,7 @@ export default class Morpher {
         if (!tokenLookup[tagText]) tokenLookup[tagText] = tagData;
 
         // Cache processed normal matches
-        if (tag.origin && !normalLookup[tag.origin]) {
+        if (tag.origin &amp;&amp; !normalLookup[tag.origin]) {
           normalLookup[tag.origin] = tagData.wordNormal;
         }
 
@@ -138,7 +166,7 @@ export default class Morpher {
       }
 
       // Update progressbar
-      if (steps.length > minProgress)
+      if (steps.length &gt; minProgress)
         bar.update(i, {
           speed: Math.floor(i / ((new Date() - startTime) / 1000)),
           replaces
@@ -147,9 +175,9 @@ export default class Morpher {
       stats.push(tokenLookup[tagText] || { word: v });
     });
 
-    if (steps.length > minProgress) bar.stop();
+    if (steps.length &gt; minProgress) bar.stop();
 
-    return { text: output.join(" "), stats: stats };
+    return { text: output.join(&quot; &quot;), stats: stats };
   }
 
   /**
@@ -159,15 +187,15 @@ export default class Morpher {
    */
   formatStats(text, tpl) {
     let stat = { avgMatch: 0, matchContext: 0, replaced: 0 };
-    text.stats.forEach(s => {
+    text.stats.forEach(s =&gt; {
       if (s.tag) stat.replaced++;
       if (s.foundContext) stat.matchContext++;
       if (s.matches) stat.avgMatch += s.matches.length;
     });
 
-    stat.replaced = (stat.replaced / text.stats.length) * 100 + "%";
-    stat.avgMatch = (stat.avgMatch / stat.replaced) * 100 + "%";
-    stat.matchContext = (stat.matchContext / stat.replaced) * 100 + "%";
+    stat.replaced = (stat.replaced / text.stats.length) * 100 + &quot;%&quot;;
+    stat.avgMatch = (stat.avgMatch / stat.replaced) * 100 + &quot;%&quot;;
+    stat.matchContext = (stat.matchContext / stat.replaced) * 100 + &quot;%&quot;;
     stat.totalWords = text.stats.length;
 
     return stat;
@@ -177,17 +205,17 @@ export default class Morpher {
    *
    * @param {*} tag
    */
-  splitTag(tag = "") {
+  splitTag(tag = &quot;&quot;) {
     let chunks = tag
-      .replace("{{", "")
-      .replace("}}", "")
-      .split("/");
+      .replace(&quot;{{&quot;, &quot;&quot;)
+      .replace(&quot;}}&quot;, &quot;&quot;)
+      .split(&quot;/&quot;);
 
     return {
       pos: chunks[0], // Part of speech
       regExp: chunks[1], // Regexp to match
-      tags: chunks[2] ? (chunks[2] = chunks[2].split(",")) : [], // Tags - third part of the token
-      origin: chunks[3] || "", // Initial word to replace
+      tags: chunks[2] ? (chunks[2] = chunks[2].split(&quot;,&quot;)) : [], // Tags - third part of the token
+      origin: chunks[3] || &quot;&quot;, // Initial word to replace
       text: tag // initial text
     };
   }
@@ -212,7 +240,7 @@ export default class Morpher {
     };
 
     // If matchOptions have filter by parts - apply it
-    if (partsFilter && !~partsFilter.indexOf(tag.pos)) {
+    if (partsFilter &amp;&amp; !~partsFilter.indexOf(tag.pos)) {
       result.result = tag.origin;
       return result;
     }
@@ -230,11 +258,11 @@ export default class Morpher {
 
     result.foundContext = false;
 
-    // If we didn't find context matches try
+    // If we didn&apos;t find context matches try
     if (searchOptions.contextSearch) {
       if (tokens.length) {
         result.foundContext = true;
-      } else if (searchOptions.contextSearch != "strict") {
+      } else if (searchOptions.contextSearch != &quot;strict&quot;) {
         searchOptions.contextSearch = false;
         tokens = this.dictionary.getWords(
           tag.pos,
@@ -245,10 +273,10 @@ export default class Morpher {
       }
     }
 
-    let word = getRandomItem(tokens);
-    result.matches = (tokens.map(t => t.word) || []).slice(0, 20);
-    result.wordNormal = word ? word.wordNormal : tag.origin || "";
-    result.result = word ? word.word : tag.origin || "";
+    let word = utils.getRandomItem(tokens);
+    result.matches = (tokens.map(t =&gt; t.word) || []).slice(0, 20);
+    result.wordNormal = word ? word.wordNormal : tag.origin || &quot;&quot;;
+    result.result = word ? word.word : tag.origin || &quot;&quot;;
 
     return result;
   }
@@ -277,7 +305,7 @@ export default class Morpher {
 
     // Options to search a word
     if (
-      tag.origin &&
+      tag.origin &amp;&amp;
       (matchOptions.vowels ||
         matchOptions.syllables ||
         matchOptions.accent ||
@@ -286,10 +314,10 @@ export default class Morpher {
       let o = this.parser.parseWord(tag.origin) || {};
 
       Object.assign(searchOptions, {
-        vowelmap: o.vowels || "",
-        accmap: o.accmap || "",
+        vowelmap: o.vowels || &quot;&quot;,
+        accmap: o.accmap || &quot;&quot;,
         origin: tag.origin,
-        originNormal: o.wordNormal || tag.origin || "",
+        originNormal: o.wordNormal || tag.origin || &quot;&quot;,
         accentLetter: matchOptions.accentLetter
       });
     }
@@ -311,10 +339,10 @@ export default class Morpher {
    * @param {*} origin
    */
   inflect(origin, tags = []) {
-    let tagArray = typeof tags === "string" ? tags.split(",") : tags;
+    let tagArray = typeof tags === &quot;string&quot; ? tags.split(&quot;,&quot;) : tags;
 
     let input = this.parser.parseWord(origin);
-    if (input && input.parse) {
+    if (input &amp;&amp; input.parse) {
       // Inflect
       let inf = input.parse.inflect(tagArray);
       return inf ? inf.word : origin;
@@ -331,7 +359,7 @@ export default class Morpher {
     let input = this.parser.parseWord(origin);
     number = parseInt(number, 10);
 
-    if (input && input.parse && number) {
+    if (input &amp;&amp; input.parse &amp;&amp; number) {
       // Inflect
       let inf = input.parse.pluralize(number);
       return inf ? inf.word : origin;
@@ -348,24 +376,24 @@ export default class Morpher {
    * @returns
    * @memberof Morpher
    */
-  getNextWord(origin, regExp = ".*") {
+  getNextWord(origin, regExp = &quot;.*&quot;) {
     let conformMap = {
-      NOUN: "ADJF",
-      ADJF: "NOUN",
-      VERB: "NOUN",
-      INFN: "NOUN"
+      NOUN: &quot;ADJF&quot;,
+      ADJF: &quot;NOUN&quot;,
+      VERB: &quot;NOUN&quot;,
+      INFN: &quot;NOUN&quot;
     };
 
-    let inputToken = this.parser.parseWord(origin || "");
-    if (!inputToken) return "";
+    let inputToken = this.parser.parseWord(origin || &quot;&quot;);
+    if (!inputToken) return &quot;&quot;;
 
     let tag = this.splitTag(inputToken.shortTag);
 
     // Edge case for verbs
-    if (tag.pos.match("VERB|INFN")) tag.tags = ["accs"];
+    if (tag.pos.match(&quot;VERB|INFN&quot;)) tag.tags = [&quot;accs&quot;];
 
     let results = this.dictionary.getWords(
-      conformMap[tag.pos] || "NOUN",
+      conformMap[tag.pos] || &quot;NOUN&quot;,
       regExp,
       tag.tags,
       {
@@ -374,10 +402,10 @@ export default class Morpher {
       }
     );
 
-    // If we didn't get enough matches from w2v - choose random one
-    if (results.length < 3) {
+    // If we didn&apos;t get enough matches from w2v - choose random one
+    if (results.length &lt; 3) {
       results = this.dictionary.getWords(
-        conformMap[tag.pos] || "NOUN",
+        conformMap[tag.pos] || &quot;NOUN&quot;,
         regExp,
         tag.tags,
         {
@@ -387,7 +415,26 @@ export default class Morpher {
       );
     }
 
-    let word = getRandomItem(results) || {};
-    return word.word || "";
+    let word = utils.getRandomItem(results) || {};
+    return word.word || &quot;&quot;;
   }
 }
+
+//module.exports = Morpher;
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -1,6 +1,4 @@
-const utils = require("./utils.js");
-
-class Parser {
+export default class Parser {
   constructor(options = {}) {
     this.Az = global.Az;
     this.options = options;
@@ -145,5 +143,3 @@ class Parser {
     return output.length ? output : [wordData];
   }
 }
-
-module.exports = Parser;
