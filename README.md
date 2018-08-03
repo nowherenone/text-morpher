@@ -1,5 +1,8 @@
 # text-morpher
+[![npm version](https://badge.fury.io/js/text-morpher.svg)](https://badge.fury.io/js/text-morpher)
 ![TravisCL build](https://api.travis-ci.org/nowherenone/text-morpher.svg?branch=master)
+![](https://img.shields.io/npm/dt/text-morpher.svg)
+
 
 ## Features and goals
 
