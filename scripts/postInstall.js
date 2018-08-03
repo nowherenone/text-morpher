@@ -5,7 +5,6 @@ const readline = require("readline");
 const chalk = require("chalk");
 const tmp = require("tmp");
 const fs = require("fs");
-const winTools = require("node-windows");
 const utils = require("../src/utils.js");
 const Spinner = require("cli-spinner").Spinner;
 const gunzip = require("gunzip-file");
@@ -51,6 +50,7 @@ const installWindowsLibs = () => {
     }
   });
 
+  const winTools = require("node-windows");
   winTools.elevate(cmdFile.name);
 
   console.log(
@@ -86,7 +86,7 @@ const downloadDictionary = () => {
 const unpackAndRename = async name => {
   let localDir = __dirname + "/../dictionary/default/";
 
-  console.log(chalk.white("Step 4/4: File is recieved, unpacking...\n"));
+  console.log(chalk.white("Step 4/4: File is received, unpacking...\n"));
 
   gunzip(name, localDir + "context.bin", function() {
     console.log("Model is extracted. Installation is completed now.");
@@ -95,8 +95,6 @@ const unpackAndRename = async name => {
 };
 
 const startPostInstall = () => {
-  console.log(text);
-
   // Check if we are on Windows
   if (
     ~require("os")
@@ -111,7 +109,15 @@ const startPostInstall = () => {
     rl.question(
       "Do you want to install windows-build-tools now? (Y/n): ",
       answer => {
-        if (answer.toLowerCase() != "n") installWindowsLibs();
+        if (answer.toLowerCase() != "n") {
+          utils.runProcess(
+            utils.getNPMName(),
+            ["install", "node-windows"],
+            c => {
+              installWindowsLibs();
+            }
+          );
+        }
       }
     );
   } else {
@@ -119,6 +125,4 @@ const startPostInstall = () => {
   }
 };
 
-//downloadDictionary();
-//unpackAndRename();
 startPostInstall();
