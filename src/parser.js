@@ -92,38 +92,12 @@ class Parser {
    * @returns
    * @memberof Parser
    */
-  parseText(text) {
-    let tokens = this.Az.Tokens(Array.isArray(text) ? text.join(" ") : text)
+  parseText(inputText) {
+    let text = Array.isArray(inputText) ? inputText.join(" ") : inputText;
+    let tokens = this.Az.Tokens(text)
       .done()
       .map(token => {
-        let origin = token.source.substr(token.st, token.length);
-        let isCapitalized = origin[0] != (origin[0] || "").toLowerCase();
-
-        let word = {
-          word: origin
-        };
-
-        word = Object.assign(word, this.getVowelMap(origin));
-
-        if (
-          token.type == "WORD" &&
-          token.subType == "CYRIL" &&
-          !isCapitalized
-        ) {
-          let parse = this.Az.Morph(origin).shift();
-
-          if (parse) {
-            Object.assign(word, {
-              wordNormal: parse.normalize().word,
-              parse: parse,
-              tag: parse.tag,
-              part: parse.tag.POST,
-              shortTag: this.getShortTag(parse) || origin || ""
-            });
-          }
-        }
-
-        return word;
+        return this.parseToken(token, true).shift() || {};
       });
 
     return (
@@ -131,6 +105,44 @@ class Parser {
         ? tokens
         : tokens.filter(token => token.word.trim())) || []
     );
+  }
+
+  /**
+   *
+   */
+  parseToken(token, quick) {
+    let origin = token.source.substr(token.st, token.length);
+    let isCapitalized = origin[0] != (origin[0] || "").toLowerCase();
+    let output = [];
+
+    // Get basic word properties
+    let wordData = Object.assign(
+      {
+        word: origin
+      },
+      this.getVowelMap(origin)
+    );
+
+    // Process only cyrillic words for now
+    if (token.type == "WORD" && token.subType == "CYRIL" && !isCapitalized) {
+      let parseVars = this.Az.Morph(origin);
+
+      if (parseVars && parseVars.length) {
+        if (quick) parseVars = [parseVars[0]];
+
+        output = parseVars.map(parse => {
+          return Object.assign({}, wordData, {
+            wordNormal: parse.normalize().word,
+            parse: parse,
+            tag: parse.tag,
+            part: parse.tag.POST,
+            shortTag: this.getShortTag(parse) || origin || ""
+          });
+        });
+      }
+    }
+
+    return output.length ? output : [wordData];
   }
 }
 

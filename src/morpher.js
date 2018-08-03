@@ -298,10 +298,12 @@ class Morpher {
    * @param {*} origin
    */
   inflect(origin, tags = []) {
+    let tagArray = typeof tags === "string" ? tags.split(",") : tags;
+
     let input = this.parser.parseWord(origin);
     if (input && input.parse) {
       // Inflect
-      let inf = input.parse.inflect(tags);
+      let inf = input.parse.inflect(tagArray);
       return inf ? inf.word : origin;
     } else {
       return origin;
@@ -312,9 +314,11 @@ class Morpher {
    *
    * @param {*} origin
    */
-  pluralize(origin, number) {
+  pluralize(origin, number = 1) {
     let input = this.parser.parseWord(origin);
-    if (input && input.parse) {
+    number = parseInt(number, 10);
+
+    if (input && input.parse && number) {
       // Inflect
       let inf = input.parse.pluralize(number);
       return inf ? inf.word : origin;

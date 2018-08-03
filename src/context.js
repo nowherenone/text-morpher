@@ -5,7 +5,7 @@ module.exports = class Context {
   constructor(config) {
     this.parser = new Parser({ withSpaces: true });
 
-    this.treshHold = 0.5;
+    this.treshHold = 0.8;
     this.topN = 200;
 
     // Check if word2vector is installed

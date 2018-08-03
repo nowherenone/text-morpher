@@ -10,5 +10,5 @@
   "contextSearch": true,
   "tags": false,
   "regexp": false,
-  "treshHold": 0.8
+  "treshHold": 0.6
 }

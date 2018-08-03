@@ -4,7 +4,6 @@ const utils = require("./src/utils.js");
 const args = require("args");
 const fs = require("fs");
 const Morpher = require("./src/morpher.js");
-
 const readConfig = () => {
   let cfg = {};
   try {
@@ -12,6 +11,8 @@ const readConfig = () => {
   } catch (e) {}
   return cfg;
 };
+
+let MorpherInstance;
 
 /**
  * Morph an input file
@@ -39,7 +40,16 @@ const morphText = async (name, sub, options) => {
   console.log(`Done. Results are stored in ${options.output} file.`);
 };
 
-const processCLIInput = (answer, callback) => {
+const processCLIInput = (answer = "", callback) => {
+  let Morpher = MorpherInstance;
+
+  console.log(
+    Morpher.runTemplate(
+      "{{NOUN/.*/femn,sing,nomn/мама}} {{VERB/.*/impf,tran,femn,sing,past,indc/мыла}} {{NOUN/.*/femn,sing,accs/раму}}",
+      readConfig()
+    ).text
+  );
+
   if (answer.split(" ").length > 1) {
     let tpl = Morpher.createTemplate(answer);
     let result = Morpher.runTemplate(tpl, readConfig());
@@ -100,7 +110,8 @@ args
     async (name, sub, options) => {
       let M = new Morpher();
       await M.init(options);
-      interactiveMode(M);
+      MorpherInstance = M;
+      interactiveMode();
     }
   );
 
@@ -123,7 +134,8 @@ const interactiveMode = Morpher => {
 
   let question = () => {
     rl.question("Input: ", answer => {
-      processCLIInput();
+      processCLIInput(answer);
+      question();
     });
   };
 
@@ -131,6 +143,7 @@ const interactiveMode = Morpher => {
 };
 
 /*
+
    console.log(M.dictionary.context.getSimilarWords({
       wordNormal: "месяц",
       part: "NOUN"
