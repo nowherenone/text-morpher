@@ -139,6 +139,9 @@ args
     }*/
   ])
   .command("morph", "Morph text using word substitution", morphText)
+  .command("install", "Download and install word2vec model support", () => {
+    require("./postInstall.js");
+  })
   .command(
     "cli",
     "Interactive command-line mode",
@@ -150,4 +153,5 @@ args
     }
   );
 
-args.parse(process.argv);
+const flags = args.parse(process.argv);
+//args.showHelp();

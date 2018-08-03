@@ -130,8 +130,8 @@ const getNPMName = () => {
  */
 const runProcess = (command, params, callback) => {
   let proc = spawn(command, params);
-  proc.stdout.on("data", data => console.log("" + data));
-  proc.stderr.on("data", data => console.log("" + data));
+  //proc.stdout.on("data", data => console.log("" + data));
+  //proc.stderr.on("data", data => console.log("" + data));
   if (callback) proc.on("close", callback);
 };
 
