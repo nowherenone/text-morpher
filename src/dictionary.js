@@ -2,9 +2,10 @@ const fs = require("fs");
 const Parser = require("./parser.js");
 const Context = require("./context.js");
 const utils = require("./utils.js");
+const path = require("path");
+const baseDir = path.join(__dirname, "../");
 
 /**
- * http://pymorphy2.readthedocs.io/en/latest/user/grammemes.html
  *
  * @class Dictionary
  */
@@ -22,7 +23,7 @@ class Dictionary {
   }
 
   async initDictionary(name, isFallback) {
-    let dPath = "./dictionary/";
+    let dPath = `${baseDir}/dictionary/`;
 
     let wordsFile = utils.exists(`${dPath}${name}/words.json`);
     let accentFile = utils.exists(`${dPath}${name}/accents.json`);

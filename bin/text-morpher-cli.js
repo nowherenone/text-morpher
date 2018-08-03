@@ -3,22 +3,15 @@
 
 process.title = "text-morpher";
 
-let originalBaseDir = process.cwd();
-
-const dotenv = require("dotenv").config();
 const readline = require("readline");
-
+const path = require("path");
+const baseDir = path.join(__dirname, "../");
 const args = require("args");
-const flags = args.parse(process.argv);
-const fs = require("fs");
-
 const utils = require("../src/utils.js");
 const Morpher = require("../src/morpher.js");
 
+let originalBaseDir = process.cwd();
 let MorpherInstance;
-
-//console.log(flags, process.argv);
-//args.showHelp();
 
 /**
  *
@@ -28,7 +21,7 @@ let MorpherInstance;
 const readConfig = () => {
   let cfg = {};
   try {
-    cfg = JSON.parse(utils.getFile("../morpher.config.json"));
+    cfg = JSON.parse(utils.getFile(baseDir + "/morpher.config.json"));
   } catch (e) {}
   return cfg;
 };
@@ -54,12 +47,12 @@ const morphText = async (name, sub, options) => {
 
   let M = new Morpher();
   await M.init(options);
-  let input = utils.getFile(options.input);
+  let input = utils.getFile(`${originalBaseDir}/${options.input}`);
 
   let tpl = M.createTemplate(input);
   let result = M.runTemplate(tpl, readConfig());
 
-  utils.writeFile(options.output, result.text);
+  utils.writeFile(`${originalBaseDir}/${options.output}`, result.text);
 
   console.log(`Done. Results are stored in ${options.output} file.`);
 };
@@ -156,3 +149,5 @@ args
       interactiveMode();
     }
   );
+
+args.parse(process.argv);
