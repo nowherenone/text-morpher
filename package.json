@@ -15,6 +15,10 @@
     "docs": "./node_modules/.bin/esdoc",
     "build": "./node_modules/.bin/babel src --out-dir lib"
   },
+  "pre-commit": [
+    "build",
+    "docs"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nowherenone/text-morpher.git"
@@ -56,6 +60,7 @@
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
     "mochawesome": "^3.0.3",
+    "pre-commit": "^1.2.2",
     "should": "^13.2.1"
   },
   "optionalDependencies": {

@@ -5,13 +5,6 @@ import Parser from "./parser.js";
 import Context from "./context.js";
 import { exists, getFile, unpackZip, getRandomItem } from "./utils.js";
 
-/*
-const Parser = require("./parser.js");
-const Context = require("./context.js");
-const utils = require("./utils.js");
-const path = require("path");
-*/
-
 const baseDir = path.join(__dirname, "../");
 
 /**

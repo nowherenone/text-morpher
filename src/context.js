@@ -1,16 +1,12 @@
-import path from "path";
-
 import Parser from "./parser.js";
-
 import { exists, getFileSize, invert } from "./utils.js";
 
-/*
-const Parser = require("./parser.js");
-const utils = require("./utils.js");
-
-const baseDir = path.join(__dirname, "../");
-*/
-
+/**
+ *
+ *
+ * @export
+ * @class Context
+ */
 export default class Context {
   constructor(config) {
     this.parser = new Parser({ withSpaces: true });

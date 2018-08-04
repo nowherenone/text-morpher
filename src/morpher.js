@@ -5,14 +5,6 @@ import Az from "az";
 import Dictionary from "./dictionary.js";
 import { getRandomItem } from "./utils.js";
 
-/*
-const utils = require("./utils.js");
-const Dictionary = require("./dictionary.js");
-const Progress = require("cli-progress").Bar;
-const procStats = require("process-stats");
-const Az = require("az");
-*/
-
 /**
  *
  *

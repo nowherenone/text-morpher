@@ -1,19 +1,9 @@
 import fs from "fs";
 import chalk from "chalk";
-import readline from "readline";
 import Unzip from "unzip-stream";
 import { spawn } from "child_process";
 import http from "http";
 import { Bar as Progress } from "cli-progress";
-/*
-const fs = require("fs");
-const chalk = require("chalk");
-const readline = require("readline");
-const Unzip = require("unzip-stream");
-const spawn = require("child_process").spawn;
-const http = require("http");
-const Progress = require("cli-progress").Bar;
-*/
 
 export const log = text => {
   //const log = console.log;
@@ -91,6 +81,7 @@ export const unpackZip = async (packedFile, targetFolder) => {
 export const exists = path => {
   return fs.existsSync(path) ? path : false;
 };
+
 export const getFile = (name = "./dump.json") => {
   return exists(name) ? fs.readFileSync(name, "utf8") : "";
 };
