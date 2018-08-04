@@ -1,76 +1,47 @@
 {
-  "coverage": "39.17%",
-  "expectCount": 97,
-  "actualCount": 38,
+  "coverage": "53.33%",
+  "expectCount": 75,
+  "actualCount": 40,
   "files": {
     "src/context.js": {
-      "expectCount": 12,
-      "actualCount": 1,
+      "expectCount": 8,
+      "actualCount": 2,
       "undocumentLines": [
-        1,
-        2,
-        3,
-        4,
-        6,
-        7,
-        8,
-        10,
         11,
-        20,
-        27
+        12,
+        14,
+        15,
+        24,
+        31
       ]
     },
     "src/dictionary.js": {
-      "expectCount": 27,
+      "expectCount": 22,
       "actualCount": 13,
       "undocumentLines": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        13,
-        14,
-        19,
-        25,
-        55,
-        64,
-        70,
-        127
+        8,
+        15,
+        16,
+        21,
+        27,
+        57,
+        66,
+        72,
+        129
       ]
     },
     "src/morpher.js": {
-      "expectCount": 22,
+      "expectCount": 17,
       "actualCount": 14,
       "undocumentLines": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        13,
-        29,
-        30
+        14,
+        30,
+        31
       ]
     },
     "src/parser.js": {
-      "expectCount": 15,
+      "expectCount": 14,
       "actualCount": 7,
-      "undocumentLines": [
-        1,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        19
-      ]
-    },
-    "src/utils.js": {
-      "expectCount": 21,
-      "actualCount": 3,
       "undocumentLines": [
         1,
         2,
@@ -78,18 +49,23 @@
         4,
         5,
         6,
-        7,
-        9,
-        13,
-        75,
-        79,
-        83,
+        17
+      ]
+    },
+    "src/utils.js": {
+      "expectCount": 14,
+      "actualCount": 4,
+      "undocumentLines": [
+        8,
+        81,
+        85,
         88,
-        92,
-        96,
-        100,
-        104,
-        110
+        93,
+        97,
+        101,
+        105,
+        109,
+        115
       ]
     }
   }

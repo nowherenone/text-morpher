@@ -29,24 +29,43 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/morpher.js~Morpher.html">Morpher</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/context.js~Context.html">Context</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/dictionary.js~Dictionary.html">Dictionary</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/morpher.js~Morpher.html">Morpher</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/parser.js~Parser.html">Parser</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-asyncForEach">asyncForEach</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-download">download</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dumpFile">dumpFile</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exists">exists</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getFile">getFile</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getFileSize">getFileSize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getNPMName">getNPMName</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getRandomItem">getRandomItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-invert">invert</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-log">log</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-prob">prob</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-runProcess">runProcess</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unpackZip">unpackZip</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-writeFile">writeFile</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/dictionary.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const fs = require(&quot;fs&quot;);
-const Parser = require(&quot;./parser.js&quot;);
-const Context = require(&quot;./context.js&quot;);
-const utils = require(&quot;./utils.js&quot;);
-const path = require(&quot;path&quot;);
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import path from &quot;path&quot;;
+import fs from &quot;fs&quot;;
+
+import Parser from &quot;./parser.js&quot;;
+import Context from &quot;./context.js&quot;;
+import { exists, getFile, unpackZip, getRandomItem } from &quot;./utils.js&quot;;
+
 const baseDir = path.join(__dirname, &quot;../&quot;);
 
 /**
  *
  * @class Dictionary
  */
-class Dictionary {
+export default class Dictionary {
   constructor(config = {}) {
     this.speechParts = {};
     let name = config.dictionary;
@@ -62,10 +81,10 @@ class Dictionary {
   async initDictionary(name, isFallback) {
     let dPath = `${baseDir}/dictionary/`;
 
-    let wordsFile = utils.exists(`${dPath}${name}/words.json`);
-    let accentFile = utils.exists(`${dPath}${name}/accents.json`);
-    let stopFile = utils.exists(`${dPath}${name}/stopwords.json`);
-    let packedFile = utils.exists(`${dPath}${name}/dictionary.gz`);
+    let wordsFile = exists(`${dPath}${name}/words.json`);
+    let accentFile = exists(`${dPath}${name}/accents.json`);
+    let stopFile = exists(`${dPath}${name}/stopwords.json`);
+    let packedFile = exists(`${dPath}${name}/dictionary.gz`);
 
     // If there is no words file - load defaults
     if (!wordsFile &amp;&amp; !packedFile) {
@@ -80,25 +99,25 @@ class Dictionary {
     // If dictionary is unpacked - unpack it
     if (!wordsFile &amp;&amp; packedFile) {
       console.log(`Unpacking ${name} dictionary`);
-      await utils.unpackZip(packedFile, `${dPath}${name}`);
+      await unpackZip(packedFile, `${dPath}${name}`);
       await this.initDictionary(name, true);
       return;
     }
 
     // Stopwords file fallback
-    if (!stopFile) stopFile = utils.exists(`${dPath}/default/stopwords.json`);
+    if (!stopFile) stopFile = exists(`${dPath}/default/stopwords.json`);
     // Load stopwords
     try {
-      this.stopWords = JSON.parse(utils.getFile(stopFile));
+      this.stopWords = JSON.parse(getFile(stopFile));
     } catch (e) {
       this.stopWords = [];
     }
 
     // Accent file fallback
-    if (!accentFile) accentFile = utils.exists(`${dPath}/default/accents.json`);
+    if (!accentFile) accentFile = exists(`${dPath}/default/accents.json`);
     // Load accent lookups
     try {
-      this.accentLookup = JSON.parse(utils.getFile(accentFile));
+      this.accentLookup = JSON.parse(getFile(accentFile));
     } catch (e) {
       this.accentLookup = {};
     }
@@ -119,11 +138,11 @@ class Dictionary {
    */
   initContext(config) {
     let dPath = `${baseDir}/dictionary/`;
-    let modelFile = utils.exists(`${dPath}${config.name}/context.bin`);
+    let modelFile = exists(`${dPath}${config.name}/context.bin`);
 
     // Load context
     if (!modelFile) {
-      modelFile = utils.exists(`${dPath}/default/context.bin`);
+      modelFile = exists(`${dPath}/default/context.bin`);
     }
 
     return new Context({ modelFile, contextSearch: config.contextSearch });
@@ -142,7 +161,7 @@ class Dictionary {
 
     // Try to open file
     try {
-      fileContent = utils.getFile(dictFile);
+      fileContent = getFile(dictFile);
     } catch (e) {
       console.error(`Cannot load ${dictFile} file to dictionary`);
     }
@@ -211,7 +230,7 @@ class Dictionary {
    */
   getWord(...params) {
     let tokens = this.getWords(...params);
-    let word = utils.getRandomItem(tokens) || {};
+    let word = getRandomItem(tokens) || {};
 
     return word.word || &quot;&quot;;
   }
@@ -394,8 +413,6 @@ class Dictionary {
     return this.getWord(&quot;ADJF&quot;, regexp, tags);
   }
   */
-
-module.exports = Dictionary;
 </code></pre>
 
 </div>

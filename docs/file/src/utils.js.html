@@ -29,25 +29,48 @@
 <nav class="navigation" data-ice="nav"><div>
   <ul>
     
-  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/morpher.js~Morpher.html">Morpher</a></span></span></li>
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/context.js~Context.html">Context</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/dictionary.js~Dictionary.html">Dictionary</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/morpher.js~Morpher.html">Morpher</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/parser.js~Parser.html">Parser</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-asyncForEach">asyncForEach</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-download">download</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-dumpFile">dumpFile</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-exists">exists</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getFile">getFile</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getFileSize">getFileSize</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getNPMName">getNPMName</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getRandomItem">getRandomItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-invert">invert</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-log">log</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-prob">prob</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-runProcess">runProcess</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-unpackZip">unpackZip</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-writeFile">writeFile</a></span></span></li>
 </ul>
 </div>
 </nav>
 
 <div class="content" data-ice="content"><h1 data-ice="title">src/utils.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const fs = require(&quot;fs&quot;);
-const chalk = require(&quot;chalk&quot;);
-const readline = require(&quot;readline&quot;);
-const Unzip = require(&quot;unzip-stream&quot;);
-const spawn = require(&quot;child_process&quot;).spawn;
-const http = require(&quot;http&quot;);
-const Progress = require(&quot;cli-progress&quot;).Bar;
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import fs from &quot;fs&quot;;
+import chalk from &quot;chalk&quot;;
+import Unzip from &quot;unzip-stream&quot;;
+import { spawn } from &quot;child_process&quot;;
+import http from &quot;http&quot;;
+import { Bar as Progress } from &quot;cli-progress&quot;;
 
-const log = text =&gt; {
+export const log = text =&gt; {
   //const log = console.log;
 };
 
-const download = (url, dest, cb) =&gt; {
+/**
+ * Download a file
+ *
+ * @param {*} url
+ * @param {*} dest
+ * @param {*} cb
+ */
+export const download = (url, dest, cb) =&gt; {
   let file = fs.createWriteStream(dest);
 
   let bar = new Progress({
@@ -99,7 +122,7 @@ const download = (url, dest, cb) =&gt; {
  * @param {*} packedFile
  * @param {*} targetFolder
  */
-const unpackZip = async (packedFile, targetFolder) =&gt; {
+export const unpackZip = async (packedFile, targetFolder) =&gt; {
   return new Promise((resolve, reject) =&gt; {
     const unzipper = Unzip.Extract({ path: targetFolder });
     unzipper.on(&quot;error&quot;, reject);
@@ -109,42 +132,41 @@ const unpackZip = async (packedFile, targetFolder) =&gt; {
   });
 };
 
-const exists = path =&gt; {
+export const exists = path =&gt; {
   return fs.existsSync(path) ? path : false;
 };
 
-const getFile = (name = &quot;./dump.json&quot;) =&gt; {
+export const getFile = (name = &quot;./dump.json&quot;) =&gt; {
   return exists(name) ? fs.readFileSync(name, &quot;utf8&quot;) : &quot;&quot;;
 };
-
-const getFileSize = path =&gt; {
+export const getFileSize = path =&gt; {
   const stats = fs.statSync(path);
   return Math.floor(stats[&quot;size&quot;] / (1024 * 1024)) + &quot;MB&quot;;
 };
 
-const writeFile = (name = &quot;./dump.txt&quot;, str) =&gt; {
+export const writeFile = (name = &quot;./dump.txt&quot;, str) =&gt; {
   fs.writeFileSync(name, str);
 };
 
-const dumpFile = (name = &quot;./dump.json&quot;, object) =&gt; {
+export const dumpFile = (name = &quot;./dump.json&quot;, object) =&gt; {
   fs.writeFileSync(name, JSON.stringify(object, null, 2));
 };
 
-const prob = prob =&gt; {
+export const prob = prob =&gt; {
   return Math.floor(Math.random() * 100) &lt;= prob;
 };
 
-const getRandomItem = items =&gt; {
+export const getRandomItem = items =&gt; {
   return items[Math.floor(Math.random() * items.length)];
 };
 
-const asyncForEach = async (array, callback) =&gt; {
+export const asyncForEach = async (array, callback) =&gt; {
   for (let index = 0; index &lt; array.length; index++) {
     await callback(array[index], index, array);
   }
 };
 
-const invert = obj =&gt; {
+export const invert = obj =&gt; {
   let new_obj = {};
   for (let prop in obj) {
     if (obj.hasOwnProperty(prop)) {
@@ -158,34 +180,18 @@ const invert = obj =&gt; {
 /**
  *  Get OS-independent npm name
  */
-const getNPMName = () =&gt; {
+export const getNPMName = () =&gt; {
   return /^win/.test(process.platform) ? &quot;npm.cmd&quot; : &quot;npm&quot;;
 };
 
 /**
  * Start the child process and output everything into console
  */
-const runProcess = (command, params, callback) =&gt; {
+export const runProcess = (command, params, callback) =&gt; {
   let proc = spawn(command, params);
   //proc.stdout.on(&quot;data&quot;, data =&gt; console.log(&quot;&quot; + data));
   //proc.stderr.on(&quot;data&quot;, data =&gt; console.log(&quot;&quot; + data));
   if (callback) proc.on(&quot;close&quot;, callback);
-};
-
-module.exports = {
-  getFile,
-  getFileSize,
-  unpackZip,
-  download,
-  dumpFile,
-  writeFile,
-  exists,
-  prob,
-  invert,
-  runProcess,
-  getNPMName,
-  asyncForEach,
-  getRandomItem
 };
 </code></pre>
 

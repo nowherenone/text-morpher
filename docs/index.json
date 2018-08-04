@@ -567,7 +567,7 @@
     "__docId__": 48,
     "kind": "file",
     "name": "src/context.js",
-    "content": "const Parser = require(\"./parser.js\");\r\nconst utils = require(\"./utils.js\");\r\nconst path = require(\"path\");\r\nconst baseDir = path.join(__dirname, \"../\");\r\n\r\nmodule.exports = class Context {\r\n  constructor(config) {\r\n    this.parser = new Parser({ withSpaces: true });\r\n\r\n    this.treshHold = 0.45;\r\n    this.topN = 200;\r\n\r\n    // Check if word2vector is installed\r\n    if (\r\n      config.contextSearch === false ||\r\n      !utils.exists(`${baseDir}/node_modules/word2vector/index.js`) ||\r\n      !utils.exists(`${config.modelFile}`)\r\n    ) {\r\n      console.log(`Context search with word2vec is disabled`);\r\n      this.disabled = true;\r\n    } else {\r\n      console.log(\r\n        `Context search is enabled, model size - ${utils.getFileSize(\r\n          `${config.modelFile}`\r\n        )}`\r\n      );\r\n      this.w2v = require(\"word2vector\");\r\n      this.w2v.load(`${config.modelFile}`);\r\n      console.log(\"Done\");\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} token\r\n   */\r\n  getSimilarWords(token, options = {}) {\r\n    if (this.disabled) return [];\r\n\r\n    // Edge case for adjectives\r\n    let posMap = {\r\n      ADJF: \"ADJ\",\r\n      INFN: \"VERB\"\r\n    };\r\n    let backMap = utils.invert(posMap);\r\n\r\n    let vTag = `${token.wordNormal}_${posMap[token.part] || token.part}`;\r\n    let results = [];\r\n\r\n    try {\r\n      results = this.w2v.getSimilarWords(vTag, { N: this.topN });\r\n    } catch (e) {\r\n      results = [];\r\n    }\r\n\r\n    return results\r\n      .map(v => {\r\n        let w = v.word.split(\"_\");\r\n        return {\r\n          word: w[0],\r\n          part: backMap[w[1]] || w[1],\r\n          score: v.similarity\r\n        };\r\n      })\r\n      .filter(v => {\r\n        return (\r\n          !v.word.match(\"::\") &&\r\n          v.word.match(/[^a-z]/g) &&\r\n          v.part ==\r\n            (options.extractPart || backMap[token.part] || token.part) &&\r\n          v.score > (options.treshHold || this.treshHold)\r\n        );\r\n      })\r\n      .map(v => this.parser.parseWord(v.word));\r\n  }\r\n};\r\n",
+    "content": "import Parser from \"./parser.js\";\r\nimport { exists, getFileSize, invert } from \"./utils.js\";\r\n\r\n/**\r\n *\r\n *\r\n * @export\r\n * @class Context\r\n */\r\nexport default class Context {\r\n  constructor(config) {\r\n    this.parser = new Parser({ withSpaces: true });\r\n\r\n    this.treshHold = 0.45;\r\n    this.topN = 200;\r\n\r\n    // Check if word2vector is installed\r\n    if (\r\n      config.contextSearch === false ||\r\n      !exists(`${baseDir}/node_modules/word2vector/index.js`) ||\r\n      !exists(`${config.modelFile}`)\r\n    ) {\r\n      console.log(`Context search with word2vec is disabled`);\r\n      this.disabled = true;\r\n    } else {\r\n      console.log(\r\n        `Context search is enabled, model size - ${getFileSize(\r\n          `${config.modelFile}`\r\n        )}`\r\n      );\r\n      this.w2v = require(\"word2vector\");\r\n      this.w2v.load(`${config.modelFile}`);\r\n      console.log(\"Done\");\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} token\r\n   */\r\n  getSimilarWords(token, options = {}) {\r\n    if (this.disabled) return [];\r\n\r\n    // Edge case for adjectives\r\n    let posMap = {\r\n      ADJF: \"ADJ\",\r\n      INFN: \"VERB\"\r\n    };\r\n    let backMap = invert(posMap);\r\n\r\n    let vTag = `${token.wordNormal}_${posMap[token.part] || token.part}`;\r\n    let results = [];\r\n\r\n    try {\r\n      results = this.w2v.getSimilarWords(vTag, { N: this.topN });\r\n    } catch (e) {\r\n      results = [];\r\n    }\r\n\r\n    return results\r\n      .map(v => {\r\n        let w = v.word.split(\"_\");\r\n        return {\r\n          word: w[0],\r\n          part: backMap[w[1]] || w[1],\r\n          score: v.similarity\r\n        };\r\n      })\r\n      .filter(v => {\r\n        return (\r\n          !v.word.match(\"::\") &&\r\n          v.word.match(/[^a-z]/g) &&\r\n          v.part ==\r\n            (options.extractPart || backMap[token.part] || token.part) &&\r\n          v.score > (options.treshHold || this.treshHold)\r\n        );\r\n      })\r\n      .map(v => this.parser.parseWord(v.word));\r\n  }\r\n}\r\n",
     "static": true,
     "longname": "C:/Work/text-morpher/src/context.js",
     "access": "public",
@@ -576,129 +576,117 @@
   },
   {
     "__docId__": 49,
-    "kind": "variable",
-    "name": "Parser",
+    "kind": "class",
+    "name": "Context",
     "memberof": "src/context.js",
     "static": true,
-    "longname": "src/context.js~Parser",
+    "longname": "src/context.js~Context",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/context.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
+    "importStyle": "Context",
+    "description": "",
+    "lineNumber": 10,
+    "unknown": [
+      {
+        "tagName": "@class",
+        "tagValue": "Context"
+      }
+    ],
+    "interface": false
   },
   {
     "__docId__": 50,
-    "kind": "variable",
-    "name": "utils",
-    "memberof": "src/context.js",
-    "static": true,
-    "longname": "src/context.js~utils",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/context.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 51,
-    "kind": "variable",
-    "name": "path",
-    "memberof": "src/context.js",
-    "static": true,
-    "longname": "src/context.js~path",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/context.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 52,
-    "kind": "variable",
-    "name": "baseDir",
-    "memberof": "src/context.js",
-    "static": true,
-    "longname": "src/context.js~baseDir",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/context.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 4,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 53,
-    "kind": "class",
-    "name": "exports",
-    "memberof": "src/context.js",
-    "static": true,
-    "longname": "src/context.js~exports",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/context.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 6,
-    "undocument": true,
-    "interface": false,
-    "ignore": true
-  },
-  {
-    "__docId__": 54,
     "kind": "constructor",
     "name": "constructor",
-    "memberof": "src/context.js~exports",
+    "memberof": "src/context.js~Context",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "src/context.js~exports#constructor",
+    "longname": "src/context.js~Context#constructor",
     "access": "public",
     "description": null,
-    "lineNumber": 7,
+    "lineNumber": 11,
     "undocument": true
+  },
+  {
+    "__docId__": 51,
+    "kind": "member",
+    "name": "parser",
+    "memberof": "src/context.js~Context",
+    "static": false,
+    "longname": "src/context.js~Context#parser",
+    "access": "public",
+    "description": null,
+    "lineNumber": 12,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 52,
+    "kind": "member",
+    "name": "treshHold",
+    "memberof": "src/context.js~Context",
+    "static": false,
+    "longname": "src/context.js~Context#treshHold",
+    "access": "public",
+    "description": null,
+    "lineNumber": 14,
+    "undocument": true,
+    "type": {
+      "types": [
+        "number"
+      ]
+    }
+  },
+  {
+    "__docId__": 53,
+    "kind": "member",
+    "name": "topN",
+    "memberof": "src/context.js~Context",
+    "static": false,
+    "longname": "src/context.js~Context#topN",
+    "access": "public",
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "type": {
+      "types": [
+        "number"
+      ]
+    }
+  },
+  {
+    "__docId__": 54,
+    "kind": "member",
+    "name": "disabled",
+    "memberof": "src/context.js~Context",
+    "static": false,
+    "longname": "src/context.js~Context#disabled",
+    "access": "public",
+    "description": null,
+    "lineNumber": 24,
+    "undocument": true,
+    "type": {
+      "types": [
+        "boolean"
+      ]
+    }
   },
   {
     "__docId__": 55,
     "kind": "member",
-    "name": "parser",
-    "memberof": "src/context.js~exports",
+    "name": "w2v",
+    "memberof": "src/context.js~Context",
     "static": false,
-    "longname": "src/context.js~exports#parser",
+    "longname": "src/context.js~Context#w2v",
     "access": "public",
     "description": null,
-    "lineNumber": 8,
+    "lineNumber": 31,
     "undocument": true,
     "type": {
       "types": [
@@ -708,84 +696,16 @@
   },
   {
     "__docId__": 56,
-    "kind": "member",
-    "name": "treshHold",
-    "memberof": "src/context.js~exports",
-    "static": false,
-    "longname": "src/context.js~exports#treshHold",
-    "access": "public",
-    "description": null,
-    "lineNumber": 10,
-    "undocument": true,
-    "type": {
-      "types": [
-        "number"
-      ]
-    }
-  },
-  {
-    "__docId__": 57,
-    "kind": "member",
-    "name": "topN",
-    "memberof": "src/context.js~exports",
-    "static": false,
-    "longname": "src/context.js~exports#topN",
-    "access": "public",
-    "description": null,
-    "lineNumber": 11,
-    "undocument": true,
-    "type": {
-      "types": [
-        "number"
-      ]
-    }
-  },
-  {
-    "__docId__": 58,
-    "kind": "member",
-    "name": "disabled",
-    "memberof": "src/context.js~exports",
-    "static": false,
-    "longname": "src/context.js~exports#disabled",
-    "access": "public",
-    "description": null,
-    "lineNumber": 20,
-    "undocument": true,
-    "type": {
-      "types": [
-        "boolean"
-      ]
-    }
-  },
-  {
-    "__docId__": 59,
-    "kind": "member",
-    "name": "w2v",
-    "memberof": "src/context.js~exports",
-    "static": false,
-    "longname": "src/context.js~exports#w2v",
-    "access": "public",
-    "description": null,
-    "lineNumber": 27,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 60,
     "kind": "method",
     "name": "getSimilarWords",
-    "memberof": "src/context.js~exports",
+    "memberof": "src/context.js~Context",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "src/context.js~exports#getSimilarWords",
+    "longname": "src/context.js~Context#getSimilarWords",
     "access": "public",
     "description": "",
-    "lineNumber": 37,
+    "lineNumber": 41,
     "params": [
       {
         "nullable": null,
@@ -805,10 +725,10 @@
     }
   },
   {
-    "__docId__": 61,
+    "__docId__": 57,
     "kind": "file",
     "name": "src/dictionary.js",
-    "content": "const fs = require(\"fs\");\r\nconst Parser = require(\"./parser.js\");\r\nconst Context = require(\"./context.js\");\r\nconst utils = require(\"./utils.js\");\r\nconst path = require(\"path\");\r\nconst baseDir = path.join(__dirname, \"../\");\r\n\r\n/**\r\n *\r\n * @class Dictionary\r\n */\r\nclass Dictionary {\r\n  constructor(config = {}) {\r\n    this.speechParts = {};\r\n    let name = config.dictionary;\r\n\r\n    return new Promise(async (resolve, reject) => {\r\n      await this.initDictionary(name);\r\n      this.context = this.initContext(config);\r\n      //this.generateRhythmLookup();\r\n      resolve(this);\r\n    });\r\n  }\r\n\r\n  async initDictionary(name, isFallback) {\r\n    let dPath = `${baseDir}/dictionary/`;\r\n\r\n    let wordsFile = utils.exists(`${dPath}${name}/words.json`);\r\n    let accentFile = utils.exists(`${dPath}${name}/accents.json`);\r\n    let stopFile = utils.exists(`${dPath}${name}/stopwords.json`);\r\n    let packedFile = utils.exists(`${dPath}${name}/dictionary.gz`);\r\n\r\n    // If there is no words file - load defaults\r\n    if (!wordsFile && !packedFile) {\r\n      if (name) console.log(`${name} dictionary files weren't found`);\r\n      if (!isFallback) await this.initDictionary(\"default\", true);\r\n      else console.error(\"No dictionary found!\");\r\n      return;\r\n    }\r\n\r\n    console.log(`Loading ${name} dictionary`);\r\n\r\n    // If dictionary is unpacked - unpack it\r\n    if (!wordsFile && packedFile) {\r\n      console.log(`Unpacking ${name} dictionary`);\r\n      await utils.unpackZip(packedFile, `${dPath}${name}`);\r\n      await this.initDictionary(name, true);\r\n      return;\r\n    }\r\n\r\n    // Stopwords file fallback\r\n    if (!stopFile) stopFile = utils.exists(`${dPath}/default/stopwords.json`);\r\n    // Load stopwords\r\n    try {\r\n      this.stopWords = JSON.parse(utils.getFile(stopFile));\r\n    } catch (e) {\r\n      this.stopWords = [];\r\n    }\r\n\r\n    // Accent file fallback\r\n    if (!accentFile) accentFile = utils.exists(`${dPath}/default/accents.json`);\r\n    // Load accent lookups\r\n    try {\r\n      this.accentLookup = JSON.parse(utils.getFile(accentFile));\r\n    } catch (e) {\r\n      this.accentLookup = {};\r\n    }\r\n\r\n    // Init Parser\r\n    this.parser = new Parser({\r\n      accentLookup: this.accentLookup,\r\n      stopWords: this.stopWords\r\n    });\r\n\r\n    // Load wordset\r\n    if (wordsFile) this.loadFile(wordsFile);\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} name\r\n   */\r\n  initContext(config) {\r\n    let dPath = `${baseDir}/dictionary/`;\r\n    let modelFile = utils.exists(`${dPath}${config.name}/context.bin`);\r\n\r\n    // Load context\r\n    if (!modelFile) {\r\n      modelFile = utils.exists(`${dPath}/default/context.bin`);\r\n    }\r\n\r\n    return new Context({ modelFile, contextSearch: config.contextSearch });\r\n  }\r\n\r\n  /**\r\n   * Populate dictionary from file\r\n   *\r\n   * @param {*} dictFile\r\n   * @returns\r\n   * @memberof Dictionary\r\n   */\r\n  loadFile(dictFile) {\r\n    let fileContent = \"\",\r\n      words = [];\r\n\r\n    // Try to open file\r\n    try {\r\n      fileContent = utils.getFile(dictFile);\r\n    } catch (e) {\r\n      console.error(`Cannot load ${dictFile} file to dictionary`);\r\n    }\r\n\r\n    try {\r\n      words = JSON.parse(fileContent);\r\n    } catch (e) {\r\n      words = fileContent;\r\n    }\r\n\r\n    this.loadString(words || \"\");\r\n  }\r\n\r\n  /**\r\n   *\r\n   */\r\n  generateRhythmLookup() {\r\n    let l = this.accentLookup;\r\n    this.accentReverse = {};\r\n\r\n    Object.keys(l).forEach(key => {\r\n      let v = l[key];\r\n      if (!this.accentReverse[v]) this.accentReverse[v] = [key];\r\n      else this.accentReverse[v].push(key);\r\n    });\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {*} str\r\n   * @memberof Dictionary\r\n   */\r\n  loadString(str) {\r\n    let tokens = this.parser.parseText(str);\r\n    this.sortTokens(tokens);\r\n  }\r\n\r\n  /**\r\n   * Sort tokens by speech parts and add them into dictionary\r\n   *\r\n   * @param {*} tokens\r\n   * @memberof Dictionary\r\n   */\r\n  sortTokens(tokens) {\r\n    let lookup = {};\r\n\r\n    tokens.forEach(token => {\r\n      let part = token.part;\r\n\r\n      if (!this.speechParts[part]) this.speechParts[part] = [];\r\n\r\n      if (token.word.length > 1 && !lookup[token.word]) {\r\n        this.speechParts[part].push(token);\r\n        lookup[token.word] = 1;\r\n      }\r\n    });\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} part\r\n   * @param {*} regexp\r\n   * @param {*} tags\r\n   * @param {*} matchOptions\r\n   */\r\n  getWord(...params) {\r\n    let tokens = this.getWords(...params);\r\n    let word = utils.getRandomItem(tokens) || {};\r\n\r\n    return word.word || \"\";\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} part\r\n   * @param {*} regexp\r\n   * @param {*} tags\r\n   * @param {*} matchOptions\r\n   */\r\n  getWords(part, regexp = \".*\", tags = [], matchOptions = {}) {\r\n    let tokens = [];\r\n\r\n    // Get a set of possibly matching words\r\n    if (matchOptions.contextSearch) {\r\n      let origin = this.parser.parseWord(matchOptions.origin) || {\r\n        wordNormal: matchOptions.origin,\r\n        part: part\r\n      };\r\n\r\n      tokens = this.context.getSimilarWords(origin, {\r\n        extractPart: part,\r\n        treshHold: matchOptions.treshHold\r\n      });\r\n    } else {\r\n      tokens = this.speechParts[part] || [];\r\n    }\r\n\r\n    // Try to inflect them\r\n    tokens = this.getInflectedTokens(tokens, tags);\r\n\r\n    // Get inflected list of words\r\n    return this.filterTokens(tokens, regexp, tags, matchOptions) || [];\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} tokens\r\n   * @param {*} regexp\r\n   * @param {*} tags\r\n   * @param {*} matchOptions\r\n   */\r\n  filterTokens(tokens, regexp, tags, matchOptions) {\r\n    let part = (tokens[0] || {}).part;\r\n\r\n    // Filter words by normal form\r\n    if (matchOptions.matchNormal) {\r\n      tokens = tokens.filter(v => {\r\n        if (!v) return false;\r\n        return v.wordNormal == matchOptions.matchNormal;\r\n      });\r\n    }\r\n\r\n    // Filter words by tagset\r\n    tokens = tokens.filter(v => {\r\n      if (!v || !v.tag || !tags.length) return true;\r\n      let tokenTags = v.tag.stat.slice(1, 100).concat(v.tag.flex);\r\n      return tags.every(tag => ~tokenTags.indexOf(tag));\r\n    });\r\n\r\n    // Filter words by regexp\r\n    tokens =\r\n      part == \"NOUN\" || part == \"PRTF\"\r\n        ? this.filterNouns(tokens, regexp, tags)\r\n        : tokens.filter(\r\n            v =>\r\n              v &&\r\n              v.word.match(regexp) &&\r\n              !~this.stopWords.indexOf(v.wordNormal)\r\n          );\r\n\r\n    // Filter words by accent\r\n    return this.filterByAccent(tokens, matchOptions);\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} words\r\n   */\r\n  getInflectedTokens(tokens, tags) {\r\n    return tokens.map(v => {\r\n      let infTags = tags;\r\n\r\n      // If this is noun - remove static tokens\r\n      if (v.part == \"NOUN\" || v.part == \"PRTF\") {\r\n        infTags = tags.filter(v => !~[\"masc\", \"femn\", \"neut\"].indexOf(v));\r\n      }\r\n\r\n      // Inflect\r\n      let inf = infTags && v.parse && v.parse.inflect(infTags);\r\n\r\n      return inf ? this.parser.parseWord(inf.word) : v;\r\n    });\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} tokens\r\n   * @param {*} matchOptions\r\n   */\r\n  filterByAccent(tokens, matchOptions) {\r\n    // Match only accent letters\r\n    if (matchOptions.accentLetter) {\r\n      let index = (matchOptions.accmap || []).indexOf(\"1\");\r\n      if (index > -1) {\r\n        tokens = tokens.filter(v => {\r\n          return v.vowels[index] == matchOptions.vowels[index];\r\n        });\r\n      }\r\n    }\r\n\r\n    // Match syllables count\r\n    if (matchOptions.syllables) {\r\n      tokens = tokens.filter(\r\n        v => v.accmap.length == matchOptions.accmap.length\r\n      );\r\n    }\r\n\r\n    // Accent map filter\r\n    if (matchOptions.accent) {\r\n      tokens = tokens.filter(v => v.accmap == matchOptions.accmap);\r\n    }\r\n\r\n    // Vowels map filter\r\n    if (matchOptions.vowels) {\r\n      tokens = tokens.filter(v => {\r\n        return v.vowels == matchOptions.vowelmap;\r\n      });\r\n    }\r\n\r\n    return tokens;\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} regexp\r\n   * @param {*} tags\r\n   */\r\n  filterNouns(tokens = [], regexp = \".*\", tags = []) {\r\n    let statTags = this.extractStatTags(tags, [\"masc\", \"femn\", \"neut\"]);\r\n\r\n    return tokens.filter(v => {\r\n      if (v && v.parse && v.word.match(regexp)) {\r\n        if (statTags) {\r\n          return (\r\n            statTags.filter(s => ~v.tag.stat.slice().indexOf(s)).length ==\r\n            statTags.length\r\n          );\r\n        }\r\n\r\n        return true;\r\n      }\r\n    });\r\n  }\r\n\r\n  /**\r\n   * Extract static tags from array\r\n   * @param {*} tags\r\n   * @param {*} statTags\r\n   */\r\n  extractStatTags(tags = [], statTags = []) {\r\n    return tags.filter(v => ~statTags.indexOf(v));\r\n  }\r\n}\r\n\r\n/*\r\n  // наречие  (как?)\r\n  getAdverb(regexp = \".*\", tags) {\r\n    return this.getWord(\"ADVB\", regexp, tags);\r\n  }\r\n\r\n  // глагол (инфинитив)\r\n  getVerb(regexp = \".*\", tags) {\r\n    return this.getWord(\"VERB\", regexp, tags);\r\n  }\r\n\r\n  // Прилигательное\r\n  getAdjective(regexp = \".*\", tags) {\r\n    return this.getWord(\"ADJF\", regexp, tags);\r\n  }\r\n  */\r\n\r\nmodule.exports = Dictionary;\r\n",
+    "content": "import path from \"path\";\r\nimport fs from \"fs\";\r\n\r\nimport Parser from \"./parser.js\";\r\nimport Context from \"./context.js\";\r\nimport { exists, getFile, unpackZip, getRandomItem } from \"./utils.js\";\r\n\r\nconst baseDir = path.join(__dirname, \"../\");\r\n\r\n/**\r\n *\r\n * @class Dictionary\r\n */\r\nexport default class Dictionary {\r\n  constructor(config = {}) {\r\n    this.speechParts = {};\r\n    let name = config.dictionary;\r\n\r\n    return new Promise(async (resolve, reject) => {\r\n      await this.initDictionary(name);\r\n      this.context = this.initContext(config);\r\n      //this.generateRhythmLookup();\r\n      resolve(this);\r\n    });\r\n  }\r\n\r\n  async initDictionary(name, isFallback) {\r\n    let dPath = `${baseDir}/dictionary/`;\r\n\r\n    let wordsFile = exists(`${dPath}${name}/words.json`);\r\n    let accentFile = exists(`${dPath}${name}/accents.json`);\r\n    let stopFile = exists(`${dPath}${name}/stopwords.json`);\r\n    let packedFile = exists(`${dPath}${name}/dictionary.gz`);\r\n\r\n    // If there is no words file - load defaults\r\n    if (!wordsFile && !packedFile) {\r\n      if (name) console.log(`${name} dictionary files weren't found`);\r\n      if (!isFallback) await this.initDictionary(\"default\", true);\r\n      else console.error(\"No dictionary found!\");\r\n      return;\r\n    }\r\n\r\n    console.log(`Loading ${name} dictionary`);\r\n\r\n    // If dictionary is unpacked - unpack it\r\n    if (!wordsFile && packedFile) {\r\n      console.log(`Unpacking ${name} dictionary`);\r\n      await unpackZip(packedFile, `${dPath}${name}`);\r\n      await this.initDictionary(name, true);\r\n      return;\r\n    }\r\n\r\n    // Stopwords file fallback\r\n    if (!stopFile) stopFile = exists(`${dPath}/default/stopwords.json`);\r\n    // Load stopwords\r\n    try {\r\n      this.stopWords = JSON.parse(getFile(stopFile));\r\n    } catch (e) {\r\n      this.stopWords = [];\r\n    }\r\n\r\n    // Accent file fallback\r\n    if (!accentFile) accentFile = exists(`${dPath}/default/accents.json`);\r\n    // Load accent lookups\r\n    try {\r\n      this.accentLookup = JSON.parse(getFile(accentFile));\r\n    } catch (e) {\r\n      this.accentLookup = {};\r\n    }\r\n\r\n    // Init Parser\r\n    this.parser = new Parser({\r\n      accentLookup: this.accentLookup,\r\n      stopWords: this.stopWords\r\n    });\r\n\r\n    // Load wordset\r\n    if (wordsFile) this.loadFile(wordsFile);\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} name\r\n   */\r\n  initContext(config) {\r\n    let dPath = `${baseDir}/dictionary/`;\r\n    let modelFile = exists(`${dPath}${config.name}/context.bin`);\r\n\r\n    // Load context\r\n    if (!modelFile) {\r\n      modelFile = exists(`${dPath}/default/context.bin`);\r\n    }\r\n\r\n    return new Context({ modelFile, contextSearch: config.contextSearch });\r\n  }\r\n\r\n  /**\r\n   * Populate dictionary from file\r\n   *\r\n   * @param {*} dictFile\r\n   * @returns\r\n   * @memberof Dictionary\r\n   */\r\n  loadFile(dictFile) {\r\n    let fileContent = \"\",\r\n      words = [];\r\n\r\n    // Try to open file\r\n    try {\r\n      fileContent = getFile(dictFile);\r\n    } catch (e) {\r\n      console.error(`Cannot load ${dictFile} file to dictionary`);\r\n    }\r\n\r\n    try {\r\n      words = JSON.parse(fileContent);\r\n    } catch (e) {\r\n      words = fileContent;\r\n    }\r\n\r\n    this.loadString(words || \"\");\r\n  }\r\n\r\n  /**\r\n   *\r\n   */\r\n  generateRhythmLookup() {\r\n    let l = this.accentLookup;\r\n    this.accentReverse = {};\r\n\r\n    Object.keys(l).forEach(key => {\r\n      let v = l[key];\r\n      if (!this.accentReverse[v]) this.accentReverse[v] = [key];\r\n      else this.accentReverse[v].push(key);\r\n    });\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {*} str\r\n   * @memberof Dictionary\r\n   */\r\n  loadString(str) {\r\n    let tokens = this.parser.parseText(str);\r\n    this.sortTokens(tokens);\r\n  }\r\n\r\n  /**\r\n   * Sort tokens by speech parts and add them into dictionary\r\n   *\r\n   * @param {*} tokens\r\n   * @memberof Dictionary\r\n   */\r\n  sortTokens(tokens) {\r\n    let lookup = {};\r\n\r\n    tokens.forEach(token => {\r\n      let part = token.part;\r\n\r\n      if (!this.speechParts[part]) this.speechParts[part] = [];\r\n\r\n      if (token.word.length > 1 && !lookup[token.word]) {\r\n        this.speechParts[part].push(token);\r\n        lookup[token.word] = 1;\r\n      }\r\n    });\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} part\r\n   * @param {*} regexp\r\n   * @param {*} tags\r\n   * @param {*} matchOptions\r\n   */\r\n  getWord(...params) {\r\n    let tokens = this.getWords(...params);\r\n    let word = getRandomItem(tokens) || {};\r\n\r\n    return word.word || \"\";\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} part\r\n   * @param {*} regexp\r\n   * @param {*} tags\r\n   * @param {*} matchOptions\r\n   */\r\n  getWords(part, regexp = \".*\", tags = [], matchOptions = {}) {\r\n    let tokens = [];\r\n\r\n    // Get a set of possibly matching words\r\n    if (matchOptions.contextSearch) {\r\n      let origin = this.parser.parseWord(matchOptions.origin) || {\r\n        wordNormal: matchOptions.origin,\r\n        part: part\r\n      };\r\n\r\n      tokens = this.context.getSimilarWords(origin, {\r\n        extractPart: part,\r\n        treshHold: matchOptions.treshHold\r\n      });\r\n    } else {\r\n      tokens = this.speechParts[part] || [];\r\n    }\r\n\r\n    // Try to inflect them\r\n    tokens = this.getInflectedTokens(tokens, tags);\r\n\r\n    // Get inflected list of words\r\n    return this.filterTokens(tokens, regexp, tags, matchOptions) || [];\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} tokens\r\n   * @param {*} regexp\r\n   * @param {*} tags\r\n   * @param {*} matchOptions\r\n   */\r\n  filterTokens(tokens, regexp, tags, matchOptions) {\r\n    let part = (tokens[0] || {}).part;\r\n\r\n    // Filter words by normal form\r\n    if (matchOptions.matchNormal) {\r\n      tokens = tokens.filter(v => {\r\n        if (!v) return false;\r\n        return v.wordNormal == matchOptions.matchNormal;\r\n      });\r\n    }\r\n\r\n    // Filter words by tagset\r\n    tokens = tokens.filter(v => {\r\n      if (!v || !v.tag || !tags.length) return true;\r\n      let tokenTags = v.tag.stat.slice(1, 100).concat(v.tag.flex);\r\n      return tags.every(tag => ~tokenTags.indexOf(tag));\r\n    });\r\n\r\n    // Filter words by regexp\r\n    tokens =\r\n      part == \"NOUN\" || part == \"PRTF\"\r\n        ? this.filterNouns(tokens, regexp, tags)\r\n        : tokens.filter(\r\n            v =>\r\n              v &&\r\n              v.word.match(regexp) &&\r\n              !~this.stopWords.indexOf(v.wordNormal)\r\n          );\r\n\r\n    // Filter words by accent\r\n    return this.filterByAccent(tokens, matchOptions);\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} words\r\n   */\r\n  getInflectedTokens(tokens, tags) {\r\n    return tokens.map(v => {\r\n      let infTags = tags;\r\n\r\n      // If this is noun - remove static tokens\r\n      if (v.part == \"NOUN\" || v.part == \"PRTF\") {\r\n        infTags = tags.filter(v => !~[\"masc\", \"femn\", \"neut\"].indexOf(v));\r\n      }\r\n\r\n      // Inflect\r\n      let inf = infTags && v.parse && v.parse.inflect(infTags);\r\n\r\n      return inf ? this.parser.parseWord(inf.word) : v;\r\n    });\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} tokens\r\n   * @param {*} matchOptions\r\n   */\r\n  filterByAccent(tokens, matchOptions) {\r\n    // Match only accent letters\r\n    if (matchOptions.accentLetter) {\r\n      let index = (matchOptions.accmap || []).indexOf(\"1\");\r\n      if (index > -1) {\r\n        tokens = tokens.filter(v => {\r\n          return v.vowels[index] == matchOptions.vowels[index];\r\n        });\r\n      }\r\n    }\r\n\r\n    // Match syllables count\r\n    if (matchOptions.syllables) {\r\n      tokens = tokens.filter(\r\n        v => v.accmap.length == matchOptions.accmap.length\r\n      );\r\n    }\r\n\r\n    // Accent map filter\r\n    if (matchOptions.accent) {\r\n      tokens = tokens.filter(v => v.accmap == matchOptions.accmap);\r\n    }\r\n\r\n    // Vowels map filter\r\n    if (matchOptions.vowels) {\r\n      tokens = tokens.filter(v => {\r\n        return v.vowels == matchOptions.vowelmap;\r\n      });\r\n    }\r\n\r\n    return tokens;\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} regexp\r\n   * @param {*} tags\r\n   */\r\n  filterNouns(tokens = [], regexp = \".*\", tags = []) {\r\n    let statTags = this.extractStatTags(tags, [\"masc\", \"femn\", \"neut\"]);\r\n\r\n    return tokens.filter(v => {\r\n      if (v && v.parse && v.word.match(regexp)) {\r\n        if (statTags) {\r\n          return (\r\n            statTags.filter(s => ~v.tag.stat.slice().indexOf(s)).length ==\r\n            statTags.length\r\n          );\r\n        }\r\n\r\n        return true;\r\n      }\r\n    });\r\n  }\r\n\r\n  /**\r\n   * Extract static tags from array\r\n   * @param {*} tags\r\n   * @param {*} statTags\r\n   */\r\n  extractStatTags(tags = [], statTags = []) {\r\n    return tags.filter(v => ~statTags.indexOf(v));\r\n  }\r\n}\r\n\r\n/*\r\n  // наречие  (как?)\r\n  getAdverb(regexp = \".*\", tags) {\r\n    return this.getWord(\"ADVB\", regexp, tags);\r\n  }\r\n\r\n  // глагол (инфинитив)\r\n  getVerb(regexp = \".*\", tags) {\r\n    return this.getWord(\"VERB\", regexp, tags);\r\n  }\r\n\r\n  // Прилигательное\r\n  getAdjective(regexp = \".*\", tags) {\r\n    return this.getWord(\"ADJF\", regexp, tags);\r\n  }\r\n  */\r\n",
     "static": true,
     "longname": "C:/Work/text-morpher/src/dictionary.js",
     "access": "public",
@@ -816,112 +736,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 62,
-    "kind": "variable",
-    "name": "fs",
-    "memberof": "src/dictionary.js",
-    "static": true,
-    "longname": "src/dictionary.js~fs",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/dictionary.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 63,
-    "kind": "variable",
-    "name": "Parser",
-    "memberof": "src/dictionary.js",
-    "static": true,
-    "longname": "src/dictionary.js~Parser",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/dictionary.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 64,
-    "kind": "variable",
-    "name": "Context",
-    "memberof": "src/dictionary.js",
-    "static": true,
-    "longname": "src/dictionary.js~Context",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/dictionary.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 65,
-    "kind": "variable",
-    "name": "utils",
-    "memberof": "src/dictionary.js",
-    "static": true,
-    "longname": "src/dictionary.js~utils",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/dictionary.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 4,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 66,
-    "kind": "variable",
-    "name": "path",
-    "memberof": "src/dictionary.js",
-    "static": true,
-    "longname": "src/dictionary.js~path",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/dictionary.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 5,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 67,
+    "__docId__": 58,
     "kind": "variable",
     "name": "baseDir",
     "memberof": "src/dictionary.js",
@@ -932,7 +747,7 @@
     "importPath": "text-morpher/src/dictionary.js",
     "importStyle": null,
     "description": null,
-    "lineNumber": 6,
+    "lineNumber": 8,
     "undocument": true,
     "type": {
       "types": [
@@ -942,29 +757,28 @@
     "ignore": true
   },
   {
-    "__docId__": 68,
+    "__docId__": 59,
     "kind": "class",
     "name": "Dictionary",
     "memberof": "src/dictionary.js",
     "static": true,
     "longname": "src/dictionary.js~Dictionary",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/dictionary.js",
-    "importStyle": null,
+    "importStyle": "Dictionary",
     "description": "",
-    "lineNumber": 12,
+    "lineNumber": 14,
     "unknown": [
       {
         "tagName": "@class",
         "tagValue": "Dictionary"
       }
     ],
-    "interface": false,
-    "ignore": true
+    "interface": false
   },
   {
-    "__docId__": 69,
+    "__docId__": 60,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/dictionary.js~Dictionary",
@@ -974,11 +788,11 @@
     "longname": "src/dictionary.js~Dictionary#constructor",
     "access": "public",
     "description": null,
-    "lineNumber": 13,
+    "lineNumber": 15,
     "undocument": true
   },
   {
-    "__docId__": 70,
+    "__docId__": 61,
     "kind": "member",
     "name": "speechParts",
     "memberof": "src/dictionary.js~Dictionary",
@@ -986,7 +800,7 @@
     "longname": "src/dictionary.js~Dictionary#speechParts",
     "access": "public",
     "description": null,
-    "lineNumber": 14,
+    "lineNumber": 16,
     "undocument": true,
     "type": {
       "types": [
@@ -995,7 +809,7 @@
     }
   },
   {
-    "__docId__": 71,
+    "__docId__": 62,
     "kind": "member",
     "name": "context",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1003,7 +817,7 @@
     "longname": "src/dictionary.js~Dictionary#context",
     "access": "public",
     "description": null,
-    "lineNumber": 19,
+    "lineNumber": 21,
     "undocument": true,
     "type": {
       "types": [
@@ -1012,7 +826,7 @@
     }
   },
   {
-    "__docId__": 72,
+    "__docId__": 63,
     "kind": "method",
     "name": "initDictionary",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1022,7 +836,7 @@
     "longname": "src/dictionary.js~Dictionary#initDictionary",
     "access": "public",
     "description": null,
-    "lineNumber": 25,
+    "lineNumber": 27,
     "undocument": true,
     "params": [
       {
@@ -1041,7 +855,7 @@
     "return": null
   },
   {
-    "__docId__": 73,
+    "__docId__": 64,
     "kind": "member",
     "name": "stopWords",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1049,7 +863,7 @@
     "longname": "src/dictionary.js~Dictionary#stopWords",
     "access": "public",
     "description": null,
-    "lineNumber": 55,
+    "lineNumber": 57,
     "undocument": true,
     "type": {
       "types": [
@@ -1058,7 +872,7 @@
     }
   },
   {
-    "__docId__": 75,
+    "__docId__": 66,
     "kind": "member",
     "name": "accentLookup",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1066,7 +880,7 @@
     "longname": "src/dictionary.js~Dictionary#accentLookup",
     "access": "public",
     "description": null,
-    "lineNumber": 64,
+    "lineNumber": 66,
     "undocument": true,
     "type": {
       "types": [
@@ -1075,7 +889,7 @@
     }
   },
   {
-    "__docId__": 77,
+    "__docId__": 68,
     "kind": "member",
     "name": "parser",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1083,7 +897,7 @@
     "longname": "src/dictionary.js~Dictionary#parser",
     "access": "public",
     "description": null,
-    "lineNumber": 70,
+    "lineNumber": 72,
     "undocument": true,
     "type": {
       "types": [
@@ -1092,7 +906,7 @@
     }
   },
   {
-    "__docId__": 78,
+    "__docId__": 69,
     "kind": "method",
     "name": "initContext",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1102,7 +916,7 @@
     "longname": "src/dictionary.js~Dictionary#initContext",
     "access": "public",
     "description": "",
-    "lineNumber": 83,
+    "lineNumber": 85,
     "params": [
       {
         "nullable": null,
@@ -1122,7 +936,7 @@
     }
   },
   {
-    "__docId__": 79,
+    "__docId__": 70,
     "kind": "method",
     "name": "loadFile",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1132,7 +946,7 @@
     "longname": "src/dictionary.js~Dictionary#loadFile",
     "access": "public",
     "description": "Populate dictionary from file",
-    "lineNumber": 102,
+    "lineNumber": 104,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1154,7 +968,7 @@
     "return": null
   },
   {
-    "__docId__": 80,
+    "__docId__": 71,
     "kind": "method",
     "name": "generateRhythmLookup",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1164,12 +978,12 @@
     "longname": "src/dictionary.js~Dictionary#generateRhythmLookup",
     "access": "public",
     "description": "",
-    "lineNumber": 125,
+    "lineNumber": 127,
     "params": [],
     "return": null
   },
   {
-    "__docId__": 81,
+    "__docId__": 72,
     "kind": "member",
     "name": "accentReverse",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1177,7 +991,7 @@
     "longname": "src/dictionary.js~Dictionary#accentReverse",
     "access": "public",
     "description": null,
-    "lineNumber": 127,
+    "lineNumber": 129,
     "undocument": true,
     "type": {
       "types": [
@@ -1186,7 +1000,7 @@
     }
   },
   {
-    "__docId__": 82,
+    "__docId__": 73,
     "kind": "method",
     "name": "loadString",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1196,7 +1010,7 @@
     "longname": "src/dictionary.js~Dictionary#loadString",
     "access": "public",
     "description": "",
-    "lineNumber": 142,
+    "lineNumber": 144,
     "params": [
       {
         "nullable": null,
@@ -1212,7 +1026,7 @@
     "return": null
   },
   {
-    "__docId__": 83,
+    "__docId__": 74,
     "kind": "method",
     "name": "sortTokens",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1222,7 +1036,7 @@
     "longname": "src/dictionary.js~Dictionary#sortTokens",
     "access": "public",
     "description": "Sort tokens by speech parts and add them into dictionary",
-    "lineNumber": 153,
+    "lineNumber": 155,
     "params": [
       {
         "nullable": null,
@@ -1238,7 +1052,7 @@
     "return": null
   },
   {
-    "__docId__": 84,
+    "__docId__": 75,
     "kind": "method",
     "name": "getWord",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1248,7 +1062,7 @@
     "longname": "src/dictionary.js~Dictionary#getWord",
     "access": "public",
     "description": "",
-    "lineNumber": 175,
+    "lineNumber": 177,
     "params": [
       {
         "nullable": null,
@@ -1298,7 +1112,7 @@
     }
   },
   {
-    "__docId__": 85,
+    "__docId__": 76,
     "kind": "method",
     "name": "getWords",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1308,7 +1122,7 @@
     "longname": "src/dictionary.js~Dictionary#getWords",
     "access": "public",
     "description": "",
-    "lineNumber": 189,
+    "lineNumber": 191,
     "params": [
       {
         "nullable": null,
@@ -1358,7 +1172,7 @@
     }
   },
   {
-    "__docId__": 86,
+    "__docId__": 77,
     "kind": "method",
     "name": "filterTokens",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1368,7 +1182,7 @@
     "longname": "src/dictionary.js~Dictionary#filterTokens",
     "access": "public",
     "description": "",
-    "lineNumber": 221,
+    "lineNumber": 223,
     "params": [
       {
         "nullable": null,
@@ -1418,7 +1232,7 @@
     }
   },
   {
-    "__docId__": 87,
+    "__docId__": 78,
     "kind": "method",
     "name": "getInflectedTokens",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1428,7 +1242,7 @@
     "longname": "src/dictionary.js~Dictionary#getInflectedTokens",
     "access": "public",
     "description": "",
-    "lineNumber": 258,
+    "lineNumber": 260,
     "params": [
       {
         "nullable": null,
@@ -1448,7 +1262,7 @@
     }
   },
   {
-    "__docId__": 88,
+    "__docId__": 79,
     "kind": "method",
     "name": "filterByAccent",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1458,7 +1272,7 @@
     "longname": "src/dictionary.js~Dictionary#filterByAccent",
     "access": "public",
     "description": "",
-    "lineNumber": 279,
+    "lineNumber": 281,
     "params": [
       {
         "nullable": null,
@@ -1488,7 +1302,7 @@
     }
   },
   {
-    "__docId__": 89,
+    "__docId__": 80,
     "kind": "method",
     "name": "filterNouns",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1498,7 +1312,7 @@
     "longname": "src/dictionary.js~Dictionary#filterNouns",
     "access": "public",
     "description": "",
-    "lineNumber": 317,
+    "lineNumber": 319,
     "params": [
       {
         "nullable": null,
@@ -1528,7 +1342,7 @@
     }
   },
   {
-    "__docId__": 90,
+    "__docId__": 81,
     "kind": "method",
     "name": "extractStatTags",
     "memberof": "src/dictionary.js~Dictionary",
@@ -1538,7 +1352,7 @@
     "longname": "src/dictionary.js~Dictionary#extractStatTags",
     "access": "public",
     "description": "Extract static tags from array",
-    "lineNumber": 339,
+    "lineNumber": 341,
     "params": [
       {
         "nullable": null,
@@ -1568,10 +1382,10 @@
     }
   },
   {
-    "__docId__": 91,
+    "__docId__": 82,
     "kind": "file",
     "name": "src/morpher.js",
-    "content": "const utils = require(\"./utils.js\");\r\nconst Dictionary = require(\"./dictionary.js\");\r\nconst Progress = require(\"cli-progress\").Bar;\r\nconst procStats = require(\"process-stats\");\r\nconst Az = require(\"az\");\r\n\r\n/**\r\n *\r\n *\r\n * @class Morpher\r\n */\r\nexport default class Morpher {\r\n  constructor(config) {\r\n    if (config) {\r\n      return this.init(config);\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} config\r\n   */\r\n  init(config) {\r\n    return new Promise(async resolve => {\r\n      Az.Morph.init(() => {\r\n        global.Az = Az;\r\n\r\n        new Dictionary(config).then(d => {\r\n          this.dictionary = d;\r\n          this.parser = this.dictionary.parser;\r\n          this.showStat();\r\n          resolve(this);\r\n        });\r\n      });\r\n    });\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @memberof Morpher\r\n   */\r\n  showStat() {\r\n    let wordCount = 0;\r\n    let d = this.dictionary.speechParts;\r\n    let pstat = procStats({ pretty: true });\r\n    Object.keys(d).forEach(k => (wordCount += d[k].length));\r\n\r\n    console.log(`Words in dictionary - ${wordCount}`);\r\n    console.log(`Memory used - ${pstat.memUsed.pretty}`);\r\n    console.log(``);\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} word\r\n   */\r\n  analyzeWord(word) {\r\n    return this.parser.parseWord(word, true);\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   *\r\n   * @param {*} inputStr\r\n   * @memberof Morpher\r\n   */\r\n  createTemplate(inputStr) {\r\n    return this.parser\r\n      .parseText(inputStr)\r\n      .map(t => t.shortTag || t.word)\r\n      .join(\"\");\r\n  }\r\n\r\n  /**\r\n   *  Template syntax - {NOUN/^п./мр}\r\n   *  {[PART]/[Regexp]/[tags]/[original]}\r\n   *\r\n   * @param {*} template\r\n   * @memberof Morpher\r\n   */\r\n  runTemplate(template, matchOptions = {}) {\r\n    let steps = template.split(\" \");\r\n    let output = [],\r\n      stats = [];\r\n    let tokenLookup = {};\r\n    let normalLookup = {};\r\n    let minProgress = 20;\r\n    let startTime = new Date();\r\n    let replaces = 0;\r\n\r\n    let bar = new Progress({\r\n      barsize: 10,\r\n      format:\r\n        \"Processing: [{bar}] {percentage}% | {speed} words/s | {replaces} replaces | {value}/{total}\"\r\n    });\r\n\r\n    if (steps.length > minProgress) bar.start(steps.length, 0);\r\n\r\n    steps.forEach((v, i) => {\r\n      let tagText = (v.match(\"{{.*}}\") || []).shift();\r\n\r\n      if (tagText) {\r\n        let tag = this.splitTag(tagText);\r\n\r\n        // If we have a normal match\r\n        matchOptions.matchNormal = false;\r\n        if (tag.origin && normalLookup[tag.origin]) {\r\n          matchOptions.matchNormal = normalLookup[tag.origin];\r\n        }\r\n\r\n        let tagData =\r\n          tokenLookup[tagText] || this.processTag(tag, matchOptions);\r\n\r\n        // Cache processed tags\r\n        if (!tokenLookup[tagText]) tokenLookup[tagText] = tagData;\r\n\r\n        // Cache processed normal matches\r\n        if (tag.origin && !normalLookup[tag.origin]) {\r\n          normalLookup[tag.origin] = tagData.wordNormal;\r\n        }\r\n\r\n        if (tag.origin != tagData.result) replaces++;\r\n\r\n        output.push(v.replace(/{{.*}}/, tagData.result));\r\n      } else {\r\n        output.push(v);\r\n      }\r\n\r\n      // Update progressbar\r\n      if (steps.length > minProgress)\r\n        bar.update(i, {\r\n          speed: Math.floor(i / ((new Date() - startTime) / 1000)),\r\n          replaces\r\n        });\r\n\r\n      stats.push(tokenLookup[tagText] || { word: v });\r\n    });\r\n\r\n    if (steps.length > minProgress) bar.stop();\r\n\r\n    return { text: output.join(\" \"), stats: stats };\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} text\r\n   * @param {*} tpl\r\n   */\r\n  formatStats(text, tpl) {\r\n    let stat = { avgMatch: 0, matchContext: 0, replaced: 0 };\r\n    text.stats.forEach(s => {\r\n      if (s.tag) stat.replaced++;\r\n      if (s.foundContext) stat.matchContext++;\r\n      if (s.matches) stat.avgMatch += s.matches.length;\r\n    });\r\n\r\n    stat.replaced = (stat.replaced / text.stats.length) * 100 + \"%\";\r\n    stat.avgMatch = (stat.avgMatch / stat.replaced) * 100 + \"%\";\r\n    stat.matchContext = (stat.matchContext / stat.replaced) * 100 + \"%\";\r\n    stat.totalWords = text.stats.length;\r\n\r\n    return stat;\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} tag\r\n   */\r\n  splitTag(tag = \"\") {\r\n    let chunks = tag\r\n      .replace(\"{{\", \"\")\r\n      .replace(\"}}\", \"\")\r\n      .split(\"/\");\r\n\r\n    return {\r\n      pos: chunks[0], // Part of speech\r\n      regExp: chunks[1], // Regexp to match\r\n      tags: chunks[2] ? (chunks[2] = chunks[2].split(\",\")) : [], // Tags - third part of the token\r\n      origin: chunks[3] || \"\", // Initial word to replace\r\n      text: tag // initial text\r\n    };\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {*} tag\r\n   * @param {*} [matchOptions={}]\r\n   * @returns {Object}\r\n   * @memberof Morpher\r\n   */\r\n  processTag(tag, matchOptions = {}) {\r\n    let partsFilter = matchOptions.parts;\r\n\r\n    // Prepare out\r\n    let result = {\r\n      matches: [],\r\n      tag,\r\n      tagText: tag.text,\r\n      origin: tag.origin\r\n    };\r\n\r\n    // If matchOptions have filter by parts - apply it\r\n    if (partsFilter && !~partsFilter.indexOf(tag.pos)) {\r\n      result.result = tag.origin;\r\n      return result;\r\n    }\r\n\r\n    // Get search options\r\n    let searchOptions = this.getSearchOptions(tag, matchOptions);\r\n\r\n    // Try to find a match\r\n    let tokens = this.dictionary.getWords(\r\n      tag.pos,\r\n      searchOptions.regExp,\r\n      tag.tags,\r\n      searchOptions\r\n    );\r\n\r\n    result.foundContext = false;\r\n\r\n    // If we didn't find context matches try\r\n    if (searchOptions.contextSearch) {\r\n      if (tokens.length) {\r\n        result.foundContext = true;\r\n      } else if (searchOptions.contextSearch != \"strict\") {\r\n        searchOptions.contextSearch = false;\r\n        tokens = this.dictionary.getWords(\r\n          tag.pos,\r\n          searchOptions.regExp,\r\n          tag.tags,\r\n          searchOptions\r\n        );\r\n      }\r\n    }\r\n\r\n    let word = utils.getRandomItem(tokens);\r\n    result.matches = (tokens.map(t => t.word) || []).slice(0, 20);\r\n    result.wordNormal = word ? word.wordNormal : tag.origin || \"\";\r\n    result.result = word ? word.word : tag.origin || \"\";\r\n\r\n    return result;\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} origin\r\n   * @param {*} matchOptions\r\n   */\r\n  getSearchOptions(tag, matchOptions) {\r\n    // Regexp - second part of token\r\n    let regExp = matchOptions.length ? `.{${origin.length - 1}}` : tag.regExp;\r\n    let firstL = tag.origin.toLowerCase();\r\n    let lastL = tag.origin[tag.origin.length - 1].toLowerCase();\r\n\r\n    if (matchOptions.first) regExp = `^${firstL}` + regExp;\r\n    if (matchOptions.last) regExp = regExp + `${lastL}$`;\r\n\r\n    // If we have a user-defined regexp - use it\r\n    if (matchOptions.regexp) regExp = matchOptions.regexp;\r\n\r\n    let searchOptions = Object.assign(\r\n      { origin: tag.origin, regExp: regExp },\r\n      matchOptions\r\n    );\r\n\r\n    // Options to search a word\r\n    if (\r\n      tag.origin &&\r\n      (matchOptions.vowels ||\r\n        matchOptions.syllables ||\r\n        matchOptions.accent ||\r\n        matchOptions.accentLetter)\r\n    ) {\r\n      let o = this.parser.parseWord(tag.origin) || {};\r\n\r\n      Object.assign(searchOptions, {\r\n        vowelmap: o.vowels || \"\",\r\n        accmap: o.accmap || \"\",\r\n        origin: tag.origin,\r\n        originNormal: o.wordNormal || tag.origin || \"\",\r\n        accentLetter: matchOptions.accentLetter\r\n      });\r\n    }\r\n\r\n    return searchOptions;\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} origin\r\n   */\r\n  queryContext(origin) {\r\n    let input = this.parser.parseWord(origin);\r\n    return this.dictionary.context.getSimilarWords(input);\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} origin\r\n   */\r\n  inflect(origin, tags = []) {\r\n    let tagArray = typeof tags === \"string\" ? tags.split(\",\") : tags;\r\n\r\n    let input = this.parser.parseWord(origin);\r\n    if (input && input.parse) {\r\n      // Inflect\r\n      let inf = input.parse.inflect(tagArray);\r\n      return inf ? inf.word : origin;\r\n    } else {\r\n      return origin;\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} origin\r\n   */\r\n  pluralize(origin, number = 1) {\r\n    let input = this.parser.parseWord(origin);\r\n    number = parseInt(number, 10);\r\n\r\n    if (input && input.parse && number) {\r\n      // Inflect\r\n      let inf = input.parse.pluralize(number);\r\n      return inf ? inf.word : origin;\r\n    } else {\r\n      return origin;\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {*} nouns\r\n   * @param {*} adj\r\n   * @returns\r\n   * @memberof Morpher\r\n   */\r\n  getNextWord(origin, regExp = \".*\") {\r\n    let conformMap = {\r\n      NOUN: \"ADJF\",\r\n      ADJF: \"NOUN\",\r\n      VERB: \"NOUN\",\r\n      INFN: \"NOUN\"\r\n    };\r\n\r\n    let inputToken = this.parser.parseWord(origin || \"\");\r\n    if (!inputToken) return \"\";\r\n\r\n    let tag = this.splitTag(inputToken.shortTag);\r\n\r\n    // Edge case for verbs\r\n    if (tag.pos.match(\"VERB|INFN\")) tag.tags = [\"accs\"];\r\n\r\n    let results = this.dictionary.getWords(\r\n      conformMap[tag.pos] || \"NOUN\",\r\n      regExp,\r\n      tag.tags,\r\n      {\r\n        origin: origin,\r\n        contextSearch: true\r\n      }\r\n    );\r\n\r\n    // If we didn't get enough matches from w2v - choose random one\r\n    if (results.length < 3) {\r\n      results = this.dictionary.getWords(\r\n        conformMap[tag.pos] || \"NOUN\",\r\n        regExp,\r\n        tag.tags,\r\n        {\r\n          origin: origin,\r\n          contextSearch: false\r\n        }\r\n      );\r\n    }\r\n\r\n    let word = utils.getRandomItem(results) || {};\r\n    return word.word || \"\";\r\n  }\r\n}\r\n\r\n//module.exports = Morpher;\r\n",
+    "content": "import { Bar as Progress } from \"cli-progress\";\r\nimport procStats from \"process-stats\";\r\nimport Az from \"az\";\r\n\r\nimport Dictionary from \"./dictionary.js\";\r\nimport { getRandomItem } from \"./utils.js\";\r\n\r\n/**\r\n *\r\n *\r\n * @class Morpher\r\n */\r\nexport default class Morpher {\r\n  constructor(config) {\r\n    if (config) {\r\n      return this.init(config);\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} config\r\n   */\r\n  init(config) {\r\n    return new Promise(async resolve => {\r\n      Az.Morph.init(() => {\r\n        global.Az = Az;\r\n\r\n        new Dictionary(config).then(d => {\r\n          this.dictionary = d;\r\n          this.parser = this.dictionary.parser;\r\n          this.showStat();\r\n          resolve(this);\r\n        });\r\n      });\r\n    });\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @memberof Morpher\r\n   */\r\n  showStat() {\r\n    let wordCount = 0;\r\n    let d = this.dictionary.speechParts;\r\n    let pstat = procStats({ pretty: true });\r\n    Object.keys(d).forEach(k => (wordCount += d[k].length));\r\n\r\n    console.log(`Words in dictionary - ${wordCount}`);\r\n    console.log(`Memory used - ${pstat.memUsed.pretty}`);\r\n    console.log(``);\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} word\r\n   */\r\n  analyzeWord(word) {\r\n    return this.parser.parseWord(word, true);\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   *\r\n   * @param {*} inputStr\r\n   * @memberof Morpher\r\n   */\r\n  createTemplate(inputStr) {\r\n    return this.parser\r\n      .parseText(inputStr)\r\n      .map(t => t.shortTag || t.word)\r\n      .join(\"\");\r\n  }\r\n\r\n  /**\r\n   *  Template syntax - {NOUN/^п./мр}\r\n   *  {[PART]/[Regexp]/[tags]/[original]}\r\n   *\r\n   * @param {*} template\r\n   * @memberof Morpher\r\n   */\r\n  runTemplate(template, matchOptions = {}) {\r\n    let steps = template.split(\" \");\r\n    let output = [],\r\n      stats = [];\r\n    let tokenLookup = {};\r\n    let normalLookup = {};\r\n    let minProgress = 20;\r\n    let startTime = new Date();\r\n    let replaces = 0;\r\n\r\n    let bar = new Progress({\r\n      barsize: 10,\r\n      format:\r\n        \"Processing: [{bar}] {percentage}% | {speed} words/s | {replaces} replaces | {value}/{total}\"\r\n    });\r\n\r\n    if (steps.length > minProgress) bar.start(steps.length, 0);\r\n\r\n    steps.forEach((v, i) => {\r\n      let tagText = (v.match(\"{{.*}}\") || []).shift();\r\n\r\n      if (tagText) {\r\n        let tag = this.splitTag(tagText);\r\n\r\n        // If we have a normal match\r\n        matchOptions.matchNormal = false;\r\n        if (tag.origin && normalLookup[tag.origin]) {\r\n          matchOptions.matchNormal = normalLookup[tag.origin];\r\n        }\r\n\r\n        let tagData =\r\n          tokenLookup[tagText] || this.processTag(tag, matchOptions);\r\n\r\n        // Cache processed tags\r\n        if (!tokenLookup[tagText]) tokenLookup[tagText] = tagData;\r\n\r\n        // Cache processed normal matches\r\n        if (tag.origin && !normalLookup[tag.origin]) {\r\n          normalLookup[tag.origin] = tagData.wordNormal;\r\n        }\r\n\r\n        if (tag.origin != tagData.result) replaces++;\r\n\r\n        output.push(v.replace(/{{.*}}/, tagData.result));\r\n      } else {\r\n        output.push(v);\r\n      }\r\n\r\n      // Update progressbar\r\n      if (steps.length > minProgress)\r\n        bar.update(i, {\r\n          speed: Math.floor(i / ((new Date() - startTime) / 1000)),\r\n          replaces\r\n        });\r\n\r\n      stats.push(tokenLookup[tagText] || { word: v });\r\n    });\r\n\r\n    if (steps.length > minProgress) bar.stop();\r\n\r\n    return { text: output.join(\" \"), stats: stats };\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} text\r\n   * @param {*} tpl\r\n   */\r\n  formatStats(text, tpl) {\r\n    let stat = { avgMatch: 0, matchContext: 0, replaced: 0 };\r\n    text.stats.forEach(s => {\r\n      if (s.tag) stat.replaced++;\r\n      if (s.foundContext) stat.matchContext++;\r\n      if (s.matches) stat.avgMatch += s.matches.length;\r\n    });\r\n\r\n    stat.replaced = (stat.replaced / text.stats.length) * 100 + \"%\";\r\n    stat.avgMatch = (stat.avgMatch / stat.replaced) * 100 + \"%\";\r\n    stat.matchContext = (stat.matchContext / stat.replaced) * 100 + \"%\";\r\n    stat.totalWords = text.stats.length;\r\n\r\n    return stat;\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} tag\r\n   */\r\n  splitTag(tag = \"\") {\r\n    let chunks = tag\r\n      .replace(\"{{\", \"\")\r\n      .replace(\"}}\", \"\")\r\n      .split(\"/\");\r\n\r\n    return {\r\n      pos: chunks[0], // Part of speech\r\n      regExp: chunks[1], // Regexp to match\r\n      tags: chunks[2] ? (chunks[2] = chunks[2].split(\",\")) : [], // Tags - third part of the token\r\n      origin: chunks[3] || \"\", // Initial word to replace\r\n      text: tag // initial text\r\n    };\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {*} tag\r\n   * @param {*} [matchOptions={}]\r\n   * @returns {Object}\r\n   * @memberof Morpher\r\n   */\r\n  processTag(tag, matchOptions = {}) {\r\n    let partsFilter = matchOptions.parts;\r\n\r\n    // Prepare out\r\n    let result = {\r\n      matches: [],\r\n      tag,\r\n      tagText: tag.text,\r\n      origin: tag.origin\r\n    };\r\n\r\n    // If matchOptions have filter by parts - apply it\r\n    if (partsFilter && !~partsFilter.indexOf(tag.pos)) {\r\n      result.result = tag.origin;\r\n      return result;\r\n    }\r\n\r\n    // Get search options\r\n    let searchOptions = this.getSearchOptions(tag, matchOptions);\r\n\r\n    // Try to find a match\r\n    let tokens = this.dictionary.getWords(\r\n      tag.pos,\r\n      searchOptions.regExp,\r\n      tag.tags,\r\n      searchOptions\r\n    );\r\n\r\n    result.foundContext = false;\r\n\r\n    // If we didn't find context matches try\r\n    if (searchOptions.contextSearch) {\r\n      if (tokens.length) {\r\n        result.foundContext = true;\r\n      } else if (searchOptions.contextSearch != \"strict\") {\r\n        searchOptions.contextSearch = false;\r\n        tokens = this.dictionary.getWords(\r\n          tag.pos,\r\n          searchOptions.regExp,\r\n          tag.tags,\r\n          searchOptions\r\n        );\r\n      }\r\n    }\r\n\r\n    let word = getRandomItem(tokens);\r\n    result.matches = (tokens.map(t => t.word) || []).slice(0, 20);\r\n    result.wordNormal = word ? word.wordNormal : tag.origin || \"\";\r\n    result.result = word ? word.word : tag.origin || \"\";\r\n\r\n    return result;\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} origin\r\n   * @param {*} matchOptions\r\n   */\r\n  getSearchOptions(tag, matchOptions) {\r\n    // Regexp - second part of token\r\n    let regExp = matchOptions.length ? `.{${origin.length - 1}}` : tag.regExp;\r\n    let firstL = tag.origin.toLowerCase();\r\n    let lastL = tag.origin[tag.origin.length - 1].toLowerCase();\r\n\r\n    if (matchOptions.first) regExp = `^${firstL}` + regExp;\r\n    if (matchOptions.last) regExp = regExp + `${lastL}$`;\r\n\r\n    // If we have a user-defined regexp - use it\r\n    if (matchOptions.regexp) regExp = matchOptions.regexp;\r\n\r\n    let searchOptions = Object.assign(\r\n      { origin: tag.origin, regExp: regExp },\r\n      matchOptions\r\n    );\r\n\r\n    // Options to search a word\r\n    if (\r\n      tag.origin &&\r\n      (matchOptions.vowels ||\r\n        matchOptions.syllables ||\r\n        matchOptions.accent ||\r\n        matchOptions.accentLetter)\r\n    ) {\r\n      let o = this.parser.parseWord(tag.origin) || {};\r\n\r\n      Object.assign(searchOptions, {\r\n        vowelmap: o.vowels || \"\",\r\n        accmap: o.accmap || \"\",\r\n        origin: tag.origin,\r\n        originNormal: o.wordNormal || tag.origin || \"\",\r\n        accentLetter: matchOptions.accentLetter\r\n      });\r\n    }\r\n\r\n    return searchOptions;\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} origin\r\n   */\r\n  queryContext(origin) {\r\n    let input = this.parser.parseWord(origin);\r\n    return this.dictionary.context.getSimilarWords(input);\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} origin\r\n   */\r\n  inflect(origin, tags = []) {\r\n    let tagArray = typeof tags === \"string\" ? tags.split(\",\") : tags;\r\n\r\n    let input = this.parser.parseWord(origin);\r\n    if (input && input.parse) {\r\n      // Inflect\r\n      let inf = input.parse.inflect(tagArray);\r\n      return inf ? inf.word : origin;\r\n    } else {\r\n      return origin;\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} origin\r\n   */\r\n  pluralize(origin, number = 1) {\r\n    let input = this.parser.parseWord(origin);\r\n    number = parseInt(number, 10);\r\n\r\n    if (input && input.parse && number) {\r\n      // Inflect\r\n      let inf = input.parse.pluralize(number);\r\n      return inf ? inf.word : origin;\r\n    } else {\r\n      return origin;\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {*} nouns\r\n   * @param {*} adj\r\n   * @returns\r\n   * @memberof Morpher\r\n   */\r\n  getNextWord(origin, regExp = \".*\") {\r\n    let conformMap = {\r\n      NOUN: \"ADJF\",\r\n      ADJF: \"NOUN\",\r\n      VERB: \"NOUN\",\r\n      INFN: \"NOUN\"\r\n    };\r\n\r\n    let inputToken = this.parser.parseWord(origin || \"\");\r\n    if (!inputToken) return \"\";\r\n\r\n    let tag = this.splitTag(inputToken.shortTag);\r\n\r\n    // Edge case for verbs\r\n    if (tag.pos.match(\"VERB|INFN\")) tag.tags = [\"accs\"];\r\n\r\n    let results = this.dictionary.getWords(\r\n      conformMap[tag.pos] || \"NOUN\",\r\n      regExp,\r\n      tag.tags,\r\n      {\r\n        origin: origin,\r\n        contextSearch: true\r\n      }\r\n    );\r\n\r\n    // If we didn't get enough matches from w2v - choose random one\r\n    if (results.length < 3) {\r\n      results = this.dictionary.getWords(\r\n        conformMap[tag.pos] || \"NOUN\",\r\n        regExp,\r\n        tag.tags,\r\n        {\r\n          origin: origin,\r\n          contextSearch: false\r\n        }\r\n      );\r\n    }\r\n\r\n    let word = getRandomItem(results) || {};\r\n    return word.word || \"\";\r\n  }\r\n}\r\n",
     "static": true,
     "longname": "C:/Work/text-morpher/src/morpher.js",
     "access": "public",
@@ -1579,112 +1393,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 92,
-    "kind": "variable",
-    "name": "utils",
-    "memberof": "src/morpher.js",
-    "static": true,
-    "longname": "src/morpher.js~utils",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 93,
-    "kind": "variable",
-    "name": "Dictionary",
-    "memberof": "src/morpher.js",
-    "static": true,
-    "longname": "src/morpher.js~Dictionary",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 94,
-    "kind": "variable",
-    "name": "Progress",
-    "memberof": "src/morpher.js",
-    "static": true,
-    "longname": "src/morpher.js~Progress",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 95,
-    "kind": "variable",
-    "name": "procStats",
-    "memberof": "src/morpher.js",
-    "static": true,
-    "longname": "src/morpher.js~procStats",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 4,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 96,
-    "kind": "variable",
-    "name": "Az",
-    "memberof": "src/morpher.js",
-    "static": true,
-    "longname": "src/morpher.js~Az",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 5,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 97,
+    "__docId__": 83,
     "kind": "class",
     "name": "Morpher",
     "memberof": "src/morpher.js",
@@ -1692,10 +1401,10 @@
     "longname": "src/morpher.js~Morpher",
     "access": "public",
     "export": true,
-    "importPath": "text-morpher",
+    "importPath": "text-morpher/src/morpher.js",
     "importStyle": "Morpher",
     "description": "",
-    "lineNumber": 12,
+    "lineNumber": 13,
     "unknown": [
       {
         "tagName": "@class",
@@ -1705,7 +1414,7 @@
     "interface": false
   },
   {
-    "__docId__": 98,
+    "__docId__": 84,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/morpher.js~Morpher",
@@ -1715,11 +1424,11 @@
     "longname": "src/morpher.js~Morpher#constructor",
     "access": "public",
     "description": null,
-    "lineNumber": 13,
+    "lineNumber": 14,
     "undocument": true
   },
   {
-    "__docId__": 99,
+    "__docId__": 85,
     "kind": "method",
     "name": "init",
     "memberof": "src/morpher.js~Morpher",
@@ -1729,7 +1438,7 @@
     "longname": "src/morpher.js~Morpher#init",
     "access": "public",
     "description": "",
-    "lineNumber": 23,
+    "lineNumber": 24,
     "params": [
       {
         "nullable": null,
@@ -1749,29 +1458,12 @@
     }
   },
   {
-    "__docId__": 100,
+    "__docId__": 86,
     "kind": "member",
     "name": "dictionary",
     "memberof": "src/morpher.js~Morpher",
     "static": false,
     "longname": "src/morpher.js~Morpher#dictionary",
-    "access": "public",
-    "description": null,
-    "lineNumber": 29,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 101,
-    "kind": "member",
-    "name": "parser",
-    "memberof": "src/morpher.js~Morpher",
-    "static": false,
-    "longname": "src/morpher.js~Morpher#parser",
     "access": "public",
     "description": null,
     "lineNumber": 30,
@@ -1783,7 +1475,24 @@
     }
   },
   {
-    "__docId__": 102,
+    "__docId__": 87,
+    "kind": "member",
+    "name": "parser",
+    "memberof": "src/morpher.js~Morpher",
+    "static": false,
+    "longname": "src/morpher.js~Morpher#parser",
+    "access": "public",
+    "description": null,
+    "lineNumber": 31,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 88,
     "kind": "method",
     "name": "showStat",
     "memberof": "src/morpher.js~Morpher",
@@ -1793,12 +1502,12 @@
     "longname": "src/morpher.js~Morpher#showStat",
     "access": "public",
     "description": "",
-    "lineNumber": 43,
+    "lineNumber": 44,
     "params": [],
     "return": null
   },
   {
-    "__docId__": 103,
+    "__docId__": 89,
     "kind": "method",
     "name": "analyzeWord",
     "memberof": "src/morpher.js~Morpher",
@@ -1808,7 +1517,7 @@
     "longname": "src/morpher.js~Morpher#analyzeWord",
     "access": "public",
     "description": "",
-    "lineNumber": 58,
+    "lineNumber": 59,
     "params": [
       {
         "nullable": null,
@@ -1828,7 +1537,7 @@
     }
   },
   {
-    "__docId__": 104,
+    "__docId__": 90,
     "kind": "method",
     "name": "createTemplate",
     "memberof": "src/morpher.js~Morpher",
@@ -1838,7 +1547,7 @@
     "longname": "src/morpher.js~Morpher#createTemplate",
     "access": "public",
     "description": "",
-    "lineNumber": 69,
+    "lineNumber": 70,
     "params": [
       {
         "nullable": null,
@@ -1858,7 +1567,7 @@
     }
   },
   {
-    "__docId__": 105,
+    "__docId__": 91,
     "kind": "method",
     "name": "runTemplate",
     "memberof": "src/morpher.js~Morpher",
@@ -1868,7 +1577,7 @@
     "longname": "src/morpher.js~Morpher#runTemplate",
     "access": "public",
     "description": " Template syntax - {NOUN/^п./мр}\n {[PART]/[Regexp]/[tags]/[original]}",
-    "lineNumber": 83,
+    "lineNumber": 84,
     "params": [
       {
         "nullable": null,
@@ -1888,7 +1597,7 @@
     }
   },
   {
-    "__docId__": 106,
+    "__docId__": 92,
     "kind": "method",
     "name": "formatStats",
     "memberof": "src/morpher.js~Morpher",
@@ -1898,7 +1607,7 @@
     "longname": "src/morpher.js~Morpher#formatStats",
     "access": "public",
     "description": "",
-    "lineNumber": 151,
+    "lineNumber": 152,
     "params": [
       {
         "nullable": null,
@@ -1928,7 +1637,7 @@
     }
   },
   {
-    "__docId__": 107,
+    "__docId__": 93,
     "kind": "method",
     "name": "splitTag",
     "memberof": "src/morpher.js~Morpher",
@@ -1938,7 +1647,7 @@
     "longname": "src/morpher.js~Morpher#splitTag",
     "access": "public",
     "description": "",
-    "lineNumber": 171,
+    "lineNumber": 172,
     "params": [
       {
         "nullable": null,
@@ -1958,7 +1667,7 @@
     }
   },
   {
-    "__docId__": 108,
+    "__docId__": 94,
     "kind": "method",
     "name": "processTag",
     "memberof": "src/morpher.js~Morpher",
@@ -1968,7 +1677,7 @@
     "longname": "src/morpher.js~Morpher#processTag",
     "access": "public",
     "description": "",
-    "lineNumber": 194,
+    "lineNumber": 195,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2009,7 +1718,7 @@
     }
   },
   {
-    "__docId__": 109,
+    "__docId__": 95,
     "kind": "method",
     "name": "getSearchOptions",
     "memberof": "src/morpher.js~Morpher",
@@ -2019,7 +1728,7 @@
     "longname": "src/morpher.js~Morpher#getSearchOptions",
     "access": "public",
     "description": "",
-    "lineNumber": 252,
+    "lineNumber": 253,
     "params": [
       {
         "nullable": null,
@@ -2049,7 +1758,7 @@
     }
   },
   {
-    "__docId__": 110,
+    "__docId__": 96,
     "kind": "method",
     "name": "queryContext",
     "memberof": "src/morpher.js~Morpher",
@@ -2059,7 +1768,7 @@
     "longname": "src/morpher.js~Morpher#queryContext",
     "access": "public",
     "description": "",
-    "lineNumber": 295,
+    "lineNumber": 296,
     "params": [
       {
         "nullable": null,
@@ -2079,7 +1788,7 @@
     }
   },
   {
-    "__docId__": 111,
+    "__docId__": 97,
     "kind": "method",
     "name": "inflect",
     "memberof": "src/morpher.js~Morpher",
@@ -2089,7 +1798,7 @@
     "longname": "src/morpher.js~Morpher#inflect",
     "access": "public",
     "description": "",
-    "lineNumber": 304,
+    "lineNumber": 305,
     "params": [
       {
         "nullable": null,
@@ -2109,7 +1818,7 @@
     }
   },
   {
-    "__docId__": 112,
+    "__docId__": 98,
     "kind": "method",
     "name": "pluralize",
     "memberof": "src/morpher.js~Morpher",
@@ -2119,7 +1828,7 @@
     "longname": "src/morpher.js~Morpher#pluralize",
     "access": "public",
     "description": "",
-    "lineNumber": 321,
+    "lineNumber": 322,
     "params": [
       {
         "nullable": null,
@@ -2139,7 +1848,7 @@
     }
   },
   {
-    "__docId__": 113,
+    "__docId__": 99,
     "kind": "method",
     "name": "getNextWord",
     "memberof": "src/morpher.js~Morpher",
@@ -2149,7 +1858,7 @@
     "longname": "src/morpher.js~Morpher#getNextWord",
     "access": "public",
     "description": "",
-    "lineNumber": 342,
+    "lineNumber": 343,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2185,10 +1894,10 @@
     }
   },
   {
-    "__docId__": 114,
+    "__docId__": 100,
     "kind": "file",
     "name": "src/parser.js",
-    "content": "const utils = require(\"./utils.js\");\r\n\r\nclass Parser {\r\n  constructor(options = {}) {\r\n    this.Az = global.Az;\r\n    this.options = options;\r\n    this.accentLookup = this.options.accentLookup || {};\r\n    this.stopWords = this.options.stopWords || [];\r\n    this.options.withSpaces = true;\r\n    this.initStopWords();\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @memberof Parser\r\n   */\r\n  initStopWords() {\r\n    this.stopWordsLookup = {};\r\n    this.stopWords.forEach(word => (this.stopWordsLookup[word] = true));\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {string} [word=\"\"]\r\n   * @memberof Parser\r\n   */\r\n  getVowelMap(word = \"\") {\r\n    let w = word.toLowerCase();\r\n    let parts = w.match(/[бвгджзйклмнпрстфхцчшщьъ]*?[аеёиоуыэюя]/gi) || [];\r\n\r\n    return {\r\n      vowels: parts.map(p => p.match(/[аеёиоуыэюя]{1,3}/gi)).join(\"-\"),\r\n      accmap: this.accentLookup[w] || new Array(parts.length).fill(0).join(\"\")\r\n    };\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} token\r\n   */\r\n  getTags(token) {\r\n    let skipTags = [\"inan\", \"anim\"];\r\n    let tags = token.tag.stat.slice(1, 100).concat(token.tag.flex) || [];\r\n    return tags.filter(t => !~skipTags.indexOf(t) && !/^[A-Z]/.test(t));\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} token\r\n   */\r\n  getShortTag(token) {\r\n    let skipParts = [\"PRED\", \"PRCL\", \"PREP\", \"NPRO\", \"GRND\", \"ADVB\"];\r\n\r\n    if (\r\n      !token.tag ||\r\n      !token.word ||\r\n      this.stopWordsLookup[token.normalize().word] ||\r\n      token.tag.isCapitalized() ||\r\n      ~skipParts.indexOf(token.tag.POST) ||\r\n      token.word.length < 4\r\n    ) {\r\n      return false;\r\n    } else {\r\n      let POST = token.tag.POST;\r\n      return `{{${POST}/.*/${this.getTags(token).join(\",\")}/${token.word}}}`;\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} word\r\n   */\r\n  parseWord(word, simpleForm) {\r\n    let token = this.parseText(word).shift();\r\n\r\n    if (simpleForm) {\r\n      token.tags = this.getTags(token).join(\",\");\r\n      delete token.parse;\r\n      delete token.tag;\r\n      delete token.shortTag;\r\n    }\r\n\r\n    return token;\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {*} text\r\n   * @returns\r\n   * @memberof Parser\r\n   */\r\n  parseText(inputText) {\r\n    let text = Array.isArray(inputText) ? inputText.join(\" \") : inputText;\r\n    let tokens = this.Az.Tokens(text)\r\n      .done()\r\n      .map(token => {\r\n        return this.parseToken(token, true).shift() || {};\r\n      });\r\n\r\n    return (\r\n      (this.options.withSpaces\r\n        ? tokens\r\n        : tokens.filter(token => token.word.trim())) || []\r\n    );\r\n  }\r\n\r\n  /**\r\n   *\r\n   */\r\n  parseToken(token, quick) {\r\n    let origin = token.source.substr(token.st, token.length);\r\n    let isCapitalized = origin[0] != (origin[0] || \"\").toLowerCase();\r\n    let output = [];\r\n\r\n    // Get basic word properties\r\n    let wordData = Object.assign(\r\n      {\r\n        word: origin\r\n      },\r\n      this.getVowelMap(origin)\r\n    );\r\n\r\n    // Process only cyrillic words for now\r\n    if (token.type == \"WORD\" && token.subType == \"CYRIL\" && !isCapitalized) {\r\n      let parseVars = this.Az.Morph(origin);\r\n\r\n      if (parseVars && parseVars.length) {\r\n        if (quick) parseVars = [parseVars[0]];\r\n\r\n        output = parseVars.map(parse => {\r\n          return Object.assign({}, wordData, {\r\n            wordNormal: parse.normalize().word,\r\n            parse: parse,\r\n            tag: parse.tag,\r\n            part: parse.tag.POST,\r\n            shortTag: this.getShortTag(parse) || origin || \"\"\r\n          });\r\n        });\r\n      }\r\n    }\r\n\r\n    return output.length ? output : [wordData];\r\n  }\r\n}\r\n\r\nmodule.exports = Parser;\r\n",
+    "content": "export default class Parser {\r\n  constructor(options = {}) {\r\n    this.Az = global.Az;\r\n    this.options = options;\r\n    this.accentLookup = this.options.accentLookup || {};\r\n    this.stopWords = this.options.stopWords || [];\r\n    this.options.withSpaces = true;\r\n    this.initStopWords();\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @memberof Parser\r\n   */\r\n  initStopWords() {\r\n    this.stopWordsLookup = {};\r\n    this.stopWords.forEach(word => (this.stopWordsLookup[word] = true));\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {string} [word=\"\"]\r\n   * @memberof Parser\r\n   */\r\n  getVowelMap(word = \"\") {\r\n    let w = word.toLowerCase();\r\n    let parts = w.match(/[бвгджзйклмнпрстфхцчшщьъ]*?[аеёиоуыэюя]/gi) || [];\r\n\r\n    return {\r\n      vowels: parts.map(p => p.match(/[аеёиоуыэюя]{1,3}/gi)).join(\"-\"),\r\n      accmap: this.accentLookup[w] || new Array(parts.length).fill(0).join(\"\")\r\n    };\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} token\r\n   */\r\n  getTags(token) {\r\n    let skipTags = [\"inan\", \"anim\"];\r\n    let tags = token.tag.stat.slice(1, 100).concat(token.tag.flex) || [];\r\n    return tags.filter(t => !~skipTags.indexOf(t) && !/^[A-Z]/.test(t));\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} token\r\n   */\r\n  getShortTag(token) {\r\n    let skipParts = [\"PRED\", \"PRCL\", \"PREP\", \"NPRO\", \"GRND\", \"ADVB\"];\r\n\r\n    if (\r\n      !token.tag ||\r\n      !token.word ||\r\n      this.stopWordsLookup[token.normalize().word] ||\r\n      token.tag.isCapitalized() ||\r\n      ~skipParts.indexOf(token.tag.POST) ||\r\n      token.word.length < 4\r\n    ) {\r\n      return false;\r\n    } else {\r\n      let POST = token.tag.POST;\r\n      return `{{${POST}/.*/${this.getTags(token).join(\",\")}/${token.word}}}`;\r\n    }\r\n  }\r\n\r\n  /**\r\n   *\r\n   * @param {*} word\r\n   */\r\n  parseWord(word, simpleForm) {\r\n    let token = this.parseText(word).shift();\r\n\r\n    if (simpleForm) {\r\n      token.tags = this.getTags(token).join(\",\");\r\n      delete token.parse;\r\n      delete token.tag;\r\n      delete token.shortTag;\r\n    }\r\n\r\n    return token;\r\n  }\r\n\r\n  /**\r\n   *\r\n   *\r\n   * @param {*} text\r\n   * @returns\r\n   * @memberof Parser\r\n   */\r\n  parseText(inputText) {\r\n    let text = Array.isArray(inputText) ? inputText.join(\" \") : inputText;\r\n    let tokens = this.Az.Tokens(text)\r\n      .done()\r\n      .map(token => {\r\n        return this.parseToken(token, true).shift() || {};\r\n      });\r\n\r\n    return (\r\n      (this.options.withSpaces\r\n        ? tokens\r\n        : tokens.filter(token => token.word.trim())) || []\r\n    );\r\n  }\r\n\r\n  /**\r\n   *\r\n   */\r\n  parseToken(token, quick) {\r\n    let origin = token.source.substr(token.st, token.length);\r\n    let isCapitalized = origin[0] != (origin[0] || \"\").toLowerCase();\r\n    let output = [];\r\n\r\n    // Get basic word properties\r\n    let wordData = Object.assign(\r\n      {\r\n        word: origin\r\n      },\r\n      this.getVowelMap(origin)\r\n    );\r\n\r\n    // Process only cyrillic words for now\r\n    if (token.type == \"WORD\" && token.subType == \"CYRIL\" && !isCapitalized) {\r\n      let parseVars = this.Az.Morph(origin);\r\n\r\n      if (parseVars && parseVars.length) {\r\n        if (quick) parseVars = [parseVars[0]];\r\n\r\n        output = parseVars.map(parse => {\r\n          return Object.assign({}, wordData, {\r\n            wordNormal: parse.normalize().word,\r\n            parse: parse,\r\n            tag: parse.tag,\r\n            part: parse.tag.POST,\r\n            shortTag: this.getShortTag(parse) || origin || \"\"\r\n          });\r\n        });\r\n      }\r\n    }\r\n\r\n    return output.length ? output : [wordData];\r\n  }\r\n}\r\n",
     "static": true,
     "longname": "C:/Work/text-morpher/src/parser.js",
     "access": "public",
@@ -2196,45 +1905,23 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 115,
-    "kind": "variable",
-    "name": "utils",
-    "memberof": "src/parser.js",
-    "static": true,
-    "longname": "src/parser.js~utils",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/parser.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 116,
+    "__docId__": 101,
     "kind": "class",
     "name": "Parser",
     "memberof": "src/parser.js",
     "static": true,
     "longname": "src/parser.js~Parser",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/parser.js",
-    "importStyle": null,
+    "importStyle": "Parser",
     "description": null,
-    "lineNumber": 3,
+    "lineNumber": 1,
     "undocument": true,
-    "interface": false,
-    "ignore": true
+    "interface": false
   },
   {
-    "__docId__": 117,
+    "__docId__": 102,
     "kind": "constructor",
     "name": "constructor",
     "memberof": "src/parser.js~Parser",
@@ -2244,16 +1931,50 @@
     "longname": "src/parser.js~Parser#constructor",
     "access": "public",
     "description": null,
-    "lineNumber": 4,
+    "lineNumber": 2,
     "undocument": true
   },
   {
-    "__docId__": 118,
+    "__docId__": 103,
     "kind": "member",
     "name": "Az",
     "memberof": "src/parser.js~Parser",
     "static": false,
     "longname": "src/parser.js~Parser#Az",
+    "access": "public",
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 104,
+    "kind": "member",
+    "name": "options",
+    "memberof": "src/parser.js~Parser",
+    "static": false,
+    "longname": "src/parser.js~Parser#options",
+    "access": "public",
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 105,
+    "kind": "member",
+    "name": "accentLookup",
+    "memberof": "src/parser.js~Parser",
+    "static": false,
+    "longname": "src/parser.js~Parser#accentLookup",
     "access": "public",
     "description": null,
     "lineNumber": 5,
@@ -2265,12 +1986,12 @@
     }
   },
   {
-    "__docId__": 119,
+    "__docId__": 106,
     "kind": "member",
-    "name": "options",
+    "name": "stopWords",
     "memberof": "src/parser.js~Parser",
     "static": false,
-    "longname": "src/parser.js~Parser#options",
+    "longname": "src/parser.js~Parser#stopWords",
     "access": "public",
     "description": null,
     "lineNumber": 6,
@@ -2282,41 +2003,7 @@
     }
   },
   {
-    "__docId__": 120,
-    "kind": "member",
-    "name": "accentLookup",
-    "memberof": "src/parser.js~Parser",
-    "static": false,
-    "longname": "src/parser.js~Parser#accentLookup",
-    "access": "public",
-    "description": null,
-    "lineNumber": 7,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 121,
-    "kind": "member",
-    "name": "stopWords",
-    "memberof": "src/parser.js~Parser",
-    "static": false,
-    "longname": "src/parser.js~Parser#stopWords",
-    "access": "public",
-    "description": null,
-    "lineNumber": 8,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    }
-  },
-  {
-    "__docId__": 122,
+    "__docId__": 107,
     "kind": "method",
     "name": "initStopWords",
     "memberof": "src/parser.js~Parser",
@@ -2326,12 +2013,12 @@
     "longname": "src/parser.js~Parser#initStopWords",
     "access": "public",
     "description": "",
-    "lineNumber": 18,
+    "lineNumber": 16,
     "params": [],
     "return": null
   },
   {
-    "__docId__": 123,
+    "__docId__": 108,
     "kind": "member",
     "name": "stopWordsLookup",
     "memberof": "src/parser.js~Parser",
@@ -2339,7 +2026,7 @@
     "longname": "src/parser.js~Parser#stopWordsLookup",
     "access": "public",
     "description": null,
-    "lineNumber": 19,
+    "lineNumber": 17,
     "undocument": true,
     "type": {
       "types": [
@@ -2348,7 +2035,7 @@
     }
   },
   {
-    "__docId__": 124,
+    "__docId__": 109,
     "kind": "method",
     "name": "getVowelMap",
     "memberof": "src/parser.js~Parser",
@@ -2358,7 +2045,7 @@
     "longname": "src/parser.js~Parser#getVowelMap",
     "access": "public",
     "description": "",
-    "lineNumber": 29,
+    "lineNumber": 27,
     "params": [
       {
         "nullable": null,
@@ -2380,7 +2067,7 @@
     }
   },
   {
-    "__docId__": 125,
+    "__docId__": 110,
     "kind": "method",
     "name": "getTags",
     "memberof": "src/parser.js~Parser",
@@ -2390,7 +2077,7 @@
     "longname": "src/parser.js~Parser#getTags",
     "access": "public",
     "description": "",
-    "lineNumber": 43,
+    "lineNumber": 41,
     "params": [
       {
         "nullable": null,
@@ -2410,7 +2097,7 @@
     }
   },
   {
-    "__docId__": 126,
+    "__docId__": 111,
     "kind": "method",
     "name": "getShortTag",
     "memberof": "src/parser.js~Parser",
@@ -2420,7 +2107,7 @@
     "longname": "src/parser.js~Parser#getShortTag",
     "access": "public",
     "description": "",
-    "lineNumber": 53,
+    "lineNumber": 51,
     "params": [
       {
         "nullable": null,
@@ -2440,7 +2127,7 @@
     }
   },
   {
-    "__docId__": 127,
+    "__docId__": 112,
     "kind": "method",
     "name": "parseWord",
     "memberof": "src/parser.js~Parser",
@@ -2450,7 +2137,7 @@
     "longname": "src/parser.js~Parser#parseWord",
     "access": "public",
     "description": "",
-    "lineNumber": 75,
+    "lineNumber": 73,
     "params": [
       {
         "nullable": null,
@@ -2470,7 +2157,7 @@
     }
   },
   {
-    "__docId__": 128,
+    "__docId__": 113,
     "kind": "method",
     "name": "parseText",
     "memberof": "src/parser.js~Parser",
@@ -2480,7 +2167,7 @@
     "longname": "src/parser.js~Parser#parseText",
     "access": "public",
     "description": "",
-    "lineNumber": 95,
+    "lineNumber": 93,
     "unknown": [
       {
         "tagName": "@returns",
@@ -2506,7 +2193,7 @@
     }
   },
   {
-    "__docId__": 129,
+    "__docId__": 114,
     "kind": "method",
     "name": "parseToken",
     "memberof": "src/parser.js~Parser",
@@ -2516,7 +2203,7 @@
     "longname": "src/parser.js~Parser#parseToken",
     "access": "public",
     "description": "",
-    "lineNumber": 113,
+    "lineNumber": 111,
     "params": [
       {
         "name": "token",
@@ -2538,10 +2225,10 @@
     }
   },
   {
-    "__docId__": 130,
+    "__docId__": 115,
     "kind": "file",
     "name": "src/utils.js",
-    "content": "const fs = require(\"fs\");\r\nconst chalk = require(\"chalk\");\r\nconst readline = require(\"readline\");\r\nconst Unzip = require(\"unzip-stream\");\r\nconst spawn = require(\"child_process\").spawn;\r\nconst http = require(\"http\");\r\nconst Progress = require(\"cli-progress\").Bar;\r\n\r\nconst log = text => {\r\n  //const log = console.log;\r\n};\r\n\r\nconst download = (url, dest, cb) => {\r\n  let file = fs.createWriteStream(dest);\r\n\r\n  let bar = new Progress({\r\n    barsize: 10,\r\n    format:\r\n      \"Downloading: [{bar}] {percentage}% | | ETA: {eta}s | {value}/{total}\"\r\n  });\r\n\r\n  let request = http.get(url, function(response) {\r\n    let len = parseInt(response.headers[\"content-length\"], 10);\r\n    var cur = 0;\r\n\r\n    bar.start(len, 0);\r\n\r\n    // check if response is success\r\n    if (response.statusCode !== 200) {\r\n      return cb(\"Response status was \" + response.statusCode);\r\n    }\r\n\r\n    response.pipe(file);\r\n\r\n    response.on(\"data\", function(chunk) {\r\n      cur += chunk.length;\r\n      bar.update(cur);\r\n    });\r\n\r\n    file.on(\"finish\", function() {\r\n      bar.stop();\r\n      file.close(cb); // close() is async, call cb after close completes.\r\n    });\r\n\r\n    // check for request error too\r\n    request.on(\"error\", function(err) {\r\n      bar.stop();\r\n      fs.unlink(dest);\r\n      return cb(err.message);\r\n    });\r\n  });\r\n\r\n  file.on(\"error\", function(err) {\r\n    // Handle errors\r\n    fs.unlink(dest); // Delete the file async. (But we don't check the result)\r\n    return cb(err.message);\r\n  });\r\n};\r\n\r\n/**\r\n *\r\n * @param {*} packedFile\r\n * @param {*} targetFolder\r\n */\r\nconst unpackZip = async (packedFile, targetFolder) => {\r\n  return new Promise((resolve, reject) => {\r\n    const unzipper = Unzip.Extract({ path: targetFolder });\r\n    unzipper.on(\"error\", reject);\r\n    unzipper.on(\"close\", resolve);\r\n\r\n    fs.createReadStream(packedFile).pipe(unzipper);\r\n  });\r\n};\r\n\r\nconst exists = path => {\r\n  return fs.existsSync(path) ? path : false;\r\n};\r\n\r\nconst getFile = (name = \"./dump.json\") => {\r\n  return exists(name) ? fs.readFileSync(name, \"utf8\") : \"\";\r\n};\r\n\r\nconst getFileSize = path => {\r\n  const stats = fs.statSync(path);\r\n  return Math.floor(stats[\"size\"] / (1024 * 1024)) + \"MB\";\r\n};\r\n\r\nconst writeFile = (name = \"./dump.txt\", str) => {\r\n  fs.writeFileSync(name, str);\r\n};\r\n\r\nconst dumpFile = (name = \"./dump.json\", object) => {\r\n  fs.writeFileSync(name, JSON.stringify(object, null, 2));\r\n};\r\n\r\nconst prob = prob => {\r\n  return Math.floor(Math.random() * 100) <= prob;\r\n};\r\n\r\nconst getRandomItem = items => {\r\n  return items[Math.floor(Math.random() * items.length)];\r\n};\r\n\r\nconst asyncForEach = async (array, callback) => {\r\n  for (let index = 0; index < array.length; index++) {\r\n    await callback(array[index], index, array);\r\n  }\r\n};\r\n\r\nconst invert = obj => {\r\n  let new_obj = {};\r\n  for (let prop in obj) {\r\n    if (obj.hasOwnProperty(prop)) {\r\n      new_obj[obj[prop]] = prop;\r\n    }\r\n  }\r\n\r\n  return new_obj;\r\n};\r\n\r\n/**\r\n *  Get OS-independent npm name\r\n */\r\nconst getNPMName = () => {\r\n  return /^win/.test(process.platform) ? \"npm.cmd\" : \"npm\";\r\n};\r\n\r\n/**\r\n * Start the child process and output everything into console\r\n */\r\nconst runProcess = (command, params, callback) => {\r\n  let proc = spawn(command, params);\r\n  //proc.stdout.on(\"data\", data => console.log(\"\" + data));\r\n  //proc.stderr.on(\"data\", data => console.log(\"\" + data));\r\n  if (callback) proc.on(\"close\", callback);\r\n};\r\n\r\nmodule.exports = {\r\n  getFile,\r\n  getFileSize,\r\n  unpackZip,\r\n  download,\r\n  dumpFile,\r\n  writeFile,\r\n  exists,\r\n  prob,\r\n  invert,\r\n  runProcess,\r\n  getNPMName,\r\n  asyncForEach,\r\n  getRandomItem\r\n};\r\n",
+    "content": "import fs from \"fs\";\r\nimport chalk from \"chalk\";\r\nimport Unzip from \"unzip-stream\";\r\nimport { spawn } from \"child_process\";\r\nimport http from \"http\";\r\nimport { Bar as Progress } from \"cli-progress\";\r\n\r\nexport const log = text => {\r\n  //const log = console.log;\r\n};\r\n\r\n/**\r\n * Download a file\r\n *\r\n * @param {*} url\r\n * @param {*} dest\r\n * @param {*} cb\r\n */\r\nexport const download = (url, dest, cb) => {\r\n  let file = fs.createWriteStream(dest);\r\n\r\n  let bar = new Progress({\r\n    barsize: 10,\r\n    format:\r\n      \"Downloading: [{bar}] {percentage}% | | ETA: {eta}s | {value}/{total}\"\r\n  });\r\n\r\n  let request = http.get(url, function(response) {\r\n    let len = parseInt(response.headers[\"content-length\"], 10);\r\n    var cur = 0;\r\n\r\n    bar.start(len, 0);\r\n\r\n    // check if response is success\r\n    if (response.statusCode !== 200) {\r\n      return cb(\"Response status was \" + response.statusCode);\r\n    }\r\n\r\n    response.pipe(file);\r\n\r\n    response.on(\"data\", function(chunk) {\r\n      cur += chunk.length;\r\n      bar.update(cur);\r\n    });\r\n\r\n    file.on(\"finish\", function() {\r\n      bar.stop();\r\n      file.close(cb); // close() is async, call cb after close completes.\r\n    });\r\n\r\n    // check for request error too\r\n    request.on(\"error\", function(err) {\r\n      bar.stop();\r\n      fs.unlink(dest);\r\n      return cb(err.message);\r\n    });\r\n  });\r\n\r\n  file.on(\"error\", function(err) {\r\n    // Handle errors\r\n    fs.unlink(dest); // Delete the file async. (But we don't check the result)\r\n    return cb(err.message);\r\n  });\r\n};\r\n\r\n/**\r\n *\r\n * @param {*} packedFile\r\n * @param {*} targetFolder\r\n */\r\nexport const unpackZip = async (packedFile, targetFolder) => {\r\n  return new Promise((resolve, reject) => {\r\n    const unzipper = Unzip.Extract({ path: targetFolder });\r\n    unzipper.on(\"error\", reject);\r\n    unzipper.on(\"close\", resolve);\r\n\r\n    fs.createReadStream(packedFile).pipe(unzipper);\r\n  });\r\n};\r\n\r\nexport const exists = path => {\r\n  return fs.existsSync(path) ? path : false;\r\n};\r\n\r\nexport const getFile = (name = \"./dump.json\") => {\r\n  return exists(name) ? fs.readFileSync(name, \"utf8\") : \"\";\r\n};\r\nexport const getFileSize = path => {\r\n  const stats = fs.statSync(path);\r\n  return Math.floor(stats[\"size\"] / (1024 * 1024)) + \"MB\";\r\n};\r\n\r\nexport const writeFile = (name = \"./dump.txt\", str) => {\r\n  fs.writeFileSync(name, str);\r\n};\r\n\r\nexport const dumpFile = (name = \"./dump.json\", object) => {\r\n  fs.writeFileSync(name, JSON.stringify(object, null, 2));\r\n};\r\n\r\nexport const prob = prob => {\r\n  return Math.floor(Math.random() * 100) <= prob;\r\n};\r\n\r\nexport const getRandomItem = items => {\r\n  return items[Math.floor(Math.random() * items.length)];\r\n};\r\n\r\nexport const asyncForEach = async (array, callback) => {\r\n  for (let index = 0; index < array.length; index++) {\r\n    await callback(array[index], index, array);\r\n  }\r\n};\r\n\r\nexport const invert = obj => {\r\n  let new_obj = {};\r\n  for (let prop in obj) {\r\n    if (obj.hasOwnProperty(prop)) {\r\n      new_obj[obj[prop]] = prop;\r\n    }\r\n  }\r\n\r\n  return new_obj;\r\n};\r\n\r\n/**\r\n *  Get OS-independent npm name\r\n */\r\nexport const getNPMName = () => {\r\n  return /^win/.test(process.platform) ? \"npm.cmd\" : \"npm\";\r\n};\r\n\r\n/**\r\n * Start the child process and output everything into console\r\n */\r\nexport const runProcess = (command, params, callback) => {\r\n  let proc = spawn(command, params);\r\n  //proc.stdout.on(\"data\", data => console.log(\"\" + data));\r\n  //proc.stderr.on(\"data\", data => console.log(\"\" + data));\r\n  if (callback) proc.on(\"close\", callback);\r\n};\r\n",
     "static": true,
     "longname": "C:/Work/text-morpher/src/utils.js",
     "access": "public",
@@ -2549,154 +2236,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 131,
-    "kind": "variable",
-    "name": "fs",
-    "memberof": "src/utils.js",
-    "static": true,
-    "longname": "src/utils.js~fs",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 1,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 132,
-    "kind": "variable",
-    "name": "chalk",
-    "memberof": "src/utils.js",
-    "static": true,
-    "longname": "src/utils.js~chalk",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 2,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 133,
-    "kind": "variable",
-    "name": "readline",
-    "memberof": "src/utils.js",
-    "static": true,
-    "longname": "src/utils.js~readline",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 3,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 134,
-    "kind": "variable",
-    "name": "Unzip",
-    "memberof": "src/utils.js",
-    "static": true,
-    "longname": "src/utils.js~Unzip",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 4,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 135,
-    "kind": "variable",
-    "name": "spawn",
-    "memberof": "src/utils.js",
-    "static": true,
-    "longname": "src/utils.js~spawn",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 5,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 136,
-    "kind": "variable",
-    "name": "http",
-    "memberof": "src/utils.js",
-    "static": true,
-    "longname": "src/utils.js~http",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 6,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 137,
-    "kind": "variable",
-    "name": "Progress",
-    "memberof": "src/utils.js",
-    "static": true,
-    "longname": "src/utils.js~Progress",
-    "access": "public",
-    "export": false,
-    "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 7,
-    "undocument": true,
-    "type": {
-      "types": [
-        "*"
-      ]
-    },
-    "ignore": true
-  },
-  {
-    "__docId__": 138,
+    "__docId__": 116,
     "kind": "function",
     "name": "log",
     "memberof": "src/utils.js",
@@ -2705,11 +2245,11 @@
     "static": true,
     "longname": "src/utils.js~log",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
+    "importStyle": "{log}",
     "description": null,
-    "lineNumber": 9,
+    "lineNumber": 8,
     "undocument": true,
     "params": [
       {
@@ -2719,11 +2259,10 @@
         ]
       }
     ],
-    "return": null,
-    "ignore": true
+    "return": null
   },
   {
-    "__docId__": 139,
+    "__docId__": 117,
     "kind": "function",
     "name": "download",
     "memberof": "src/utils.js",
@@ -2732,37 +2271,47 @@
     "static": true,
     "longname": "src/utils.js~download",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 13,
-    "undocument": true,
+    "importStyle": "{download}",
+    "description": "Download a file",
+    "lineNumber": 19,
     "params": [
       {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "url",
-        "types": [
-          "*"
-        ]
+        "description": ""
       },
       {
+        "nullable": null,
+        "types": [
+          "*"
+        ],
+        "spread": false,
+        "optional": false,
         "name": "dest",
-        "types": [
-          "*"
-        ]
+        "description": ""
       },
       {
-        "name": "cb",
+        "nullable": null,
         "types": [
           "*"
-        ]
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "cb",
+        "description": ""
       }
     ],
-    "return": null,
-    "ignore": true
+    "return": null
   },
   {
-    "__docId__": 140,
+    "__docId__": 118,
     "kind": "function",
     "name": "unpackZip",
     "memberof": "src/utils.js",
@@ -2771,11 +2320,11 @@
     "static": true,
     "longname": "src/utils.js~unpackZip",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
+    "importStyle": "{unpackZip}",
     "description": "",
-    "lineNumber": 65,
+    "lineNumber": 71,
     "params": [
       {
         "nullable": null,
@@ -2802,11 +2351,10 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 141,
+    "__docId__": 119,
     "kind": "function",
     "name": "exists",
     "memberof": "src/utils.js",
@@ -2815,11 +2363,11 @@
     "static": true,
     "longname": "src/utils.js~exists",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
+    "importStyle": "{exists}",
     "description": null,
-    "lineNumber": 75,
+    "lineNumber": 81,
     "undocument": true,
     "params": [
       {
@@ -2833,11 +2381,10 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 142,
+    "__docId__": 120,
     "kind": "function",
     "name": "getFile",
     "memberof": "src/utils.js",
@@ -2846,11 +2393,11 @@
     "static": true,
     "longname": "src/utils.js~getFile",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
+    "importStyle": "{getFile}",
     "description": null,
-    "lineNumber": 79,
+    "lineNumber": 85,
     "undocument": true,
     "params": [
       {
@@ -2867,11 +2414,10 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 143,
+    "__docId__": 121,
     "kind": "function",
     "name": "getFileSize",
     "memberof": "src/utils.js",
@@ -2880,11 +2426,11 @@
     "static": true,
     "longname": "src/utils.js~getFileSize",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
+    "importStyle": "{getFileSize}",
     "description": null,
-    "lineNumber": 83,
+    "lineNumber": 88,
     "undocument": true,
     "params": [
       {
@@ -2898,11 +2444,10 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 144,
+    "__docId__": 122,
     "kind": "function",
     "name": "writeFile",
     "memberof": "src/utils.js",
@@ -2911,11 +2456,11 @@
     "static": true,
     "longname": "src/utils.js~writeFile",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
+    "importStyle": "{writeFile}",
     "description": null,
-    "lineNumber": 88,
+    "lineNumber": 93,
     "undocument": true,
     "params": [
       {
@@ -2934,11 +2479,10 @@
         ]
       }
     ],
-    "return": null,
-    "ignore": true
+    "return": null
   },
   {
-    "__docId__": 145,
+    "__docId__": 123,
     "kind": "function",
     "name": "dumpFile",
     "memberof": "src/utils.js",
@@ -2947,11 +2491,11 @@
     "static": true,
     "longname": "src/utils.js~dumpFile",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
+    "importStyle": "{dumpFile}",
     "description": null,
-    "lineNumber": 92,
+    "lineNumber": 97,
     "undocument": true,
     "params": [
       {
@@ -2970,11 +2514,10 @@
         ]
       }
     ],
-    "return": null,
-    "ignore": true
+    "return": null
   },
   {
-    "__docId__": 146,
+    "__docId__": 124,
     "kind": "function",
     "name": "prob",
     "memberof": "src/utils.js",
@@ -2983,11 +2526,11 @@
     "static": true,
     "longname": "src/utils.js~prob",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
+    "importStyle": "{prob}",
     "description": null,
-    "lineNumber": 96,
+    "lineNumber": 101,
     "undocument": true,
     "params": [
       {
@@ -3001,11 +2544,10 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 147,
+    "__docId__": 125,
     "kind": "function",
     "name": "getRandomItem",
     "memberof": "src/utils.js",
@@ -3014,11 +2556,11 @@
     "static": true,
     "longname": "src/utils.js~getRandomItem",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
+    "importStyle": "{getRandomItem}",
     "description": null,
-    "lineNumber": 100,
+    "lineNumber": 105,
     "undocument": true,
     "params": [
       {
@@ -3032,11 +2574,10 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 148,
+    "__docId__": 126,
     "kind": "function",
     "name": "asyncForEach",
     "memberof": "src/utils.js",
@@ -3045,11 +2586,11 @@
     "static": true,
     "longname": "src/utils.js~asyncForEach",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
+    "importStyle": "{asyncForEach}",
     "description": null,
-    "lineNumber": 104,
+    "lineNumber": 109,
     "undocument": true,
     "params": [
       {
@@ -3065,11 +2606,10 @@
         ]
       }
     ],
-    "return": null,
-    "ignore": true
+    "return": null
   },
   {
-    "__docId__": 149,
+    "__docId__": 127,
     "kind": "function",
     "name": "invert",
     "memberof": "src/utils.js",
@@ -3078,11 +2618,11 @@
     "static": true,
     "longname": "src/utils.js~invert",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
+    "importStyle": "{invert}",
     "description": null,
-    "lineNumber": 110,
+    "lineNumber": 115,
     "undocument": true,
     "params": [
       {
@@ -3096,11 +2636,10 @@
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 150,
+    "__docId__": 128,
     "kind": "function",
     "name": "getNPMName",
     "memberof": "src/utils.js",
@@ -3109,21 +2648,20 @@
     "static": true,
     "longname": "src/utils.js~getNPMName",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
+    "importStyle": "{getNPMName}",
     "description": " Get OS-independent npm name",
-    "lineNumber": 124,
+    "lineNumber": 129,
     "params": [],
     "return": {
       "types": [
         "*"
       ]
-    },
-    "ignore": true
+    }
   },
   {
-    "__docId__": 151,
+    "__docId__": 129,
     "kind": "function",
     "name": "runProcess",
     "memberof": "src/utils.js",
@@ -3132,11 +2670,11 @@
     "static": true,
     "longname": "src/utils.js~runProcess",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "text-morpher/src/utils.js",
-    "importStyle": null,
+    "importStyle": "{runProcess}",
     "description": "Start the child process and output everything into console",
-    "lineNumber": 131,
+    "lineNumber": 136,
     "params": [
       {
         "name": "command",
@@ -3157,8 +2695,7 @@
         ]
       }
     ],
-    "return": null,
-    "ignore": true
+    "return": null
   },
   {
     "kind": "index",
@@ -3170,7 +2707,7 @@
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"text-morpher\",\n  \"version\": \"0.0.4\",\n  \"description\": \"A standalone library for transforming russian words and text\",\n  \"main\": \"./src/morpher.js\",\n  \"preferGlobal\": true,\n  \"bin\": {\n    \"text-morpher\": \"./bin/text-morpher-cli.js\"\n  },\n  \"engines\": {\n    \"node\": \">=8\"\n  },\n  \"scripts\": {\n    \"test\": \"mocha --reporter mochawesome\",\n    \"docs\": \"./node_modules/.bin/esdoc\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/nowherenone/text-morpher.git\"\n  },\n  \"keywords\": [\n    \"russian\",\n    \"text\",\n    \"words\",\n    \"morphing\",\n    \"morphology\",\n    \"word2vec\",\n    \"context\",\n    \"synonyms\",\n    \"русский\",\n    \"язык\",\n    \"слова\",\n    \"падежи\",\n    \"прилагательные\",\n    \"существительные\",\n    \"морфинг\"\n  ],\n  \"author\": \"Mikhail Alekseev\",\n  \"license\": \"GPL-3.0\",\n  \"bugs\": {\n    \"url\": \"https://github.com/nowherenone/text-morpher/issues\"\n  },\n  \"homepage\": \"https://github.com/nowherenone/text-morpher#readme\",\n  \"devDependencies\": {\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"istanbul\": \"^0.4.5\",\n    \"mocha\": \"^5.2.0\",\n    \"mochawesome\": \"^3.0.3\",\n    \"should\": \"^13.2.1\"\n  },\n  \"optionalDependencies\": {\n    \"word2vector\": \"^2.1.0\",\n    \"node-windows\": \"^0.1.14\"\n  },\n  \"dependencies\": {\n    \"adm-zip\": \"^0.4.11\",\n    \"args\": \"4.0.0\",\n    \"az\": \"0.2.3\",\n    \"chalk\": \"^2.4.1\",\n    \"cli-progress\": \"^2.0.0\",\n    \"cli-spinner\": \"^0.2.8\",\n    \"dotenv\": \"5.0.1\",\n    \"extract-zip\": \"^1.6.7\",\n    \"gunzip-file\": \"^0.1.1\",\n    \"lodash\": \"4.17.10\",\n    \"process-stats\": \"^2.0.1\",\n    \"readline\": \"1.3.0\",\n    \"tmp\": \"0.0.33\",\n    \"unzip-stream\": \"^0.3.0\"\n  }\n}\n",
+    "content": "{\n  \"name\": \"text-morpher\",\n  \"version\": \"0.0.4\",\n  \"description\": \"A standalone library for transforming russian words and text\",\n  \"main\": \"./lib/morpher.js\",\n  \"preferGlobal\": true,\n  \"bin\": {\n    \"text-morpher\": \"./bin/text-morpher-cli.js\"\n  },\n  \"engines\": {\n    \"node\": \">=8\"\n  },\n  \"scripts\": {\n    \"test\": \"mocha --reporter mochawesome --require babel-core/register test/**/*.js\",\n    \"docs\": \"./node_modules/.bin/esdoc\",\n    \"build\": \"./node_modules/.bin/babel src --out-dir lib\"\n  },\n  \"pre-commit\": [\n    \"build\",\n    \"docs\"\n  ],\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/nowherenone/text-morpher.git\"\n  },\n  \"keywords\": [\n    \"russian\",\n    \"text\",\n    \"words\",\n    \"morphing\",\n    \"morphology\",\n    \"word2vec\",\n    \"context\",\n    \"synonyms\",\n    \"русский\",\n    \"язык\",\n    \"слова\",\n    \"падежи\",\n    \"прилагательные\",\n    \"существительные\",\n    \"морфинг\"\n  ],\n  \"author\": \"Mikhail Alekseev\",\n  \"license\": \"GPL-3.0\",\n  \"bugs\": {\n    \"url\": \"https://github.com/nowherenone/text-morpher/issues\"\n  },\n  \"homepage\": \"https://github.com/nowherenone/text-morpher#readme\",\n  \"devDependencies\": {\n    \"babel-cli\": \"^6.26.0\",\n    \"babel-core\": \"^6.26.3\",\n    \"babel-loader\": \"^7.1.5\",\n    \"babel-plugin-transform-runtime\": \"^6.23.0\",\n    \"babel-polyfill\": \"^6.26.0\",\n    \"babel-preset-env\": \"^1.7.0\",\n    \"babel-preset-es2015\": \"^6.24.1\",\n    \"babel-preset-stage-0\": \"^6.24.1\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"istanbul\": \"^0.4.5\",\n    \"mocha\": \"^5.2.0\",\n    \"mochawesome\": \"^3.0.3\",\n    \"pre-commit\": \"^1.2.2\",\n    \"should\": \"^13.2.1\"\n  },\n  \"optionalDependencies\": {\n    \"word2vector\": \"^2.1.0\",\n    \"node-windows\": \"^0.1.14\"\n  },\n  \"dependencies\": {\n    \"adm-zip\": \"^0.4.11\",\n    \"args\": \"4.0.0\",\n    \"az\": \"0.2.3\",\n    \"babel-runtime\": \"^6.26.0\",\n    \"chalk\": \"^2.4.1\",\n    \"cli-progress\": \"^2.0.0\",\n    \"cli-spinner\": \"^0.2.8\",\n    \"dotenv\": \"5.0.1\",\n    \"extract-zip\": \"^1.6.7\",\n    \"gunzip-file\": \"^0.1.1\",\n    \"lodash\": \"4.17.10\",\n    \"process-stats\": \"^2.0.1\",\n    \"readline\": \"1.3.0\",\n    \"tmp\": \"0.0.33\",\n    \"unzip-stream\": \"^0.3.0\"\n  }\n}\n",
     "longname": "C:\\Work\\text-morpher\\package.json",
     "name": "package.json",
     "static": true,

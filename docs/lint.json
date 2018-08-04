@@ -1,26 +1,26 @@
 [
   {
-    "name": "exports#getSimilarWords",
+    "name": "Context#getSimilarWords",
     "filePath": "src/context.js",
     "lines": [
       {
-        "lineNumber": 32,
+        "lineNumber": 36,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 33,
+        "lineNumber": 37,
         "line": "   *\r"
       },
       {
-        "lineNumber": 34,
+        "lineNumber": 38,
         "line": "   * @param {*} token\r"
       },
       {
-        "lineNumber": 35,
+        "lineNumber": 39,
         "line": "   */\r"
       },
       {
-        "lineNumber": 36,
+        "lineNumber": 40,
         "line": "  getSimilarWords(token, options = {}) {\r"
       }
     ],
@@ -37,23 +37,23 @@
     "filePath": "src/dictionary.js",
     "lines": [
       {
-        "lineNumber": 78,
+        "lineNumber": 80,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 79,
+        "lineNumber": 81,
         "line": "   *\r"
       },
       {
-        "lineNumber": 80,
+        "lineNumber": 82,
         "line": "   * @param {*} name\r"
       },
       {
-        "lineNumber": 81,
+        "lineNumber": 83,
         "line": "   */\r"
       },
       {
-        "lineNumber": 82,
+        "lineNumber": 84,
         "line": "  initContext(config) {\r"
       }
     ],
@@ -69,35 +69,35 @@
     "filePath": "src/dictionary.js",
     "lines": [
       {
-        "lineNumber": 167,
+        "lineNumber": 169,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 168,
+        "lineNumber": 170,
         "line": "   *\r"
       },
       {
-        "lineNumber": 169,
+        "lineNumber": 171,
         "line": "   * @param {*} part\r"
       },
       {
-        "lineNumber": 170,
+        "lineNumber": 172,
         "line": "   * @param {*} regexp\r"
       },
       {
-        "lineNumber": 171,
+        "lineNumber": 173,
         "line": "   * @param {*} tags\r"
       },
       {
-        "lineNumber": 172,
+        "lineNumber": 174,
         "line": "   * @param {*} matchOptions\r"
       },
       {
-        "lineNumber": 173,
+        "lineNumber": 175,
         "line": "   */\r"
       },
       {
-        "lineNumber": 174,
+        "lineNumber": 176,
         "line": "  getWord(...params) {\r"
       }
     ],
@@ -116,23 +116,23 @@
     "filePath": "src/dictionary.js",
     "lines": [
       {
-        "lineNumber": 253,
+        "lineNumber": 255,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 254,
+        "lineNumber": 256,
         "line": "   *\r"
       },
       {
-        "lineNumber": 255,
+        "lineNumber": 257,
         "line": "   * @param {*} words\r"
       },
       {
-        "lineNumber": 256,
+        "lineNumber": 258,
         "line": "   */\r"
       },
       {
-        "lineNumber": 257,
+        "lineNumber": 259,
         "line": "  getInflectedTokens(tokens, tags) {\r"
       }
     ],
@@ -149,27 +149,27 @@
     "filePath": "src/dictionary.js",
     "lines": [
       {
-        "lineNumber": 311,
+        "lineNumber": 313,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 312,
+        "lineNumber": 314,
         "line": "   *\r"
       },
       {
-        "lineNumber": 313,
+        "lineNumber": 315,
         "line": "   * @param {*} regexp\r"
       },
       {
-        "lineNumber": 314,
+        "lineNumber": 316,
         "line": "   * @param {*} tags\r"
       },
       {
-        "lineNumber": 315,
+        "lineNumber": 317,
         "line": "   */\r"
       },
       {
-        "lineNumber": 316,
+        "lineNumber": 318,
         "line": "  filterNouns(tokens = [], regexp = \".*\", tags = []) {\r"
       }
     ],
@@ -188,35 +188,35 @@
     "filePath": "src/morpher.js",
     "lines": [
       {
-        "lineNumber": 75,
+        "lineNumber": 76,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 76,
+        "lineNumber": 77,
         "line": "   *  Template syntax - {NOUN/^п./мр}\r"
       },
       {
-        "lineNumber": 77,
+        "lineNumber": 78,
         "line": "   *  {[PART]/[Regexp]/[tags]/[original]}\r"
       },
       {
-        "lineNumber": 78,
+        "lineNumber": 79,
         "line": "   *\r"
       },
       {
-        "lineNumber": 79,
+        "lineNumber": 80,
         "line": "   * @param {*} template\r"
       },
       {
-        "lineNumber": 80,
+        "lineNumber": 81,
         "line": "   * @memberof Morpher\r"
       },
       {
-        "lineNumber": 81,
+        "lineNumber": 82,
         "line": "   */\r"
       },
       {
-        "lineNumber": 82,
+        "lineNumber": 83,
         "line": "  runTemplate(template, matchOptions = {}) {\r"
       }
     ],
@@ -233,27 +233,27 @@
     "filePath": "src/morpher.js",
     "lines": [
       {
-        "lineNumber": 246,
+        "lineNumber": 247,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 247,
+        "lineNumber": 248,
         "line": "   *\r"
       },
       {
-        "lineNumber": 248,
+        "lineNumber": 249,
         "line": "   * @param {*} origin\r"
       },
       {
-        "lineNumber": 249,
+        "lineNumber": 250,
         "line": "   * @param {*} matchOptions\r"
       },
       {
-        "lineNumber": 250,
+        "lineNumber": 251,
         "line": "   */\r"
       },
       {
-        "lineNumber": 251,
+        "lineNumber": 252,
         "line": "  getSearchOptions(tag, matchOptions) {\r"
       }
     ],
@@ -271,23 +271,23 @@
     "filePath": "src/morpher.js",
     "lines": [
       {
-        "lineNumber": 299,
+        "lineNumber": 300,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 300,
+        "lineNumber": 301,
         "line": "   *\r"
       },
       {
-        "lineNumber": 301,
+        "lineNumber": 302,
         "line": "   * @param {*} origin\r"
       },
       {
-        "lineNumber": 302,
+        "lineNumber": 303,
         "line": "   */\r"
       },
       {
-        "lineNumber": 303,
+        "lineNumber": 304,
         "line": "  inflect(origin, tags = []) {\r"
       }
     ],
@@ -304,23 +304,23 @@
     "filePath": "src/morpher.js",
     "lines": [
       {
-        "lineNumber": 316,
+        "lineNumber": 317,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 317,
+        "lineNumber": 318,
         "line": "   *\r"
       },
       {
-        "lineNumber": 318,
+        "lineNumber": 319,
         "line": "   * @param {*} origin\r"
       },
       {
-        "lineNumber": 319,
+        "lineNumber": 320,
         "line": "   */\r"
       },
       {
-        "lineNumber": 320,
+        "lineNumber": 321,
         "line": "  pluralize(origin, number = 1) {\r"
       }
     ],
@@ -337,12 +337,8 @@
     "filePath": "src/morpher.js",
     "lines": [
       {
-        "lineNumber": 333,
-        "line": "  /**\r"
-      },
-      {
         "lineNumber": 334,
-        "line": "   *\r"
+        "line": "  /**\r"
       },
       {
         "lineNumber": 335,
@@ -350,26 +346,30 @@
       },
       {
         "lineNumber": 336,
-        "line": "   * @param {*} nouns\r"
+        "line": "   *\r"
       },
       {
         "lineNumber": 337,
-        "line": "   * @param {*} adj\r"
+        "line": "   * @param {*} nouns\r"
       },
       {
         "lineNumber": 338,
-        "line": "   * @returns\r"
+        "line": "   * @param {*} adj\r"
       },
       {
         "lineNumber": 339,
-        "line": "   * @memberof Morpher\r"
+        "line": "   * @returns\r"
       },
       {
         "lineNumber": 340,
-        "line": "   */\r"
+        "line": "   * @memberof Morpher\r"
       },
       {
         "lineNumber": 341,
+        "line": "   */\r"
+      },
+      {
+        "lineNumber": 342,
         "line": "  getNextWord(origin, regExp = \".*\") {\r"
       }
     ],
@@ -387,23 +387,23 @@
     "filePath": "src/parser.js",
     "lines": [
       {
-        "lineNumber": 70,
+        "lineNumber": 68,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 71,
+        "lineNumber": 69,
         "line": "   *\r"
       },
       {
-        "lineNumber": 72,
+        "lineNumber": 70,
         "line": "   * @param {*} word\r"
       },
       {
-        "lineNumber": 73,
+        "lineNumber": 71,
         "line": "   */\r"
       },
       {
-        "lineNumber": 74,
+        "lineNumber": 72,
         "line": "  parseWord(word, simpleForm) {\r"
       }
     ],
@@ -420,35 +420,35 @@
     "filePath": "src/parser.js",
     "lines": [
       {
-        "lineNumber": 87,
+        "lineNumber": 85,
         "line": "  /**\r"
       },
       {
+        "lineNumber": 86,
+        "line": "   *\r"
+      },
+      {
+        "lineNumber": 87,
+        "line": "   *\r"
+      },
+      {
         "lineNumber": 88,
-        "line": "   *\r"
-      },
-      {
-        "lineNumber": 89,
-        "line": "   *\r"
-      },
-      {
-        "lineNumber": 90,
         "line": "   * @param {*} text\r"
       },
       {
-        "lineNumber": 91,
+        "lineNumber": 89,
         "line": "   * @returns\r"
       },
       {
-        "lineNumber": 92,
+        "lineNumber": 90,
         "line": "   * @memberof Parser\r"
       },
       {
-        "lineNumber": 93,
+        "lineNumber": 91,
         "line": "   */\r"
       },
       {
-        "lineNumber": 94,
+        "lineNumber": 92,
         "line": "  parseText(inputText) {\r"
       }
     ],

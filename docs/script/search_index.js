@@ -1,9 +1,111 @@
 window.esdocSearchIndex = [
   [
-    "text-morpher~morpher",
-    "class/src/morpher.js~Morpher.html",
-    "<span>Morpher</span> <span class=\"search-result-import-path\">text-morpher</span>",
+    "text-morpher/src/context.js~context",
+    "class/src/context.js~Context.html",
+    "<span>Context</span> <span class=\"search-result-import-path\">text-morpher/src/context.js</span>",
     "class"
+  ],
+  [
+    "text-morpher/src/dictionary.js~dictionary",
+    "class/src/dictionary.js~Dictionary.html",
+    "<span>Dictionary</span> <span class=\"search-result-import-path\">text-morpher/src/dictionary.js</span>",
+    "class"
+  ],
+  [
+    "text-morpher/src/morpher.js~morpher",
+    "class/src/morpher.js~Morpher.html",
+    "<span>Morpher</span> <span class=\"search-result-import-path\">text-morpher/src/morpher.js</span>",
+    "class"
+  ],
+  [
+    "text-morpher/src/parser.js~parser",
+    "class/src/parser.js~Parser.html",
+    "<span>Parser</span> <span class=\"search-result-import-path\">text-morpher/src/parser.js</span>",
+    "class"
+  ],
+  [
+    "text-morpher/src/utils.js~asyncforeach",
+    "function/index.html#static-function-asyncForEach",
+    "<span>asyncForEach</span> <span class=\"search-result-import-path\">text-morpher/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "text-morpher/src/utils.js~download",
+    "function/index.html#static-function-download",
+    "<span>download</span> <span class=\"search-result-import-path\">text-morpher/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "text-morpher/src/utils.js~dumpfile",
+    "function/index.html#static-function-dumpFile",
+    "<span>dumpFile</span> <span class=\"search-result-import-path\">text-morpher/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "text-morpher/src/utils.js~exists",
+    "function/index.html#static-function-exists",
+    "<span>exists</span> <span class=\"search-result-import-path\">text-morpher/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "text-morpher/src/utils.js~getfile",
+    "function/index.html#static-function-getFile",
+    "<span>getFile</span> <span class=\"search-result-import-path\">text-morpher/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "text-morpher/src/utils.js~getfilesize",
+    "function/index.html#static-function-getFileSize",
+    "<span>getFileSize</span> <span class=\"search-result-import-path\">text-morpher/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "text-morpher/src/utils.js~getnpmname",
+    "function/index.html#static-function-getNPMName",
+    "<span>getNPMName</span> <span class=\"search-result-import-path\">text-morpher/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "text-morpher/src/utils.js~getrandomitem",
+    "function/index.html#static-function-getRandomItem",
+    "<span>getRandomItem</span> <span class=\"search-result-import-path\">text-morpher/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "text-morpher/src/utils.js~invert",
+    "function/index.html#static-function-invert",
+    "<span>invert</span> <span class=\"search-result-import-path\">text-morpher/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "text-morpher/src/utils.js~log",
+    "function/index.html#static-function-log",
+    "<span>log</span> <span class=\"search-result-import-path\">text-morpher/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "text-morpher/src/utils.js~prob",
+    "function/index.html#static-function-prob",
+    "<span>prob</span> <span class=\"search-result-import-path\">text-morpher/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "text-morpher/src/utils.js~runprocess",
+    "function/index.html#static-function-runProcess",
+    "<span>runProcess</span> <span class=\"search-result-import-path\">text-morpher/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "text-morpher/src/utils.js~unpackzip",
+    "function/index.html#static-function-unpackZip",
+    "<span>unpackZip</span> <span class=\"search-result-import-path\">text-morpher/src/utils.js</span>",
+    "function"
+  ],
+  [
+    "text-morpher/src/utils.js~writefile",
+    "function/index.html#static-function-writeFile",
+    "<span>writeFile</span> <span class=\"search-result-import-path\">text-morpher/src/utils.js</span>",
+    "function"
   ],
   [
     "src/.external-ecmascript.js~array",
@@ -294,10 +396,172 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "src/context.js~context#constructor",
+    "class/src/context.js~Context.html#instance-constructor-constructor",
+    "src/context.js~Context#constructor",
+    "method"
+  ],
+  [
+    "src/context.js~context#disabled",
+    "class/src/context.js~Context.html#instance-member-disabled",
+    "src/context.js~Context#disabled",
+    "member"
+  ],
+  [
+    "src/context.js~context#getsimilarwords",
+    "class/src/context.js~Context.html#instance-method-getSimilarWords",
+    "src/context.js~Context#getSimilarWords",
+    "method"
+  ],
+  [
+    "src/context.js~context#parser",
+    "class/src/context.js~Context.html#instance-member-parser",
+    "src/context.js~Context#parser",
+    "member"
+  ],
+  [
+    "src/context.js~context#topn",
+    "class/src/context.js~Context.html#instance-member-topN",
+    "src/context.js~Context#topN",
+    "member"
+  ],
+  [
+    "src/context.js~context#treshhold",
+    "class/src/context.js~Context.html#instance-member-treshHold",
+    "src/context.js~Context#treshHold",
+    "member"
+  ],
+  [
+    "src/context.js~context#w2v",
+    "class/src/context.js~Context.html#instance-member-w2v",
+    "src/context.js~Context#w2v",
+    "member"
+  ],
+  [
     "src/dictionary.js",
     "file/src/dictionary.js.html",
     "src/dictionary.js",
     "file"
+  ],
+  [
+    "src/dictionary.js~dictionary#accentlookup",
+    "class/src/dictionary.js~Dictionary.html#instance-member-accentLookup",
+    "src/dictionary.js~Dictionary#accentLookup",
+    "member"
+  ],
+  [
+    "src/dictionary.js~dictionary#accentreverse",
+    "class/src/dictionary.js~Dictionary.html#instance-member-accentReverse",
+    "src/dictionary.js~Dictionary#accentReverse",
+    "member"
+  ],
+  [
+    "src/dictionary.js~dictionary#constructor",
+    "class/src/dictionary.js~Dictionary.html#instance-constructor-constructor",
+    "src/dictionary.js~Dictionary#constructor",
+    "method"
+  ],
+  [
+    "src/dictionary.js~dictionary#context",
+    "class/src/dictionary.js~Dictionary.html#instance-member-context",
+    "src/dictionary.js~Dictionary#context",
+    "member"
+  ],
+  [
+    "src/dictionary.js~dictionary#extractstattags",
+    "class/src/dictionary.js~Dictionary.html#instance-method-extractStatTags",
+    "src/dictionary.js~Dictionary#extractStatTags",
+    "method"
+  ],
+  [
+    "src/dictionary.js~dictionary#filterbyaccent",
+    "class/src/dictionary.js~Dictionary.html#instance-method-filterByAccent",
+    "src/dictionary.js~Dictionary#filterByAccent",
+    "method"
+  ],
+  [
+    "src/dictionary.js~dictionary#filternouns",
+    "class/src/dictionary.js~Dictionary.html#instance-method-filterNouns",
+    "src/dictionary.js~Dictionary#filterNouns",
+    "method"
+  ],
+  [
+    "src/dictionary.js~dictionary#filtertokens",
+    "class/src/dictionary.js~Dictionary.html#instance-method-filterTokens",
+    "src/dictionary.js~Dictionary#filterTokens",
+    "method"
+  ],
+  [
+    "src/dictionary.js~dictionary#generaterhythmlookup",
+    "class/src/dictionary.js~Dictionary.html#instance-method-generateRhythmLookup",
+    "src/dictionary.js~Dictionary#generateRhythmLookup",
+    "method"
+  ],
+  [
+    "src/dictionary.js~dictionary#getinflectedtokens",
+    "class/src/dictionary.js~Dictionary.html#instance-method-getInflectedTokens",
+    "src/dictionary.js~Dictionary#getInflectedTokens",
+    "method"
+  ],
+  [
+    "src/dictionary.js~dictionary#getword",
+    "class/src/dictionary.js~Dictionary.html#instance-method-getWord",
+    "src/dictionary.js~Dictionary#getWord",
+    "method"
+  ],
+  [
+    "src/dictionary.js~dictionary#getwords",
+    "class/src/dictionary.js~Dictionary.html#instance-method-getWords",
+    "src/dictionary.js~Dictionary#getWords",
+    "method"
+  ],
+  [
+    "src/dictionary.js~dictionary#initcontext",
+    "class/src/dictionary.js~Dictionary.html#instance-method-initContext",
+    "src/dictionary.js~Dictionary#initContext",
+    "method"
+  ],
+  [
+    "src/dictionary.js~dictionary#initdictionary",
+    "class/src/dictionary.js~Dictionary.html#instance-method-initDictionary",
+    "src/dictionary.js~Dictionary#initDictionary",
+    "method"
+  ],
+  [
+    "src/dictionary.js~dictionary#loadfile",
+    "class/src/dictionary.js~Dictionary.html#instance-method-loadFile",
+    "src/dictionary.js~Dictionary#loadFile",
+    "method"
+  ],
+  [
+    "src/dictionary.js~dictionary#loadstring",
+    "class/src/dictionary.js~Dictionary.html#instance-method-loadString",
+    "src/dictionary.js~Dictionary#loadString",
+    "method"
+  ],
+  [
+    "src/dictionary.js~dictionary#parser",
+    "class/src/dictionary.js~Dictionary.html#instance-member-parser",
+    "src/dictionary.js~Dictionary#parser",
+    "member"
+  ],
+  [
+    "src/dictionary.js~dictionary#sorttokens",
+    "class/src/dictionary.js~Dictionary.html#instance-method-sortTokens",
+    "src/dictionary.js~Dictionary#sortTokens",
+    "method"
+  ],
+  [
+    "src/dictionary.js~dictionary#speechparts",
+    "class/src/dictionary.js~Dictionary.html#instance-member-speechParts",
+    "src/dictionary.js~Dictionary#speechParts",
+    "member"
+  ],
+  [
+    "src/dictionary.js~dictionary#stopwords",
+    "class/src/dictionary.js~Dictionary.html#instance-member-stopWords",
+    "src/dictionary.js~Dictionary#stopWords",
+    "member"
   ],
   [
     "src/morpher.js",
@@ -406,6 +670,84 @@ window.esdocSearchIndex = [
     "file/src/parser.js.html",
     "src/parser.js",
     "file"
+  ],
+  [
+    "src/parser.js~parser#az",
+    "class/src/parser.js~Parser.html#instance-member-Az",
+    "src/parser.js~Parser#Az",
+    "member"
+  ],
+  [
+    "src/parser.js~parser#accentlookup",
+    "class/src/parser.js~Parser.html#instance-member-accentLookup",
+    "src/parser.js~Parser#accentLookup",
+    "member"
+  ],
+  [
+    "src/parser.js~parser#constructor",
+    "class/src/parser.js~Parser.html#instance-constructor-constructor",
+    "src/parser.js~Parser#constructor",
+    "method"
+  ],
+  [
+    "src/parser.js~parser#getshorttag",
+    "class/src/parser.js~Parser.html#instance-method-getShortTag",
+    "src/parser.js~Parser#getShortTag",
+    "method"
+  ],
+  [
+    "src/parser.js~parser#gettags",
+    "class/src/parser.js~Parser.html#instance-method-getTags",
+    "src/parser.js~Parser#getTags",
+    "method"
+  ],
+  [
+    "src/parser.js~parser#getvowelmap",
+    "class/src/parser.js~Parser.html#instance-method-getVowelMap",
+    "src/parser.js~Parser#getVowelMap",
+    "method"
+  ],
+  [
+    "src/parser.js~parser#initstopwords",
+    "class/src/parser.js~Parser.html#instance-method-initStopWords",
+    "src/parser.js~Parser#initStopWords",
+    "method"
+  ],
+  [
+    "src/parser.js~parser#options",
+    "class/src/parser.js~Parser.html#instance-member-options",
+    "src/parser.js~Parser#options",
+    "member"
+  ],
+  [
+    "src/parser.js~parser#parsetext",
+    "class/src/parser.js~Parser.html#instance-method-parseText",
+    "src/parser.js~Parser#parseText",
+    "method"
+  ],
+  [
+    "src/parser.js~parser#parsetoken",
+    "class/src/parser.js~Parser.html#instance-method-parseToken",
+    "src/parser.js~Parser#parseToken",
+    "method"
+  ],
+  [
+    "src/parser.js~parser#parseword",
+    "class/src/parser.js~Parser.html#instance-method-parseWord",
+    "src/parser.js~Parser#parseWord",
+    "method"
+  ],
+  [
+    "src/parser.js~parser#stopwords",
+    "class/src/parser.js~Parser.html#instance-member-stopWords",
+    "src/parser.js~Parser#stopWords",
+    "member"
+  ],
+  [
+    "src/parser.js~parser#stopwordslookup",
+    "class/src/parser.js~Parser.html#instance-member-stopWordsLookup",
+    "src/parser.js~Parser#stopWordsLookup",
+    "member"
   ],
   [
     "src/utils.js",
