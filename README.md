@@ -1,6 +1,6 @@
 # text-morpher
 [![npm version](https://badge.fury.io/js/text-morpher.svg)](https://badge.fury.io/js/text-morpher)
-![TravisCL build](https://api.travis-ci.org/nowherenone/text-morpher.svg?branch=master)
+[![TravisCL build](https://api.travis-ci.org/nowherenone/text-morpher.svg?branch=master)](https://travis-ci.org/nowherenone/text-morpher)
 [![Coverage Status](https://coveralls.io/repos/github/nowherenone/text-morpher/badge.svg?branch=master)](https://coveralls.io/github/nowherenone/text-morpher?branch=master)
 
 ## Features and goals
