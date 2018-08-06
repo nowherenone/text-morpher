@@ -13,12 +13,13 @@
   "scripts": {
     "test": "mocha --reporter mochawesome --require babel-core/register test/**/*.js",
     "docs": "./node_modules/.bin/esdoc",
-    "build": "./node_modules/.bin/babel src --out-dir lib"
+    "build": "./node_modules/.bin/babel src --out-dir lib",
+    "stage": "git stage *"
   },
   "pre-commit": [
     "docs",
-    "build"
-   
+    "build",
+    "stage"
   ],
   "repository": {
     "type": "git",
