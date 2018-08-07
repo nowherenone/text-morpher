@@ -1,11 +1,8 @@
-import path from "path";
 import fs from "fs";
 
 import Parser from "./parser.js";
 import Context from "./context.js";
-import { exists, getFile, unpackZip, getRandomItem } from "./utils.js";
-
-const baseDir = path.join(__dirname, "../");
+import { exists, getFile, unpackZip, getRandomItem, baseDir } from "./utils.js";
 
 /**
  *
@@ -25,7 +22,7 @@ export default class Dictionary {
   }
 
   async initDictionary(name, isFallback) {
-    let dPath = `${baseDir}/dictionary/`;
+    let dPath = `${baseDir()}/dictionary/`;
 
     let wordsFile = exists(`${dPath}${name}/words.json`);
     let accentFile = exists(`${dPath}${name}/accents.json`);
@@ -83,7 +80,7 @@ export default class Dictionary {
    * @param {*} name
    */
   initContext(config) {
-    let dPath = `${baseDir}/dictionary/`;
+    let dPath = `${baseDir()}/dictionary/`;
     let modelFile = exists(`${dPath}${config.name}/context.bin`);
 
     // Load context

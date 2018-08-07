@@ -3,10 +3,22 @@ import chalk from "chalk";
 import Unzip from "unzip-stream";
 import { spawn } from "child_process";
 import http from "http";
+import path from "path";
 import { Bar as Progress } from "cli-progress";
 
 export const log = text => {
   //const log = console.log;
+  //  | ./node_modules/coveralls/bin/coveralls.js
+};
+
+/**
+ *
+ *
+ * @param {*} text
+ * @returns
+ */
+const baseDir = text => {
+  return path.join(__dirname, "../");
 };
 
 /**

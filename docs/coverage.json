@@ -1,33 +1,32 @@
 {
-  "coverage": "53.33%",
+  "coverage": "54.66%",
   "expectCount": 75,
-  "actualCount": 40,
+  "actualCount": 41,
   "files": {
     "src/context.js": {
       "expectCount": 8,
       "actualCount": 2,
       "undocumentLines": [
-        11,
         12,
-        14,
+        13,
         15,
-        24,
-        31
+        16,
+        25,
+        32
       ]
     },
     "src/dictionary.js": {
-      "expectCount": 22,
+      "expectCount": 21,
       "actualCount": 13,
       "undocumentLines": [
-        8,
-        15,
-        16,
-        21,
-        27,
-        57,
-        66,
-        72,
-        129
+        12,
+        13,
+        18,
+        24,
+        54,
+        63,
+        69,
+        126
       ]
     },
     "src/morpher.js": {
@@ -53,19 +52,19 @@
       ]
     },
     "src/utils.js": {
-      "expectCount": 14,
-      "actualCount": 4,
+      "expectCount": 15,
+      "actualCount": 5,
       "undocumentLines": [
-        8,
-        81,
-        85,
-        88,
+        9,
         93,
         97,
-        101,
+        100,
         105,
         109,
-        115
+        113,
+        117,
+        121,
+        127
       ]
     }
   }

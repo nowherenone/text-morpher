@@ -5,10 +5,9 @@ process.title = "text-morpher";
 
 const readline = require("readline");
 const path = require("path");
-const baseDir = path.join(__dirname, "../");
 const args = require("args");
 const utils = require("../lib/utils.js");
-const Morpher = require("../lib/morpher.js");
+const Morpher = require("../lib/morpher.js").default;
 
 let originalBaseDir = process.cwd();
 let MorpherInstance;
@@ -20,7 +19,9 @@ let MorpherInstance;
  */
 const readConfig = () => {
   let cfg = {};
+
   try {
+    let baseDir = path.join(__dirname, "../");
     cfg = JSON.parse(utils.getFile(baseDir + "/morpher.config.json"));
   } catch (e) {}
   return cfg;

@@ -57,10 +57,22 @@ import chalk from &quot;chalk&quot;;
 import Unzip from &quot;unzip-stream&quot;;
 import { spawn } from &quot;child_process&quot;;
 import http from &quot;http&quot;;
+import path from &quot;path&quot;;
 import { Bar as Progress } from &quot;cli-progress&quot;;
 
 export const log = text =&gt; {
   //const log = console.log;
+  //  | ./node_modules/coveralls/bin/coveralls.js
+};
+
+/**
+ *
+ *
+ * @param {*} text
+ * @returns
+ */
+const baseDir = text =&gt; {
+  return path.join(__dirname, &quot;../&quot;);
 };
 
 /**

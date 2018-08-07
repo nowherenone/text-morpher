@@ -4,23 +4,23 @@
     "filePath": "src/context.js",
     "lines": [
       {
-        "lineNumber": 36,
+        "lineNumber": 37,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 37,
+        "lineNumber": 38,
         "line": "   *\r"
       },
       {
-        "lineNumber": 38,
+        "lineNumber": 39,
         "line": "   * @param {*} token\r"
       },
       {
-        "lineNumber": 39,
+        "lineNumber": 40,
         "line": "   */\r"
       },
       {
-        "lineNumber": 40,
+        "lineNumber": 41,
         "line": "  getSimilarWords(token, options = {}) {\r"
       }
     ],
@@ -37,23 +37,23 @@
     "filePath": "src/dictionary.js",
     "lines": [
       {
-        "lineNumber": 80,
+        "lineNumber": 77,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 81,
+        "lineNumber": 78,
         "line": "   *\r"
       },
       {
-        "lineNumber": 82,
+        "lineNumber": 79,
         "line": "   * @param {*} name\r"
       },
       {
-        "lineNumber": 83,
+        "lineNumber": 80,
         "line": "   */\r"
       },
       {
-        "lineNumber": 84,
+        "lineNumber": 81,
         "line": "  initContext(config) {\r"
       }
     ],
@@ -69,35 +69,35 @@
     "filePath": "src/dictionary.js",
     "lines": [
       {
-        "lineNumber": 169,
+        "lineNumber": 166,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 170,
+        "lineNumber": 167,
         "line": "   *\r"
       },
       {
-        "lineNumber": 171,
+        "lineNumber": 168,
         "line": "   * @param {*} part\r"
       },
       {
-        "lineNumber": 172,
+        "lineNumber": 169,
         "line": "   * @param {*} regexp\r"
       },
       {
-        "lineNumber": 173,
+        "lineNumber": 170,
         "line": "   * @param {*} tags\r"
       },
       {
-        "lineNumber": 174,
+        "lineNumber": 171,
         "line": "   * @param {*} matchOptions\r"
       },
       {
-        "lineNumber": 175,
+        "lineNumber": 172,
         "line": "   */\r"
       },
       {
-        "lineNumber": 176,
+        "lineNumber": 173,
         "line": "  getWord(...params) {\r"
       }
     ],
@@ -116,23 +116,23 @@
     "filePath": "src/dictionary.js",
     "lines": [
       {
-        "lineNumber": 255,
+        "lineNumber": 252,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 256,
+        "lineNumber": 253,
         "line": "   *\r"
       },
       {
-        "lineNumber": 257,
+        "lineNumber": 254,
         "line": "   * @param {*} words\r"
       },
       {
-        "lineNumber": 258,
+        "lineNumber": 255,
         "line": "   */\r"
       },
       {
-        "lineNumber": 259,
+        "lineNumber": 256,
         "line": "  getInflectedTokens(tokens, tags) {\r"
       }
     ],
@@ -149,27 +149,27 @@
     "filePath": "src/dictionary.js",
     "lines": [
       {
-        "lineNumber": 313,
+        "lineNumber": 310,
         "line": "  /**\r"
       },
       {
-        "lineNumber": 314,
+        "lineNumber": 311,
         "line": "   *\r"
       },
       {
-        "lineNumber": 315,
+        "lineNumber": 312,
         "line": "   * @param {*} regexp\r"
       },
       {
-        "lineNumber": 316,
+        "lineNumber": 313,
         "line": "   * @param {*} tags\r"
       },
       {
-        "lineNumber": 317,
+        "lineNumber": 314,
         "line": "   */\r"
       },
       {
-        "lineNumber": 318,
+        "lineNumber": 315,
         "line": "  filterNouns(tokens = [], regexp = \".*\", tags = []) {\r"
       }
     ],

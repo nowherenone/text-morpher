@@ -1,5 +1,6 @@
 import Parser from "./parser.js";
-import { exists, getFileSize, invert } from "./utils.js";
+import path from "path";
+import { exists, getFileSize, invert, baseDir } from "./utils.js";
 
 /**
  *
@@ -17,7 +18,7 @@ export default class Context {
     // Check if word2vector is installed
     if (
       config.contextSearch === false ||
-      !exists(`${baseDir}/node_modules/word2vector/index.js`) ||
+      !exists(`${baseDir()}/node_modules/word2vector/index.js`) ||
       !exists(`${config.modelFile}`)
     ) {
       console.log(`Context search with word2vec is disabled`);
